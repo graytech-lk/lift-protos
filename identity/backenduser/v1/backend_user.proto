@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package lift.identity.backenduser.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/identity/backenduser/v1;backenduserv1";
+
+import "google/protobuf/timestamp.proto";
+
+message GetBackendUserByIdRequest {
+  string id = 1;
+}
+
+message UserBackendUser {
+  string id = 1;
+  string phone_number = 2;
+  string user_level = 3;
+  string gender = 4;
+  string user_sub_type = 5;
+  string first_name = 6;
+  string last_name = 7;
+  float rating = 8;
+  string email = 9;
+  bool email_verified = 10;
+  string password = 11;
+  string profile_pic_url = 12;
+  string tac_version = 13;
+  string emergency_contact = 14;
+  string status = 15;
+  google.protobuf.Timestamp created_time = 16;
+  google.protobuf.Timestamp updated_time = 17;
+}
+
+message GetBackendUserByIdResponse {
+  UserBackendUser backend_user = 1;
+}
+
+service BackendUserService {
+  rpc GetBackendUserById(GetBackendUserByIdRequest) returns (GetBackendUserByIdResponse);
+}
+
+

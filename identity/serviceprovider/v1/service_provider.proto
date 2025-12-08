@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package lift.identity.serviceprovider.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/identity/serviceprovider/v1;serviceproviderv1";
+
+import "google/protobuf/timestamp.proto";
+
+message GetServiceProviderByIdRequest {
+  string id = 1;
+}
+
+message DriversLicense {
+  string license_id = 1;
+  string expiry_date = 2;
+  string status = 3;
+}
+
+message ServiceProviderDocuments {
+  string driver_photo = 1;
+  string id_front = 2;
+  string id_back = 3;
+  string vaccination_card_front = 4;
+  string vaccination_card_back = 5;
+  string driver_license_front = 6;
+  string driver_license_back = 7;
+  string gramasewaka_certificate = 8;
+  string police_report = 9;
+  string billing_proof = 10;
+  string bank_passbook = 11;
+  string no_objection_letter = 12;
+}
+
+message ServiceProviderPaymentParams {
+  string account_holder_name = 1;
+  string bank_name = 2;
+  string branch_name = 3;
+  string account_number = 4;
+  string swift_code = 5;
+}
+
+message ServiceProviderRequestDetails {
+  google.protobuf.Timestamp last_updated = 1;
+  bool update_locked = 2;
+  google.protobuf.Timestamp last_update_locked = 3;
+  int32 count_current_day = 4;
+  int32 count_current_week = 5;
+  int32 count_current_month = 6;
+  double earnings_current_day = 7;
+  double earnings_current_week = 8;
+  double earnings_current_month = 9;
+  double distance_current_day = 10;
+  double distance_current_week = 11;
+  double distance_current_month = 12;
+  int32 count_previous_day = 13;
+  int32 count_previous_week = 14;
+  int32 count_previous_month = 15;
+  double earnings_previous_day = 16;
+  double earnings_previous_week = 17;
+  double earnings_previous_month = 18;
+  double distance_previous_day = 19;
+  double distance_previous_week = 20;
+  double distance_previous_month = 21;
+}
+
+message UserServiceProvider {
+  string id = 1;
+  string sp_id = 2;
+  string phone_number = 3;
+  string nic = 4;
+  DriversLicense drivers_license = 5;
+  string user_level = 6;
+  string gender = 7;
+  string service_category_id = 8;
+  string sp_type = 9;
+  string fleet_id = 10;
+  ServiceProviderDocuments documents = 11;
+  ServiceProviderPaymentParams payment_parameters = 12;
+  string device_id = 13;
+  string vehicle_id = 14;
+  string first_name = 15;
+  string last_name = 16;
+  float rating = 17;
+  int32 number_of_cancellations = 18;
+  string email = 19;
+  bool email_verified = 20;
+  string profile_pic_url = 21;
+  string tac_version = 22;
+  string emergency_contact = 23;
+  string status = 24;
+  google.protobuf.Timestamp created_time = 25;
+  google.protobuf.Timestamp updated_time = 26;
+  google.protobuf.Timestamp last_active_hire_end_time = 27;
+  map<string, ServiceProviderRequestDetails> service_request_details = 28;
+  map<string, ServiceProviderRequestDetails> fleet_service_request_details = 29;
+}
+
+message GetServiceProviderByIdResponse {
+  UserServiceProvider service_provider = 1;
+}
+
+service ServiceProviderService {
+  rpc GetServiceProviderById(GetServiceProviderByIdRequest) returns (GetServiceProviderByIdResponse);
+}
+
+
