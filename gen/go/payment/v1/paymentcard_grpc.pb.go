@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PaymentCardService_CreateCardTransaction_FullMethodName = "/paymentcard.v1.PaymentCardService/CreateCardTransaction"
-	PaymentCardService_CaptureCardAmount_FullMethodName     = "/paymentcard.v1.PaymentCardService/CaptureCardAmount"
-	PaymentCardService_ReverseCardAmount_FullMethodName     = "/paymentcard.v1.PaymentCardService/ReverseCardAmount"
+	PaymentCardService_CreateCardTransaction_FullMethodName = "/lift.payment.v1.PaymentCardService/CreateCardTransaction"
+	PaymentCardService_CaptureCardAmount_FullMethodName     = "/lift.payment.v1.PaymentCardService/CaptureCardAmount"
+	PaymentCardService_ReverseCardAmount_FullMethodName     = "/lift.payment.v1.PaymentCardService/ReverseCardAmount"
 )
 
 // PaymentCardServiceClient is the client API for PaymentCardService service.
@@ -176,7 +176,7 @@ func _PaymentCardService_ReverseCardAmount_Handler(srv interface{}, ctx context.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PaymentCardService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "paymentcard.v1.PaymentCardService",
+	ServiceName: "lift.payment.v1.PaymentCardService",
 	HandlerType: (*PaymentCardServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

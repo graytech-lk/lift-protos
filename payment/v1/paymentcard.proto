@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package paymentcard.v1;
+package lift.payment.v1;
 
 option go_package = "lift-microservices/lift-payment-service/internal/proto/paymentcard/v1;paymentcardv1";
 

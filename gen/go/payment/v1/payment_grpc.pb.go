@@ -19,6 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	PaymentMethodService_ListUserPaymentMethods_FullMethodName      = "/lift.payment.v1.PaymentMethodService/ListUserPaymentMethods"
+	PaymentMethodService_GetPaymentMethod_FullMethodName            = "/lift.payment.v1.PaymentMethodService/GetPaymentMethod"
 	PaymentMethodService_GetCorporatePaymentMethod_FullMethodName   = "/lift.payment.v1.PaymentMethodService/GetCorporatePaymentMethod"
 	PaymentMethodService_ListCorporatePaymentMethods_FullMethodName = "/lift.payment.v1.PaymentMethodService/ListCorporatePaymentMethods"
 	PaymentMethodService_UpdatePaymentMethodStatus_FullMethodName   = "/lift.payment.v1.PaymentMethodService/UpdatePaymentMethodStatus"
@@ -28,6 +30,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PaymentMethodServiceClient interface {
+	ListUserPaymentMethods(ctx context.Context, in *ListUserPaymentMethodsRequest, opts ...grpc.CallOption) (*ListUserPaymentMethodsResponse, error)
+	GetPaymentMethod(ctx context.Context, in *GetPaymentMethodRequest, opts ...grpc.CallOption) (*GetPaymentMethodResponse, error)
 	GetCorporatePaymentMethod(ctx context.Context, in *GetCorporatePaymentMethodRequest, opts ...grpc.CallOption) (*GetCorporatePaymentMethodResponse, error)
 	ListCorporatePaymentMethods(ctx context.Context, in *ListCorporatePaymentMethodsRequest, opts ...grpc.CallOption) (*ListCorporatePaymentMethodsResponse, error)
 	UpdatePaymentMethodStatus(ctx context.Context, in *UpdatePaymentMethodStatusRequest, opts ...grpc.CallOption) (*UpdatePaymentMethodStatusResponse, error)
@@ -39,6 +43,26 @@ type paymentMethodServiceClient struct {
 
 func NewPaymentMethodServiceClient(cc grpc.ClientConnInterface) PaymentMethodServiceClient {
 	return &paymentMethodServiceClient{cc}
+}
+
+func (c *paymentMethodServiceClient) ListUserPaymentMethods(ctx context.Context, in *ListUserPaymentMethodsRequest, opts ...grpc.CallOption) (*ListUserPaymentMethodsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListUserPaymentMethodsResponse)
+	err := c.cc.Invoke(ctx, PaymentMethodService_ListUserPaymentMethods_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentMethodServiceClient) GetPaymentMethod(ctx context.Context, in *GetPaymentMethodRequest, opts ...grpc.CallOption) (*GetPaymentMethodResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPaymentMethodResponse)
+	err := c.cc.Invoke(ctx, PaymentMethodService_GetPaymentMethod_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *paymentMethodServiceClient) GetCorporatePaymentMethod(ctx context.Context, in *GetCorporatePaymentMethodRequest, opts ...grpc.CallOption) (*GetCorporatePaymentMethodResponse, error) {
@@ -75,6 +99,8 @@ func (c *paymentMethodServiceClient) UpdatePaymentMethodStatus(ctx context.Conte
 // All implementations must embed UnimplementedPaymentMethodServiceServer
 // for forward compatibility.
 type PaymentMethodServiceServer interface {
+	ListUserPaymentMethods(context.Context, *ListUserPaymentMethodsRequest) (*ListUserPaymentMethodsResponse, error)
+	GetPaymentMethod(context.Context, *GetPaymentMethodRequest) (*GetPaymentMethodResponse, error)
 	GetCorporatePaymentMethod(context.Context, *GetCorporatePaymentMethodRequest) (*GetCorporatePaymentMethodResponse, error)
 	ListCorporatePaymentMethods(context.Context, *ListCorporatePaymentMethodsRequest) (*ListCorporatePaymentMethodsResponse, error)
 	UpdatePaymentMethodStatus(context.Context, *UpdatePaymentMethodStatusRequest) (*UpdatePaymentMethodStatusResponse, error)
@@ -88,6 +114,12 @@ type PaymentMethodServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPaymentMethodServiceServer struct{}
 
+func (UnimplementedPaymentMethodServiceServer) ListUserPaymentMethods(context.Context, *ListUserPaymentMethodsRequest) (*ListUserPaymentMethodsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUserPaymentMethods not implemented")
+}
+func (UnimplementedPaymentMethodServiceServer) GetPaymentMethod(context.Context, *GetPaymentMethodRequest) (*GetPaymentMethodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPaymentMethod not implemented")
+}
 func (UnimplementedPaymentMethodServiceServer) GetCorporatePaymentMethod(context.Context, *GetCorporatePaymentMethodRequest) (*GetCorporatePaymentMethodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCorporatePaymentMethod not implemented")
 }
@@ -116,6 +148,42 @@ func RegisterPaymentMethodServiceServer(s grpc.ServiceRegistrar, srv PaymentMeth
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&PaymentMethodService_ServiceDesc, srv)
+}
+
+func _PaymentMethodService_ListUserPaymentMethods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserPaymentMethodsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentMethodServiceServer).ListUserPaymentMethods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentMethodService_ListUserPaymentMethods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentMethodServiceServer).ListUserPaymentMethods(ctx, req.(*ListUserPaymentMethodsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentMethodService_GetPaymentMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPaymentMethodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentMethodServiceServer).GetPaymentMethod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentMethodService_GetPaymentMethod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentMethodServiceServer).GetPaymentMethod(ctx, req.(*GetPaymentMethodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _PaymentMethodService_GetCorporatePaymentMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -180,6 +248,14 @@ var PaymentMethodService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PaymentMethodServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "ListUserPaymentMethods",
+			Handler:    _PaymentMethodService_ListUserPaymentMethods_Handler,
+		},
+		{
+			MethodName: "GetPaymentMethod",
+			Handler:    _PaymentMethodService_GetPaymentMethod_Handler,
+		},
+		{
 			MethodName: "GetCorporatePaymentMethod",
 			Handler:    _PaymentMethodService_GetCorporatePaymentMethod_Handler,
 		},
@@ -197,6 +273,7 @@ var PaymentMethodService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
+	PaymentService_InsertPayment_FullMethodName        = "/lift.payment.v1.PaymentService/InsertPayment"
 	PaymentService_ListPaymentsByMethod_FullMethodName = "/lift.payment.v1.PaymentService/ListPaymentsByMethod"
 	PaymentService_GetServiceRequest_FullMethodName    = "/lift.payment.v1.PaymentService/GetServiceRequest"
 )
@@ -205,6 +282,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PaymentServiceClient interface {
+	InsertPayment(ctx context.Context, in *InsertPaymentRequest, opts ...grpc.CallOption) (*InsertPaymentResponse, error)
 	ListPaymentsByMethod(ctx context.Context, in *ListPaymentsByMethodRequest, opts ...grpc.CallOption) (*ListPaymentsByMethodResponse, error)
 	GetServiceRequest(ctx context.Context, in *GetServiceRequestRequest, opts ...grpc.CallOption) (*GetServiceRequestResponse, error)
 }
@@ -215,6 +293,16 @@ type paymentServiceClient struct {
 
 func NewPaymentServiceClient(cc grpc.ClientConnInterface) PaymentServiceClient {
 	return &paymentServiceClient{cc}
+}
+
+func (c *paymentServiceClient) InsertPayment(ctx context.Context, in *InsertPaymentRequest, opts ...grpc.CallOption) (*InsertPaymentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(InsertPaymentResponse)
+	err := c.cc.Invoke(ctx, PaymentService_InsertPayment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *paymentServiceClient) ListPaymentsByMethod(ctx context.Context, in *ListPaymentsByMethodRequest, opts ...grpc.CallOption) (*ListPaymentsByMethodResponse, error) {
@@ -241,6 +329,7 @@ func (c *paymentServiceClient) GetServiceRequest(ctx context.Context, in *GetSer
 // All implementations must embed UnimplementedPaymentServiceServer
 // for forward compatibility.
 type PaymentServiceServer interface {
+	InsertPayment(context.Context, *InsertPaymentRequest) (*InsertPaymentResponse, error)
 	ListPaymentsByMethod(context.Context, *ListPaymentsByMethodRequest) (*ListPaymentsByMethodResponse, error)
 	GetServiceRequest(context.Context, *GetServiceRequestRequest) (*GetServiceRequestResponse, error)
 	mustEmbedUnimplementedPaymentServiceServer()
@@ -253,6 +342,9 @@ type PaymentServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPaymentServiceServer struct{}
 
+func (UnimplementedPaymentServiceServer) InsertPayment(context.Context, *InsertPaymentRequest) (*InsertPaymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InsertPayment not implemented")
+}
 func (UnimplementedPaymentServiceServer) ListPaymentsByMethod(context.Context, *ListPaymentsByMethodRequest) (*ListPaymentsByMethodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPaymentsByMethod not implemented")
 }
@@ -278,6 +370,24 @@ func RegisterPaymentServiceServer(s grpc.ServiceRegistrar, srv PaymentServiceSer
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&PaymentService_ServiceDesc, srv)
+}
+
+func _PaymentService_InsertPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InsertPaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).InsertPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_InsertPayment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).InsertPayment(ctx, req.(*InsertPaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _PaymentService_ListPaymentsByMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -324,12 +434,118 @@ var PaymentService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PaymentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "InsertPayment",
+			Handler:    _PaymentService_InsertPayment_Handler,
+		},
+		{
 			MethodName: "ListPaymentsByMethod",
 			Handler:    _PaymentService_ListPaymentsByMethod_Handler,
 		},
 		{
 			MethodName: "GetServiceRequest",
 			Handler:    _PaymentService_GetServiceRequest_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "payment/v1/payment.proto",
+}
+
+const (
+	PromoCodeService_GetPromoCode_FullMethodName = "/lift.payment.v1.PromoCodeService/GetPromoCode"
+)
+
+// PromoCodeServiceClient is the client API for PromoCodeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PromoCodeServiceClient interface {
+	GetPromoCode(ctx context.Context, in *GetPromoCodeRequest, opts ...grpc.CallOption) (*GetPromoCodeResponse, error)
+}
+
+type promoCodeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPromoCodeServiceClient(cc grpc.ClientConnInterface) PromoCodeServiceClient {
+	return &promoCodeServiceClient{cc}
+}
+
+func (c *promoCodeServiceClient) GetPromoCode(ctx context.Context, in *GetPromoCodeRequest, opts ...grpc.CallOption) (*GetPromoCodeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPromoCodeResponse)
+	err := c.cc.Invoke(ctx, PromoCodeService_GetPromoCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PromoCodeServiceServer is the server API for PromoCodeService service.
+// All implementations must embed UnimplementedPromoCodeServiceServer
+// for forward compatibility.
+type PromoCodeServiceServer interface {
+	GetPromoCode(context.Context, *GetPromoCodeRequest) (*GetPromoCodeResponse, error)
+	mustEmbedUnimplementedPromoCodeServiceServer()
+}
+
+// UnimplementedPromoCodeServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedPromoCodeServiceServer struct{}
+
+func (UnimplementedPromoCodeServiceServer) GetPromoCode(context.Context, *GetPromoCodeRequest) (*GetPromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPromoCode not implemented")
+}
+func (UnimplementedPromoCodeServiceServer) mustEmbedUnimplementedPromoCodeServiceServer() {}
+func (UnimplementedPromoCodeServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafePromoCodeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PromoCodeServiceServer will
+// result in compilation errors.
+type UnsafePromoCodeServiceServer interface {
+	mustEmbedUnimplementedPromoCodeServiceServer()
+}
+
+func RegisterPromoCodeServiceServer(s grpc.ServiceRegistrar, srv PromoCodeServiceServer) {
+	// If the following call pancis, it indicates UnimplementedPromoCodeServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&PromoCodeService_ServiceDesc, srv)
+}
+
+func _PromoCodeService_GetPromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PromoCodeServiceServer).GetPromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PromoCodeService_GetPromoCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PromoCodeServiceServer).GetPromoCode(ctx, req.(*GetPromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PromoCodeService_ServiceDesc is the grpc.ServiceDesc for PromoCodeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PromoCodeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "lift.payment.v1.PromoCodeService",
+	HandlerType: (*PromoCodeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetPromoCode",
+			Handler:    _PromoCodeService_GetPromoCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

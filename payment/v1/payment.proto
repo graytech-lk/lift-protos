@@ -20,6 +20,23 @@ message UserPaymentMethod {
   int32 status = 10;
 }
 
+message ListUserPaymentMethodsRequest {
+  string user_id = 1;
+}
+
+message ListUserPaymentMethodsResponse {
+  repeated UserPaymentMethod methods = 1;
+}
+
+message GetPaymentMethodRequest {
+  string user_id = 1;
+  string payment_method_id = 2;
+}
+
+message GetPaymentMethodResponse {
+  UserPaymentMethod method = 1;
+}
+
 message GetCorporatePaymentMethodRequest {
   string user_id = 1;
   string corporate_id = 2;
@@ -54,6 +71,21 @@ message Payment {
   string service_request_id = 4;
   double total_amount_after_discount = 5;
   google.protobuf.Timestamp created_time = 6;
+  double total_amount_before_discount = 7;
+  google.protobuf.Timestamp updated_time = 8;
+  repeated PaymentEvent payment_events = 9;
+}
+
+message PaymentEvent {
+  string id = 1;
+  string payment_type = 2;
+  string payment_id = 3;
+  double amount = 4;
+  string event_type = 5;
+  google.protobuf.Timestamp created_time = 6;
+  google.protobuf.Timestamp updated_time = 7;
+  string gateway_reference_id = 8;
+  string gateway_processed_status = 9;
 }
 
 message ListPaymentsByMethodRequest {
@@ -64,6 +96,19 @@ message ListPaymentsByMethodRequest {
 
 message ListPaymentsByMethodResponse {
   repeated Payment payments = 1;
+}
+
+message InsertPaymentRequest {
+  string service_request_id = 1;
+  string user_payment_method = 2;
+  string payment_type = 3;
+  double total_amount_before_discount = 4;
+  double total_amount_after_discount = 5;
+  repeated PaymentEvent payment_events = 6;
+}
+
+message InsertPaymentResponse {
+  Payment payment = 1;
 }
 
 message GetServiceRequestRequest {
@@ -79,15 +124,53 @@ message GetServiceRequestResponse {
   ServiceRequest request = 1;
 }
 
+message PromoCode {
+  string id = 1;
+  string promo_code = 2;
+  string promo_type = 3;
+  string promo_element = 4;
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+  string status = 7;
+  string day_of_week = 8;
+  string date_of_month = 9;
+  string time_range = 10;
+  int32 minimum_amount = 11;
+  int32 maximum_discount_amount = 12;
+  int32 min_utilization_count = 13;
+  int32 max_utilization_count = 14;
+  string eligibility_criteria = 15;
+  string eligibility_eval_period = 16;
+  string eligibility_operation = 17;
+  int32 eligibility_value = 18;
+  string eligible_payment_method = 19;
+  double discount_amount = 20;
+}
+
+message GetPromoCodeRequest {
+  string id = 1;
+}
+
+message GetPromoCodeResponse {
+  PromoCode promocode = 1;
+}
+
 service PaymentMethodService {
+  rpc ListUserPaymentMethods(ListUserPaymentMethodsRequest) returns (ListUserPaymentMethodsResponse);
+  rpc GetPaymentMethod(GetPaymentMethodRequest) returns (GetPaymentMethodResponse);
   rpc GetCorporatePaymentMethod(GetCorporatePaymentMethodRequest) returns (GetCorporatePaymentMethodResponse);
   rpc ListCorporatePaymentMethods(ListCorporatePaymentMethodsRequest) returns (ListCorporatePaymentMethodsResponse);
   rpc UpdatePaymentMethodStatus(UpdatePaymentMethodStatusRequest) returns (UpdatePaymentMethodStatusResponse);
 }
 
 service PaymentService {
+  rpc InsertPayment(InsertPaymentRequest) returns (InsertPaymentResponse);
   rpc ListPaymentsByMethod(ListPaymentsByMethodRequest) returns (ListPaymentsByMethodResponse);
   rpc GetServiceRequest(GetServiceRequestRequest) returns (GetServiceRequestResponse);
+}
+
+service PromoCodeService {
+  rpc GetPromoCode(GetPromoCodeRequest) returns (GetPromoCodeResponse);
 }
 
 

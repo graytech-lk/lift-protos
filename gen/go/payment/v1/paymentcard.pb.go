@@ -249,7 +249,7 @@ var File_payment_v1_paymentcard_proto protoreflect.FileDescriptor
 
 const file_payment_v1_paymentcard_proto_rawDesc = "" +
 	"\n" +
-	"\x1cpayment/v1/paymentcard.proto\x12\x0epaymentcard.v1\"[\n" +
+	"\x1cpayment/v1/paymentcard.proto\x12\x0flift.payment.v1\"[\n" +
 	"\x1cCreateCardTransactionRequest\x12#\n" +
 	"\rpayment_token\x18\x01 \x01(\tR\fpaymentToken\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\"Y\n" +
@@ -263,11 +263,11 @@ const file_payment_v1_paymentcard_proto_rawDesc = "" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12%\n" +
 	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x12!\n" +
-	"\fraw_response\x18\x04 \x01(\tR\vrawResponse2\xd4\x02\n" +
-	"\x12PaymentCardService\x12n\n" +
-	"\x15CreateCardTransaction\x12,.paymentcard.v1.CreateCardTransactionRequest\x1a'.paymentcard.v1.CardTransactionResponse\x12f\n" +
-	"\x11CaptureCardAmount\x12(.paymentcard.v1.CaptureCardAmountRequest\x1a'.paymentcard.v1.CardTransactionResponse\x12f\n" +
-	"\x11ReverseCardAmount\x12(.paymentcard.v1.ReverseCardAmountRequest\x1a'.paymentcard.v1.CardTransactionResponseBUZSlift-microservices/lift-payment-service/internal/proto/paymentcard/v1;paymentcardv1b\x06proto3"
+	"\fraw_response\x18\x04 \x01(\tR\vrawResponse2\xda\x02\n" +
+	"\x12PaymentCardService\x12p\n" +
+	"\x15CreateCardTransaction\x12-.lift.payment.v1.CreateCardTransactionRequest\x1a(.lift.payment.v1.CardTransactionResponse\x12h\n" +
+	"\x11CaptureCardAmount\x12).lift.payment.v1.CaptureCardAmountRequest\x1a(.lift.payment.v1.CardTransactionResponse\x12h\n" +
+	"\x11ReverseCardAmount\x12).lift.payment.v1.ReverseCardAmountRequest\x1a(.lift.payment.v1.CardTransactionResponseBUZSlift-microservices/lift-payment-service/internal/proto/paymentcard/v1;paymentcardv1b\x06proto3"
 
 var (
 	file_payment_v1_paymentcard_proto_rawDescOnce sync.Once
@@ -283,18 +283,18 @@ func file_payment_v1_paymentcard_proto_rawDescGZIP() []byte {
 
 var file_payment_v1_paymentcard_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_payment_v1_paymentcard_proto_goTypes = []any{
-	(*CreateCardTransactionRequest)(nil), // 0: paymentcard.v1.CreateCardTransactionRequest
-	(*CaptureCardAmountRequest)(nil),     // 1: paymentcard.v1.CaptureCardAmountRequest
-	(*ReverseCardAmountRequest)(nil),     // 2: paymentcard.v1.ReverseCardAmountRequest
-	(*CardTransactionResponse)(nil),      // 3: paymentcard.v1.CardTransactionResponse
+	(*CreateCardTransactionRequest)(nil), // 0: lift.payment.v1.CreateCardTransactionRequest
+	(*CaptureCardAmountRequest)(nil),     // 1: lift.payment.v1.CaptureCardAmountRequest
+	(*ReverseCardAmountRequest)(nil),     // 2: lift.payment.v1.ReverseCardAmountRequest
+	(*CardTransactionResponse)(nil),      // 3: lift.payment.v1.CardTransactionResponse
 }
 var file_payment_v1_paymentcard_proto_depIdxs = []int32{
-	0, // 0: paymentcard.v1.PaymentCardService.CreateCardTransaction:input_type -> paymentcard.v1.CreateCardTransactionRequest
-	1, // 1: paymentcard.v1.PaymentCardService.CaptureCardAmount:input_type -> paymentcard.v1.CaptureCardAmountRequest
-	2, // 2: paymentcard.v1.PaymentCardService.ReverseCardAmount:input_type -> paymentcard.v1.ReverseCardAmountRequest
-	3, // 3: paymentcard.v1.PaymentCardService.CreateCardTransaction:output_type -> paymentcard.v1.CardTransactionResponse
-	3, // 4: paymentcard.v1.PaymentCardService.CaptureCardAmount:output_type -> paymentcard.v1.CardTransactionResponse
-	3, // 5: paymentcard.v1.PaymentCardService.ReverseCardAmount:output_type -> paymentcard.v1.CardTransactionResponse
+	0, // 0: lift.payment.v1.PaymentCardService.CreateCardTransaction:input_type -> lift.payment.v1.CreateCardTransactionRequest
+	1, // 1: lift.payment.v1.PaymentCardService.CaptureCardAmount:input_type -> lift.payment.v1.CaptureCardAmountRequest
+	2, // 2: lift.payment.v1.PaymentCardService.ReverseCardAmount:input_type -> lift.payment.v1.ReverseCardAmountRequest
+	3, // 3: lift.payment.v1.PaymentCardService.CreateCardTransaction:output_type -> lift.payment.v1.CardTransactionResponse
+	3, // 4: lift.payment.v1.PaymentCardService.CaptureCardAmount:output_type -> lift.payment.v1.CardTransactionResponse
+	3, // 5: lift.payment.v1.PaymentCardService.ReverseCardAmount:output_type -> lift.payment.v1.CardTransactionResponse
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
