@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package lift.platform.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1";
+
+import "google/protobuf/struct.proto";
+
+message GetConfigurationByCategoryRequest {
+  string category = 1;
+}
+
+message Configuration {
+  string category = 1;
+  google.protobuf.Struct parameters = 2;
+}
+
+message GetConfigurationByCategoryResponse {
+  Configuration configuration = 1;
+}
+
+message GetServiceSubCategoryRequest {
+  string service_sub_category_id = 1;
+}
+
+message ServiceSubParameters {
+  double distance_charge = 1;
+  double waiting_charge = 2;
+  double waiting_free = 3;
+  double boot_space = 4;
+  double passenger_count = 5;
+  double minimum_charge = 6;
+  double peak_time_multiplier = 7;
+  double company_rev_share = 8;
+  double app_charge = 9;
+  double passenger_insurance = 10;
+}
+
+message ServiceSubCategory {
+  string sub_service_category_id = 1;
+  string service_category_id = 2;
+  string sub_service_category_name = 3;
+  string description = 4;
+  bool status = 5;
+  string icon_url = 6;
+  ServiceSubParameters sub_service_parameters = 7;
+}
+
+message GetServiceSubCategoryResponse {
+  ServiceSubCategory service_sub_category = 1;
+}
+
+service ConfigurationService {
+  rpc GetConfigurationByCategory(GetConfigurationByCategoryRequest) returns (GetConfigurationByCategoryResponse);
+}
+
+service ServiceSubCategoryService {
+  rpc GetServiceSubCategory(GetServiceSubCategoryRequest) returns (GetServiceSubCategoryResponse);
+}
+
+
