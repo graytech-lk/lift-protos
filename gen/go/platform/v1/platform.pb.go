@@ -458,6 +458,382 @@ func (x *GetServiceSubCategoryResponse) GetServiceSubCategory() *ServiceSubCateg
 	return nil
 }
 
+type ServiceCategory struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	ServiceCategoryId   string                 `protobuf:"bytes,1,opt,name=service_category_id,json=serviceCategoryId,proto3" json:"service_category_id,omitempty"`
+	ServiceCategoryName string                 `protobuf:"bytes,2,opt,name=service_category_name,json=serviceCategoryName,proto3" json:"service_category_name,omitempty"`
+	Description         string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Status              bool                   `protobuf:"varint,4,opt,name=status,proto3" json:"status,omitempty"`
+	RatingTypes         []string               `protobuf:"bytes,5,rep,name=rating_types,json=ratingTypes,proto3" json:"rating_types,omitempty"`
+	IconUrl             string                 `protobuf:"bytes,6,opt,name=icon_url,json=iconUrl,proto3" json:"icon_url,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *ServiceCategory) Reset() {
+	*x = ServiceCategory{}
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ServiceCategory) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServiceCategory) ProtoMessage() {}
+
+func (x *ServiceCategory) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServiceCategory.ProtoReflect.Descriptor instead.
+func (*ServiceCategory) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ServiceCategory) GetServiceCategoryId() string {
+	if x != nil {
+		return x.ServiceCategoryId
+	}
+	return ""
+}
+
+func (x *ServiceCategory) GetServiceCategoryName() string {
+	if x != nil {
+		return x.ServiceCategoryName
+	}
+	return ""
+}
+
+func (x *ServiceCategory) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ServiceCategory) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *ServiceCategory) GetRatingTypes() []string {
+	if x != nil {
+		return x.RatingTypes
+	}
+	return nil
+}
+
+func (x *ServiceCategory) GetIconUrl() string {
+	if x != nil {
+		return x.IconUrl
+	}
+	return ""
+}
+
+type Pagination struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	PageNumber      int32                  `protobuf:"varint,1,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	ResultsPerPage  int32                  `protobuf:"varint,2,opt,name=results_per_page,json=resultsPerPage,proto3" json:"results_per_page,omitempty"`
+	NumberOfPages   int32                  `protobuf:"varint,3,opt,name=number_of_pages,json=numberOfPages,proto3" json:"number_of_pages,omitempty"`
+	NumberOfResults int64                  `protobuf:"varint,4,opt,name=number_of_results,json=numberOfResults,proto3" json:"number_of_results,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *Pagination) Reset() {
+	*x = Pagination{}
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Pagination) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Pagination) ProtoMessage() {}
+
+func (x *Pagination) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Pagination.ProtoReflect.Descriptor instead.
+func (*Pagination) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *Pagination) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *Pagination) GetResultsPerPage() int32 {
+	if x != nil {
+		return x.ResultsPerPage
+	}
+	return 0
+}
+
+func (x *Pagination) GetNumberOfPages() int32 {
+	if x != nil {
+		return x.NumberOfPages
+	}
+	return 0
+}
+
+func (x *Pagination) GetNumberOfResults() int64 {
+	if x != nil {
+		return x.NumberOfResults
+	}
+	return 0
+}
+
+type GetAllServiceCategoriesRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	PageNumber     int32                  `protobuf:"varint,1,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	ResultsPerPage int32                  `protobuf:"varint,2,opt,name=results_per_page,json=resultsPerPage,proto3" json:"results_per_page,omitempty"`
+	ResultParams   []string               `protobuf:"bytes,3,rep,name=result_params,json=resultParams,proto3" json:"result_params,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetAllServiceCategoriesRequest) Reset() {
+	*x = GetAllServiceCategoriesRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllServiceCategoriesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllServiceCategoriesRequest) ProtoMessage() {}
+
+func (x *GetAllServiceCategoriesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllServiceCategoriesRequest.ProtoReflect.Descriptor instead.
+func (*GetAllServiceCategoriesRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetAllServiceCategoriesRequest) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *GetAllServiceCategoriesRequest) GetResultsPerPage() int32 {
+	if x != nil {
+		return x.ResultsPerPage
+	}
+	return 0
+}
+
+func (x *GetAllServiceCategoriesRequest) GetResultParams() []string {
+	if x != nil {
+		return x.ResultParams
+	}
+	return nil
+}
+
+type GetAllServiceCategoriesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Content       []*ServiceCategory     `protobuf:"bytes,1,rep,name=content,proto3" json:"content,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllServiceCategoriesResponse) Reset() {
+	*x = GetAllServiceCategoriesResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllServiceCategoriesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllServiceCategoriesResponse) ProtoMessage() {}
+
+func (x *GetAllServiceCategoriesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllServiceCategoriesResponse.ProtoReflect.Descriptor instead.
+func (*GetAllServiceCategoriesResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetAllServiceCategoriesResponse) GetContent() []*ServiceCategory {
+	if x != nil {
+		return x.Content
+	}
+	return nil
+}
+
+func (x *GetAllServiceCategoriesResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetAllServiceSubCategoriesRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	PageNumber     int32                  `protobuf:"varint,1,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	ResultsPerPage int32                  `protobuf:"varint,2,opt,name=results_per_page,json=resultsPerPage,proto3" json:"results_per_page,omitempty"`
+	ResultParams   []string               `protobuf:"bytes,3,rep,name=result_params,json=resultParams,proto3" json:"result_params,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetAllServiceSubCategoriesRequest) Reset() {
+	*x = GetAllServiceSubCategoriesRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllServiceSubCategoriesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllServiceSubCategoriesRequest) ProtoMessage() {}
+
+func (x *GetAllServiceSubCategoriesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllServiceSubCategoriesRequest.ProtoReflect.Descriptor instead.
+func (*GetAllServiceSubCategoriesRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetAllServiceSubCategoriesRequest) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *GetAllServiceSubCategoriesRequest) GetResultsPerPage() int32 {
+	if x != nil {
+		return x.ResultsPerPage
+	}
+	return 0
+}
+
+func (x *GetAllServiceSubCategoriesRequest) GetResultParams() []string {
+	if x != nil {
+		return x.ResultParams
+	}
+	return nil
+}
+
+type GetAllServiceSubCategoriesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Content       []*ServiceSubCategory  `protobuf:"bytes,1,rep,name=content,proto3" json:"content,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllServiceSubCategoriesResponse) Reset() {
+	*x = GetAllServiceSubCategoriesResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllServiceSubCategoriesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllServiceSubCategoriesResponse) ProtoMessage() {}
+
+func (x *GetAllServiceSubCategoriesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllServiceSubCategoriesResponse.ProtoReflect.Descriptor instead.
+func (*GetAllServiceSubCategoriesResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetAllServiceSubCategoriesResponse) GetContent() []*ServiceSubCategory {
+	if x != nil {
+		return x.Content
+	}
+	return nil
+}
+
+func (x *GetAllServiceSubCategoriesResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
@@ -497,11 +873,48 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\bicon_url\x18\x06 \x01(\tR\aiconUrl\x12\\\n" +
 	"\x16sub_service_parameters\x18\a \x01(\v2&.lift.platform.v1.ServiceSubParametersR\x14subServiceParameters\"w\n" +
 	"\x1dGetServiceSubCategoryResponse\x12V\n" +
-	"\x14service_sub_category\x18\x01 \x01(\v2$.lift.platform.v1.ServiceSubCategoryR\x12serviceSubCategory2\xa0\x01\n" +
+	"\x14service_sub_category\x18\x01 \x01(\v2$.lift.platform.v1.ServiceSubCategoryR\x12serviceSubCategory\"\xed\x01\n" +
+	"\x0fServiceCategory\x12.\n" +
+	"\x13service_category_id\x18\x01 \x01(\tR\x11serviceCategoryId\x122\n" +
+	"\x15service_category_name\x18\x02 \x01(\tR\x13serviceCategoryName\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\bR\x06status\x12!\n" +
+	"\frating_types\x18\x05 \x03(\tR\vratingTypes\x12\x19\n" +
+	"\bicon_url\x18\x06 \x01(\tR\aiconUrl\"\xab\x01\n" +
+	"\n" +
+	"Pagination\x12\x1f\n" +
+	"\vpage_number\x18\x01 \x01(\x05R\n" +
+	"pageNumber\x12(\n" +
+	"\x10results_per_page\x18\x02 \x01(\x05R\x0eresultsPerPage\x12&\n" +
+	"\x0fnumber_of_pages\x18\x03 \x01(\x05R\rnumberOfPages\x12*\n" +
+	"\x11number_of_results\x18\x04 \x01(\x03R\x0fnumberOfResults\"\x90\x01\n" +
+	"\x1eGetAllServiceCategoriesRequest\x12\x1f\n" +
+	"\vpage_number\x18\x01 \x01(\x05R\n" +
+	"pageNumber\x12(\n" +
+	"\x10results_per_page\x18\x02 \x01(\x05R\x0eresultsPerPage\x12#\n" +
+	"\rresult_params\x18\x03 \x03(\tR\fresultParams\"\x9c\x01\n" +
+	"\x1fGetAllServiceCategoriesResponse\x12;\n" +
+	"\acontent\x18\x01 \x03(\v2!.lift.platform.v1.ServiceCategoryR\acontent\x12<\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x1c.lift.platform.v1.PaginationR\n" +
+	"pagination\"\x93\x01\n" +
+	"!GetAllServiceSubCategoriesRequest\x12\x1f\n" +
+	"\vpage_number\x18\x01 \x01(\x05R\n" +
+	"pageNumber\x12(\n" +
+	"\x10results_per_page\x18\x02 \x01(\x05R\x0eresultsPerPage\x12#\n" +
+	"\rresult_params\x18\x03 \x03(\tR\fresultParams\"\xa2\x01\n" +
+	"\"GetAllServiceSubCategoriesResponse\x12>\n" +
+	"\acontent\x18\x01 \x03(\v2$.lift.platform.v1.ServiceSubCategoryR\acontent\x12<\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x1c.lift.platform.v1.PaginationR\n" +
+	"pagination2\xa0\x01\n" +
 	"\x14ConfigurationService\x12\x87\x01\n" +
-	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2\x95\x01\n" +
+	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2\x98\x01\n" +
+	"\x16ServiceCategoryService\x12~\n" +
+	"\x17GetAllServiceCategories\x120.lift.platform.v1.GetAllServiceCategoriesRequest\x1a1.lift.platform.v1.GetAllServiceCategoriesResponse2\x9f\x02\n" +
 	"\x19ServiceSubCategoryService\x12x\n" +
-	"\x15GetServiceSubCategory\x12..lift.platform.v1.GetServiceSubCategoryRequest\x1a/.lift.platform.v1.GetServiceSubCategoryResponseBBZ@github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1b\x06proto3"
+	"\x15GetServiceSubCategory\x12..lift.platform.v1.GetServiceSubCategoryRequest\x1a/.lift.platform.v1.GetServiceSubCategoryResponse\x12\x87\x01\n" +
+	"\x1aGetAllServiceSubCategories\x123.lift.platform.v1.GetAllServiceSubCategoriesRequest\x1a4.lift.platform.v1.GetAllServiceSubCategoriesResponseBBZ@github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1b\x06proto3"
 
 var (
 	file_platform_v1_platform_proto_rawDescOnce sync.Once
@@ -515,7 +928,7 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetConfigurationByCategoryRequest)(nil),  // 0: lift.platform.v1.GetConfigurationByCategoryRequest
 	(*Configuration)(nil),                      // 1: lift.platform.v1.Configuration
@@ -524,22 +937,36 @@ var file_platform_v1_platform_proto_goTypes = []any{
 	(*ServiceSubParameters)(nil),               // 4: lift.platform.v1.ServiceSubParameters
 	(*ServiceSubCategory)(nil),                 // 5: lift.platform.v1.ServiceSubCategory
 	(*GetServiceSubCategoryResponse)(nil),      // 6: lift.platform.v1.GetServiceSubCategoryResponse
-	(*structpb.Struct)(nil),                    // 7: google.protobuf.Struct
+	(*ServiceCategory)(nil),                    // 7: lift.platform.v1.ServiceCategory
+	(*Pagination)(nil),                         // 8: lift.platform.v1.Pagination
+	(*GetAllServiceCategoriesRequest)(nil),     // 9: lift.platform.v1.GetAllServiceCategoriesRequest
+	(*GetAllServiceCategoriesResponse)(nil),    // 10: lift.platform.v1.GetAllServiceCategoriesResponse
+	(*GetAllServiceSubCategoriesRequest)(nil),  // 11: lift.platform.v1.GetAllServiceSubCategoriesRequest
+	(*GetAllServiceSubCategoriesResponse)(nil), // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse
+	(*structpb.Struct)(nil),                    // 13: google.protobuf.Struct
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	7, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
-	1, // 1: lift.platform.v1.GetConfigurationByCategoryResponse.configuration:type_name -> lift.platform.v1.Configuration
-	4, // 2: lift.platform.v1.ServiceSubCategory.sub_service_parameters:type_name -> lift.platform.v1.ServiceSubParameters
-	5, // 3: lift.platform.v1.GetServiceSubCategoryResponse.service_sub_category:type_name -> lift.platform.v1.ServiceSubCategory
-	0, // 4: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
-	3, // 5: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
-	2, // 6: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
-	6, // 7: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	13, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
+	1,  // 1: lift.platform.v1.GetConfigurationByCategoryResponse.configuration:type_name -> lift.platform.v1.Configuration
+	4,  // 2: lift.platform.v1.ServiceSubCategory.sub_service_parameters:type_name -> lift.platform.v1.ServiceSubParameters
+	5,  // 3: lift.platform.v1.GetServiceSubCategoryResponse.service_sub_category:type_name -> lift.platform.v1.ServiceSubCategory
+	7,  // 4: lift.platform.v1.GetAllServiceCategoriesResponse.content:type_name -> lift.platform.v1.ServiceCategory
+	8,  // 5: lift.platform.v1.GetAllServiceCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
+	5,  // 6: lift.platform.v1.GetAllServiceSubCategoriesResponse.content:type_name -> lift.platform.v1.ServiceSubCategory
+	8,  // 7: lift.platform.v1.GetAllServiceSubCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
+	0,  // 8: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
+	9,  // 9: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
+	3,  // 10: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
+	11, // 11: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
+	2,  // 12: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
+	10, // 13: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
+	6,  // 14: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
+	12, // 15: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
+	12, // [12:16] is the sub-list for method output_type
+	8,  // [8:12] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_platform_proto_init() }
@@ -553,9 +980,9 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   3,
 		},
 		GoTypes:           file_platform_v1_platform_proto_goTypes,
 		DependencyIndexes: file_platform_v1_platform_proto_depIdxs,

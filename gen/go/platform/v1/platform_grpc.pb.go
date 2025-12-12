@@ -121,7 +121,111 @@ var ConfigurationService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ServiceSubCategoryService_GetServiceSubCategory_FullMethodName = "/lift.platform.v1.ServiceSubCategoryService/GetServiceSubCategory"
+	ServiceCategoryService_GetAllServiceCategories_FullMethodName = "/lift.platform.v1.ServiceCategoryService/GetAllServiceCategories"
+)
+
+// ServiceCategoryServiceClient is the client API for ServiceCategoryService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ServiceCategoryServiceClient interface {
+	GetAllServiceCategories(ctx context.Context, in *GetAllServiceCategoriesRequest, opts ...grpc.CallOption) (*GetAllServiceCategoriesResponse, error)
+}
+
+type serviceCategoryServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewServiceCategoryServiceClient(cc grpc.ClientConnInterface) ServiceCategoryServiceClient {
+	return &serviceCategoryServiceClient{cc}
+}
+
+func (c *serviceCategoryServiceClient) GetAllServiceCategories(ctx context.Context, in *GetAllServiceCategoriesRequest, opts ...grpc.CallOption) (*GetAllServiceCategoriesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllServiceCategoriesResponse)
+	err := c.cc.Invoke(ctx, ServiceCategoryService_GetAllServiceCategories_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ServiceCategoryServiceServer is the server API for ServiceCategoryService service.
+// All implementations must embed UnimplementedServiceCategoryServiceServer
+// for forward compatibility.
+type ServiceCategoryServiceServer interface {
+	GetAllServiceCategories(context.Context, *GetAllServiceCategoriesRequest) (*GetAllServiceCategoriesResponse, error)
+	mustEmbedUnimplementedServiceCategoryServiceServer()
+}
+
+// UnimplementedServiceCategoryServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedServiceCategoryServiceServer struct{}
+
+func (UnimplementedServiceCategoryServiceServer) GetAllServiceCategories(context.Context, *GetAllServiceCategoriesRequest) (*GetAllServiceCategoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllServiceCategories not implemented")
+}
+func (UnimplementedServiceCategoryServiceServer) mustEmbedUnimplementedServiceCategoryServiceServer() {
+}
+func (UnimplementedServiceCategoryServiceServer) testEmbeddedByValue() {}
+
+// UnsafeServiceCategoryServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ServiceCategoryServiceServer will
+// result in compilation errors.
+type UnsafeServiceCategoryServiceServer interface {
+	mustEmbedUnimplementedServiceCategoryServiceServer()
+}
+
+func RegisterServiceCategoryServiceServer(s grpc.ServiceRegistrar, srv ServiceCategoryServiceServer) {
+	// If the following call pancis, it indicates UnimplementedServiceCategoryServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&ServiceCategoryService_ServiceDesc, srv)
+}
+
+func _ServiceCategoryService_GetAllServiceCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllServiceCategoriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceCategoryServiceServer).GetAllServiceCategories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ServiceCategoryService_GetAllServiceCategories_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceCategoryServiceServer).GetAllServiceCategories(ctx, req.(*GetAllServiceCategoriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ServiceCategoryService_ServiceDesc is the grpc.ServiceDesc for ServiceCategoryService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ServiceCategoryService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "lift.platform.v1.ServiceCategoryService",
+	HandlerType: (*ServiceCategoryServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetAllServiceCategories",
+			Handler:    _ServiceCategoryService_GetAllServiceCategories_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "platform/v1/platform.proto",
+}
+
+const (
+	ServiceSubCategoryService_GetServiceSubCategory_FullMethodName      = "/lift.platform.v1.ServiceSubCategoryService/GetServiceSubCategory"
+	ServiceSubCategoryService_GetAllServiceSubCategories_FullMethodName = "/lift.platform.v1.ServiceSubCategoryService/GetAllServiceSubCategories"
 )
 
 // ServiceSubCategoryServiceClient is the client API for ServiceSubCategoryService service.
@@ -129,6 +233,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServiceSubCategoryServiceClient interface {
 	GetServiceSubCategory(ctx context.Context, in *GetServiceSubCategoryRequest, opts ...grpc.CallOption) (*GetServiceSubCategoryResponse, error)
+	GetAllServiceSubCategories(ctx context.Context, in *GetAllServiceSubCategoriesRequest, opts ...grpc.CallOption) (*GetAllServiceSubCategoriesResponse, error)
 }
 
 type serviceSubCategoryServiceClient struct {
@@ -149,11 +254,22 @@ func (c *serviceSubCategoryServiceClient) GetServiceSubCategory(ctx context.Cont
 	return out, nil
 }
 
+func (c *serviceSubCategoryServiceClient) GetAllServiceSubCategories(ctx context.Context, in *GetAllServiceSubCategoriesRequest, opts ...grpc.CallOption) (*GetAllServiceSubCategoriesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllServiceSubCategoriesResponse)
+	err := c.cc.Invoke(ctx, ServiceSubCategoryService_GetAllServiceSubCategories_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceSubCategoryServiceServer is the server API for ServiceSubCategoryService service.
 // All implementations must embed UnimplementedServiceSubCategoryServiceServer
 // for forward compatibility.
 type ServiceSubCategoryServiceServer interface {
 	GetServiceSubCategory(context.Context, *GetServiceSubCategoryRequest) (*GetServiceSubCategoryResponse, error)
+	GetAllServiceSubCategories(context.Context, *GetAllServiceSubCategoriesRequest) (*GetAllServiceSubCategoriesResponse, error)
 	mustEmbedUnimplementedServiceSubCategoryServiceServer()
 }
 
@@ -166,6 +282,9 @@ type UnimplementedServiceSubCategoryServiceServer struct{}
 
 func (UnimplementedServiceSubCategoryServiceServer) GetServiceSubCategory(context.Context, *GetServiceSubCategoryRequest) (*GetServiceSubCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetServiceSubCategory not implemented")
+}
+func (UnimplementedServiceSubCategoryServiceServer) GetAllServiceSubCategories(context.Context, *GetAllServiceSubCategoriesRequest) (*GetAllServiceSubCategoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllServiceSubCategories not implemented")
 }
 func (UnimplementedServiceSubCategoryServiceServer) mustEmbedUnimplementedServiceSubCategoryServiceServer() {
 }
@@ -207,6 +326,24 @@ func _ServiceSubCategoryService_GetServiceSubCategory_Handler(srv interface{}, c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ServiceSubCategoryService_GetAllServiceSubCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllServiceSubCategoriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceSubCategoryServiceServer).GetAllServiceSubCategories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ServiceSubCategoryService_GetAllServiceSubCategories_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceSubCategoryServiceServer).GetAllServiceSubCategories(ctx, req.(*GetAllServiceSubCategoriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ServiceSubCategoryService_ServiceDesc is the grpc.ServiceDesc for ServiceSubCategoryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -217,6 +354,10 @@ var ServiceSubCategoryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetServiceSubCategory",
 			Handler:    _ServiceSubCategoryService_GetServiceSubCategory_Handler,
+		},
+		{
+			MethodName: "GetAllServiceSubCategories",
+			Handler:    _ServiceSubCategoryService_GetAllServiceSubCategories_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

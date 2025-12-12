@@ -50,12 +50,55 @@ message GetServiceSubCategoryResponse {
   ServiceSubCategory service_sub_category = 1;
 }
 
+message ServiceCategory {
+  string service_category_id = 1;
+  string service_category_name = 2;
+  string description = 3;
+  bool status = 4;
+  repeated string rating_types = 5;
+  string icon_url = 6;
+}
+
+message Pagination {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+  int32 number_of_pages = 3;
+  int64 number_of_results = 4;
+}
+
+message GetAllServiceCategoriesRequest {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+  repeated string result_params = 3;
+}
+
+message GetAllServiceCategoriesResponse {
+  repeated ServiceCategory content = 1;
+  Pagination pagination = 2;
+}
+
+message GetAllServiceSubCategoriesRequest {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+  repeated string result_params = 3;
+}
+
+message GetAllServiceSubCategoriesResponse {
+  repeated ServiceSubCategory content = 1;
+  Pagination pagination = 2;
+}
+
 service ConfigurationService {
   rpc GetConfigurationByCategory(GetConfigurationByCategoryRequest) returns (GetConfigurationByCategoryResponse);
 }
 
+service ServiceCategoryService {
+  rpc GetAllServiceCategories(GetAllServiceCategoriesRequest) returns (GetAllServiceCategoriesResponse);
+}
+
 service ServiceSubCategoryService {
   rpc GetServiceSubCategory(GetServiceSubCategoryRequest) returns (GetServiceSubCategoryResponse);
+  rpc GetAllServiceSubCategories(GetAllServiceSubCategoriesRequest) returns (GetAllServiceSubCategoriesResponse);
 }
 
 
