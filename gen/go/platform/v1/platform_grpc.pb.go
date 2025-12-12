@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -114,6 +115,108 @@ var ConfigurationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetConfigurationByCategory",
 			Handler:    _ConfigurationService_GetConfigurationByCategory_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "platform/v1/platform.proto",
+}
+
+const (
+	TaxConfigService_GetTaxAmounts_FullMethodName = "/lift.platform.v1.TaxConfigService/GetTaxAmounts"
+)
+
+// TaxConfigServiceClient is the client API for TaxConfigService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TaxConfigServiceClient interface {
+	GetTaxAmounts(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetTaxAmountsResponse, error)
+}
+
+type taxConfigServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTaxConfigServiceClient(cc grpc.ClientConnInterface) TaxConfigServiceClient {
+	return &taxConfigServiceClient{cc}
+}
+
+func (c *taxConfigServiceClient) GetTaxAmounts(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetTaxAmountsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTaxAmountsResponse)
+	err := c.cc.Invoke(ctx, TaxConfigService_GetTaxAmounts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TaxConfigServiceServer is the server API for TaxConfigService service.
+// All implementations must embed UnimplementedTaxConfigServiceServer
+// for forward compatibility.
+type TaxConfigServiceServer interface {
+	GetTaxAmounts(context.Context, *emptypb.Empty) (*GetTaxAmountsResponse, error)
+	mustEmbedUnimplementedTaxConfigServiceServer()
+}
+
+// UnimplementedTaxConfigServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedTaxConfigServiceServer struct{}
+
+func (UnimplementedTaxConfigServiceServer) GetTaxAmounts(context.Context, *emptypb.Empty) (*GetTaxAmountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTaxAmounts not implemented")
+}
+func (UnimplementedTaxConfigServiceServer) mustEmbedUnimplementedTaxConfigServiceServer() {}
+func (UnimplementedTaxConfigServiceServer) testEmbeddedByValue()                          {}
+
+// UnsafeTaxConfigServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TaxConfigServiceServer will
+// result in compilation errors.
+type UnsafeTaxConfigServiceServer interface {
+	mustEmbedUnimplementedTaxConfigServiceServer()
+}
+
+func RegisterTaxConfigServiceServer(s grpc.ServiceRegistrar, srv TaxConfigServiceServer) {
+	// If the following call pancis, it indicates UnimplementedTaxConfigServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&TaxConfigService_ServiceDesc, srv)
+}
+
+func _TaxConfigService_GetTaxAmounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaxConfigServiceServer).GetTaxAmounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaxConfigService_GetTaxAmounts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaxConfigServiceServer).GetTaxAmounts(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TaxConfigService_ServiceDesc is the grpc.ServiceDesc for TaxConfigService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TaxConfigService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "lift.platform.v1.TaxConfigService",
+	HandlerType: (*TaxConfigServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTaxAmounts",
+			Handler:    _TaxConfigService_GetTaxAmounts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

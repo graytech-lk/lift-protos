@@ -4,6 +4,7 @@ package lift.platform.v1;
 
 option go_package = "github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1";
 
+import "google/protobuf/empty.proto";
 import "google/protobuf/struct.proto";
 
 message GetConfigurationByCategoryRequest {
@@ -88,8 +89,21 @@ message GetAllServiceSubCategoriesResponse {
   Pagination pagination = 2;
 }
 
+message TaxAmounts {
+  double vat_amount = 1;
+  double sscl_amount = 2;
+}
+
+message GetTaxAmountsResponse {
+  TaxAmounts tax_amounts = 1;
+}
+
 service ConfigurationService {
   rpc GetConfigurationByCategory(GetConfigurationByCategoryRequest) returns (GetConfigurationByCategoryResponse);
+}
+
+service TaxConfigService {
+  rpc GetTaxAmounts(google.protobuf.Empty) returns (GetTaxAmountsResponse);
 }
 
 service ServiceCategoryService {

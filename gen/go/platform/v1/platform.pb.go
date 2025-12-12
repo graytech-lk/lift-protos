@@ -9,6 +9,7 @@ package platformv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	structpb "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
@@ -834,11 +835,107 @@ func (x *GetAllServiceSubCategoriesResponse) GetPagination() *Pagination {
 	return nil
 }
 
+type TaxAmounts struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VatAmount     float64                `protobuf:"fixed64,1,opt,name=vat_amount,json=vatAmount,proto3" json:"vat_amount,omitempty"`
+	SsclAmount    float64                `protobuf:"fixed64,2,opt,name=sscl_amount,json=ssclAmount,proto3" json:"sscl_amount,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TaxAmounts) Reset() {
+	*x = TaxAmounts{}
+	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TaxAmounts) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaxAmounts) ProtoMessage() {}
+
+func (x *TaxAmounts) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaxAmounts.ProtoReflect.Descriptor instead.
+func (*TaxAmounts) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *TaxAmounts) GetVatAmount() float64 {
+	if x != nil {
+		return x.VatAmount
+	}
+	return 0
+}
+
+func (x *TaxAmounts) GetSsclAmount() float64 {
+	if x != nil {
+		return x.SsclAmount
+	}
+	return 0
+}
+
+type GetTaxAmountsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaxAmounts    *TaxAmounts            `protobuf:"bytes,1,opt,name=tax_amounts,json=taxAmounts,proto3" json:"tax_amounts,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTaxAmountsResponse) Reset() {
+	*x = GetTaxAmountsResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTaxAmountsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTaxAmountsResponse) ProtoMessage() {}
+
+func (x *GetTaxAmountsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTaxAmountsResponse.ProtoReflect.Descriptor instead.
+func (*GetTaxAmountsResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetTaxAmountsResponse) GetTaxAmounts() *TaxAmounts {
+	if x != nil {
+		return x.TaxAmounts
+	}
+	return nil
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
-	"\x1aplatform/v1/platform.proto\x12\x10lift.platform.v1\x1a\x1cgoogle/protobuf/struct.proto\"?\n" +
+	"\x1aplatform/v1/platform.proto\x12\x10lift.platform.v1\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/protobuf/struct.proto\"?\n" +
 	"!GetConfigurationByCategoryRequest\x12\x1a\n" +
 	"\bcategory\x18\x01 \x01(\tR\bcategory\"d\n" +
 	"\rConfiguration\x12\x1a\n" +
@@ -907,9 +1004,20 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\acontent\x18\x01 \x03(\v2$.lift.platform.v1.ServiceSubCategoryR\acontent\x12<\n" +
 	"\n" +
 	"pagination\x18\x02 \x01(\v2\x1c.lift.platform.v1.PaginationR\n" +
-	"pagination2\xa0\x01\n" +
+	"pagination\"L\n" +
+	"\n" +
+	"TaxAmounts\x12\x1d\n" +
+	"\n" +
+	"vat_amount\x18\x01 \x01(\x01R\tvatAmount\x12\x1f\n" +
+	"\vsscl_amount\x18\x02 \x01(\x01R\n" +
+	"ssclAmount\"V\n" +
+	"\x15GetTaxAmountsResponse\x12=\n" +
+	"\vtax_amounts\x18\x01 \x01(\v2\x1c.lift.platform.v1.TaxAmountsR\n" +
+	"taxAmounts2\xa0\x01\n" +
 	"\x14ConfigurationService\x12\x87\x01\n" +
-	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2\x98\x01\n" +
+	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2d\n" +
+	"\x10TaxConfigService\x12P\n" +
+	"\rGetTaxAmounts\x12\x16.google.protobuf.Empty\x1a'.lift.platform.v1.GetTaxAmountsResponse2\x98\x01\n" +
 	"\x16ServiceCategoryService\x12~\n" +
 	"\x17GetAllServiceCategories\x120.lift.platform.v1.GetAllServiceCategoriesRequest\x1a1.lift.platform.v1.GetAllServiceCategoriesResponse2\x9f\x02\n" +
 	"\x19ServiceSubCategoryService\x12x\n" +
@@ -928,7 +1036,7 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetConfigurationByCategoryRequest)(nil),  // 0: lift.platform.v1.GetConfigurationByCategoryRequest
 	(*Configuration)(nil),                      // 1: lift.platform.v1.Configuration
@@ -943,10 +1051,13 @@ var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetAllServiceCategoriesResponse)(nil),    // 10: lift.platform.v1.GetAllServiceCategoriesResponse
 	(*GetAllServiceSubCategoriesRequest)(nil),  // 11: lift.platform.v1.GetAllServiceSubCategoriesRequest
 	(*GetAllServiceSubCategoriesResponse)(nil), // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse
-	(*structpb.Struct)(nil),                    // 13: google.protobuf.Struct
+	(*TaxAmounts)(nil),                         // 13: lift.platform.v1.TaxAmounts
+	(*GetTaxAmountsResponse)(nil),              // 14: lift.platform.v1.GetTaxAmountsResponse
+	(*structpb.Struct)(nil),                    // 15: google.protobuf.Struct
+	(*emptypb.Empty)(nil),                      // 16: google.protobuf.Empty
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	13, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
+	15, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
 	1,  // 1: lift.platform.v1.GetConfigurationByCategoryResponse.configuration:type_name -> lift.platform.v1.Configuration
 	4,  // 2: lift.platform.v1.ServiceSubCategory.sub_service_parameters:type_name -> lift.platform.v1.ServiceSubParameters
 	5,  // 3: lift.platform.v1.GetServiceSubCategoryResponse.service_sub_category:type_name -> lift.platform.v1.ServiceSubCategory
@@ -954,19 +1065,22 @@ var file_platform_v1_platform_proto_depIdxs = []int32{
 	8,  // 5: lift.platform.v1.GetAllServiceCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
 	5,  // 6: lift.platform.v1.GetAllServiceSubCategoriesResponse.content:type_name -> lift.platform.v1.ServiceSubCategory
 	8,  // 7: lift.platform.v1.GetAllServiceSubCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
-	0,  // 8: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
-	9,  // 9: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
-	3,  // 10: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
-	11, // 11: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
-	2,  // 12: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
-	10, // 13: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
-	6,  // 14: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
-	12, // 15: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	13, // 8: lift.platform.v1.GetTaxAmountsResponse.tax_amounts:type_name -> lift.platform.v1.TaxAmounts
+	0,  // 9: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
+	16, // 10: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
+	9,  // 11: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
+	3,  // 12: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
+	11, // 13: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
+	2,  // 14: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
+	14, // 15: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
+	10, // 16: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
+	6,  // 17: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
+	12, // 18: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_platform_proto_init() }
@@ -980,9 +1094,9 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   15,
 			NumExtensions: 0,
-			NumServices:   3,
+			NumServices:   4,
 		},
 		GoTypes:           file_platform_v1_platform_proto_goTypes,
 		DependencyIndexes: file_platform_v1_platform_proto_depIdxs,
