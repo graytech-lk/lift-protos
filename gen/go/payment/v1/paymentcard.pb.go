@@ -267,7 +267,7 @@ const file_payment_v1_paymentcard_proto_rawDesc = "" +
 	"\x12PaymentCardService\x12p\n" +
 	"\x15CreateCardTransaction\x12-.lift.payment.v1.CreateCardTransactionRequest\x1a(.lift.payment.v1.CardTransactionResponse\x12h\n" +
 	"\x11CaptureCardAmount\x12).lift.payment.v1.CaptureCardAmountRequest\x1a(.lift.payment.v1.CardTransactionResponse\x12h\n" +
-	"\x11ReverseCardAmount\x12).lift.payment.v1.ReverseCardAmountRequest\x1a(.lift.payment.v1.CardTransactionResponseBUZSlift-microservices/lift-payment-service/internal/proto/paymentcard/v1;paymentcardv1b\x06proto3"
+	"\x11ReverseCardAmount\x12).lift.payment.v1.ReverseCardAmountRequest\x1a(.lift.payment.v1.CardTransactionResponseB@Z>github.com/graytech-lk/lift-protos/gen/go/payment/v1;paymentv1b\x06proto3"
 
 var (
 	file_payment_v1_paymentcard_proto_rawDescOnce sync.Once

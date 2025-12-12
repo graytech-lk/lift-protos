@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package lift.corporate.policy.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/corporate/policy/v1;corporatepolicyv1";
+
+import "google/protobuf/timestamp.proto";
+
+message GetCorporatePolicyByIdRequest {
+  string id = 1;
+}
+
+message CorporatePolicySubLimitation {
+  int32 per_trip = 1;
+  int32 per_day = 2;
+  int32 per_week = 3;
+  int32 per_month = 4;
+}
+
+message CorporatePolicyLimitation {
+  repeated string sub_category_uuids = 1;
+  string start_time = 2;
+  string day_of_week = 3;
+  string date_of_month = 4;
+  repeated string start_locations = 5;
+  repeated string end_locations = 6;
+  CorporatePolicySubLimitation distance_limitation = 7;
+  CorporatePolicySubLimitation cost_limitation = 8;
+  CorporatePolicySubLimitation service_count_limitation = 9;
+}
+
+message CorporatePolicy {
+  string id = 1;
+  string corporate_id = 2;
+  google.protobuf.Timestamp created_time = 3;
+  google.protobuf.Timestamp updated_time = 4;
+  string name = 5;
+  string description = 6;
+  map<string, CorporatePolicyLimitation> limitations = 7;
+}
+
+message GetCorporatePolicyByIdResponse {
+  CorporatePolicy policy = 1;
+}
+
+message ValidateServiceRequestWithPolicyRequest {
+  string policy_id = 1;
+  string service_category_id = 2;
+  string service_sub_category_id = 3;
+  google.protobuf.Timestamp request_time = 4;
+  string start_location = 5;
+  repeated string destination_locations = 6;
+}
+
+message ValidateServiceRequestWithPolicyResponse {
+  bool allowed = 1;
+  string reason = 2;
+}
+
+service CorporatePolicyService {
+  rpc GetCorporatePolicyById(GetCorporatePolicyByIdRequest) returns (GetCorporatePolicyByIdResponse);
+  rpc ValidateServiceRequestWithPolicy(ValidateServiceRequestWithPolicyRequest) returns (ValidateServiceRequestWithPolicyResponse);
+}
+

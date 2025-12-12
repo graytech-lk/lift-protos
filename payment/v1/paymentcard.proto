@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package lift.payment.v1;
 
-option go_package = "lift-microservices/lift-payment-service/internal/proto/paymentcard/v1;paymentcardv1";
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/payment/v1;paymentv1";
 
 service PaymentCardService {
   rpc CreateCardTransaction(CreateCardTransactionRequest) returns (CardTransactionResponse);
