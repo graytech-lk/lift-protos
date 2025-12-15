@@ -99,8 +99,18 @@ message GetServiceProviderByIdResponse {
   UserServiceProvider service_provider = 1;
 }
 
+message ListServiceProvidersRequest {
+  string fleet_id = 1;
+  string sp_type = 2;
+}
+
+message ListServiceProvidersResponse {
+  repeated UserServiceProvider service_providers = 1;
+}
+
 service ServiceProviderService {
   rpc GetServiceProviderById(GetServiceProviderByIdRequest) returns (GetServiceProviderByIdResponse);
+  rpc ListServiceProviders(ListServiceProvidersRequest) returns (ListServiceProvidersResponse);
 }
 
 
