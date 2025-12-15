@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package lift.payment.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/payment/v1;paymentv1";
+
+import "google/protobuf/timestamp.proto";
+
+message SPSettlementEvent {
+  string id = 1;
+  google.protobuf.Timestamp created_time = 2;
+  google.protobuf.Timestamp updated_time = 3;
+  string settlement_event_type = 4;
+  double service_cost = 5;
+  double settlement_amount = 6;
+  string service_request_id = 7;
+  string service_description = 8;
+  string event_status = 9;
+}
+
+message ListSettlementEventsByServiceRequestIDsRequest {
+  repeated string service_request_ids = 1;
+}
+
+message ListSettlementEventsByServiceRequestIDsResponse {
+  repeated SPSettlementEvent events = 1;
+}
+
+service SPSettlementService {
+  // Returns settlement events for the provided service_request_ids, sorted by created_time DESC.
+  rpc ListSettlementEventsByServiceRequestIDs(ListSettlementEventsByServiceRequestIDsRequest) returns (ListSettlementEventsByServiceRequestIDsResponse);
+}
+
