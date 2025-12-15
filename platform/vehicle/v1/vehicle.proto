@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package lift.platform.vehicle.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/platform/vehicle/v1;vehiclev1";
+
+import "google/protobuf/timestamp.proto";
+
+// Vehicle represents a vehicle in the platform
+message Vehicle {
+  string id = 1;
+  string vehicle_number = 2;
+  string vehicle_category = 3;
+  string vehicle_registration_document = 4;
+  string brand = 5;
+  string model = 6;
+  string color = 7;
+  string yom = 8;
+  string fleet_id = 9;
+  string fleet_name = 10;
+  string driver_id = 11;
+  repeated string service_sub_categories = 12;
+  string preferred_sub_category = 13;
+  double rating = 14;
+  string revenue_license_number = 15;
+  string revenue_license_expiry_date = 16;
+  string revenue_license_document = 17;
+  string revenue_license_document_status = 18;
+  string insurance_company_id = 19;
+  string insurance_type = 20;
+  string insurance_number = 21;
+  string insurance_expiry_date = 22;
+  string insurance_document_front = 23;
+  string insurance_document_back = 24;
+  string insurance_document_status = 25;
+  repeated string vehicle_photos = 26;
+  string no_objection_letter = 27;
+  string ownership_type = 28;
+  string vehicle_owner_name = 29;
+  string vehicle_owner_mobile = 30;
+  google.protobuf.Timestamp created_time = 31;
+  google.protobuf.Timestamp updated_time = 32;
+  string status = 33;
+}
+
+// Pagination contains pagination metadata for list responses
+message Pagination {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+  int32 number_of_pages = 3;
+  int64 number_of_results = 4;
+}
+
+// GetVehicleRequest is the request for getting a single vehicle by ID
+message GetVehicleRequest {
+  string vehicle_id = 1;
+}
+
+// GetVehicleResponse is the response containing a single vehicle
+message GetVehicleResponse {
+  Vehicle vehicle = 1;
+}
+
+// GetAllVehiclesRequest is the request for listing vehicles with filters
+message GetAllVehiclesRequest {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+  repeated string result_params = 3;
+  repeated string status = 4;           // Filter by status types (e.g., "online", "offline")
+  string assigned = 5;                  // Filter by driver assignment: "true", "false", or empty for all
+}
+
+// GetAllVehiclesResponse is the response containing a list of vehicles
+message GetAllVehiclesResponse {
+  repeated Vehicle content = 1;
+  Pagination pagination = 2;
+}
+
+// VehicleService provides vehicle-related operations
+service VehicleService {
+  // GetVehicle retrieves a single vehicle by its ID
+  rpc GetVehicle(GetVehicleRequest) returns (GetVehicleResponse);
+  // GetAllVehicles retrieves a paginated list of vehicles with optional filters
+  rpc GetAllVehicles(GetAllVehiclesRequest) returns (GetAllVehiclesResponse);
+}
+
