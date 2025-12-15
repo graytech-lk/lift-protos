@@ -76,11 +76,26 @@ message GetAllVehiclesResponse {
   Pagination pagination = 2;
 }
 
+// ListFleetVehiclesRequest lists vehicles by fleet_id OR by driver_id.
+// - If driver_id is set, vehicles are filtered by driver_id.
+// - Otherwise, fleet_id must be set and vehicles are filtered by fleet_id.
+message ListFleetVehiclesRequest {
+  string fleet_id = 1;
+  string driver_id = 2;
+}
+
+// ListFleetVehiclesResponse returns vehicles in legacy status order.
+message ListFleetVehiclesResponse {
+  repeated Vehicle vehicles = 1;
+}
+
 // VehicleService provides vehicle-related operations
 service VehicleService {
   // GetVehicle retrieves a single vehicle by its ID
   rpc GetVehicle(GetVehicleRequest) returns (GetVehicleResponse);
   // GetAllVehicles retrieves a paginated list of vehicles with optional filters
   rpc GetAllVehicles(GetAllVehiclesRequest) returns (GetAllVehiclesResponse);
+  // ListFleetVehicles retrieves vehicles for a fleet owner or fleet driver view.
+  rpc ListFleetVehicles(ListFleetVehiclesRequest) returns (ListFleetVehiclesResponse);
 }
 
