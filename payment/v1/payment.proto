@@ -64,6 +64,15 @@ message UpdatePaymentMethodStatusResponse {
   UserPaymentMethod method = 1;
 }
 
+message EnsureDefaultCashUserPaymentMethodRequest {
+  string user_id = 1;
+}
+
+message EnsureDefaultCashUserPaymentMethodResponse {
+  UserPaymentMethod method = 1;
+  bool created = 2;
+}
+
 message Payment {
   string id = 1;
   string payment_type = 2;
@@ -161,6 +170,7 @@ service PaymentMethodService {
   rpc GetCorporatePaymentMethod(GetCorporatePaymentMethodRequest) returns (GetCorporatePaymentMethodResponse);
   rpc ListCorporatePaymentMethods(ListCorporatePaymentMethodsRequest) returns (ListCorporatePaymentMethodsResponse);
   rpc UpdatePaymentMethodStatus(UpdatePaymentMethodStatusRequest) returns (UpdatePaymentMethodStatusResponse);
+  rpc EnsureDefaultCashUserPaymentMethod(EnsureDefaultCashUserPaymentMethodRequest) returns (EnsureDefaultCashUserPaymentMethodResponse);
 }
 
 service PaymentService {
