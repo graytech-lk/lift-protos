@@ -64,6 +64,46 @@ message UpdatePaymentMethodStatusResponse {
   UserPaymentMethod method = 1;
 }
 
+message UpdateUserPaymentMethodRequest {
+  string user_type = 1;
+  string user_id = 2;
+  string user_payment_method_id = 3;
+  string name = 4;
+}
+
+message UpdateUserPaymentMethodResponse {
+  UserPaymentMethod method = 1;
+}
+
+message SetDefaultUserPaymentMethodRequest {
+  string user_type = 1;
+  string user_id = 2;
+  string user_payment_method_id = 3;
+}
+
+message SetDefaultUserPaymentMethodResponse {
+  UserPaymentMethod method = 1;
+}
+
+message DeleteUserPaymentMethodRequest {
+  string user_type = 1;
+  string user_id = 2;
+  string user_payment_method_id = 3;
+}
+
+message DeleteUserPaymentMethodResponse {
+  string status = 1; // "success"
+}
+
+message AddPromoCodeUserPaymentMethodRequest {
+  string user_id = 1;
+  string promo_code = 2;
+}
+
+message AddPromoCodeUserPaymentMethodResponse {
+  UserPaymentMethod method = 1;
+}
+
 message EnsureDefaultCashUserPaymentMethodRequest {
   string user_id = 1;
 }
@@ -170,6 +210,10 @@ service PaymentMethodService {
   rpc GetCorporatePaymentMethod(GetCorporatePaymentMethodRequest) returns (GetCorporatePaymentMethodResponse);
   rpc ListCorporatePaymentMethods(ListCorporatePaymentMethodsRequest) returns (ListCorporatePaymentMethodsResponse);
   rpc UpdatePaymentMethodStatus(UpdatePaymentMethodStatusRequest) returns (UpdatePaymentMethodStatusResponse);
+  rpc UpdateUserPaymentMethod(UpdateUserPaymentMethodRequest) returns (UpdateUserPaymentMethodResponse);
+  rpc SetDefaultUserPaymentMethod(SetDefaultUserPaymentMethodRequest) returns (SetDefaultUserPaymentMethodResponse);
+  rpc DeleteUserPaymentMethod(DeleteUserPaymentMethodRequest) returns (DeleteUserPaymentMethodResponse);
+  rpc AddPromoCodeUserPaymentMethod(AddPromoCodeUserPaymentMethodRequest) returns (AddPromoCodeUserPaymentMethodResponse);
   rpc EnsureDefaultCashUserPaymentMethod(EnsureDefaultCashUserPaymentMethodRequest) returns (EnsureDefaultCashUserPaymentMethodResponse);
 }
 
