@@ -22,8 +22,21 @@ message GetUserByIdResponse {
   UserRecord user = 1;
 }
 
+message UpdateUserRequest {
+  string user_id = 1;
+  string user_type = 2;
+  // JSON document of the user (full document).
+  // This is stored as-is (after validation/conversion) by lift-identity-service.
+  string payload_json = 3;
+}
+
+message UpdateUserResponse {
+  UserRecord user = 1;
+}
+
 service UserService {
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
 }
 
 

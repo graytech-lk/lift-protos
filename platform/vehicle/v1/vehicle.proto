@@ -61,6 +61,17 @@ message GetVehicleResponse {
   Vehicle vehicle = 1;
 }
 
+// UpdateVehicleRequest is the request for updating a vehicle.
+// The full vehicle document is provided and is persisted by the platform service.
+message UpdateVehicleRequest {
+  Vehicle vehicle = 1;
+}
+
+// UpdateVehicleResponse is the response containing the updated vehicle.
+message UpdateVehicleResponse {
+  Vehicle vehicle = 1;
+}
+
 // GetAllVehiclesRequest is the request for listing vehicles with filters
 message GetAllVehiclesRequest {
   int32 page_number = 1;
@@ -93,6 +104,8 @@ message ListFleetVehiclesResponse {
 service VehicleService {
   // GetVehicle retrieves a single vehicle by its ID
   rpc GetVehicle(GetVehicleRequest) returns (GetVehicleResponse);
+  // UpdateVehicle updates a vehicle document.
+  rpc UpdateVehicle(UpdateVehicleRequest) returns (UpdateVehicleResponse);
   // GetAllVehicles retrieves a paginated list of vehicles with optional filters
   rpc GetAllVehicles(GetAllVehiclesRequest) returns (GetAllVehiclesResponse);
   // ListFleetVehicles retrieves vehicles for a fleet owner or fleet driver view.
