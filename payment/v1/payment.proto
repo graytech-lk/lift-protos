@@ -104,6 +104,19 @@ message AddPromoCodeUserPaymentMethodResponse {
   UserPaymentMethod method = 1;
 }
 
+message ConsumePromoCodeUserPaymentMethodRequest {
+  // User who owns the promo-code-backed payment method.
+  string user_id = 1;
+  // The user payment method id (from user_payment_methods.id) to consume.
+  string user_payment_method_id = 2;
+  // Number of usages to consume. Defaults to 1 if unset/<=0.
+  int32 count = 3;
+}
+
+message ConsumePromoCodeUserPaymentMethodResponse {
+  UserPaymentMethod method = 1;
+}
+
 message EnsureDefaultCashUserPaymentMethodRequest {
   string user_id = 1;
 }
@@ -157,6 +170,31 @@ message InsertPaymentRequest {
 }
 
 message InsertPaymentResponse {
+  Payment payment = 1;
+}
+
+message GetPaymentByServiceRequestIDRequest {
+  string service_request_id = 1;
+}
+
+message GetPaymentByServiceRequestIDResponse {
+  Payment payment = 1;
+}
+
+message FinalizePaymentRequest {
+  // Payment being finalized.
+  string service_request_id = 1;
+  string payment_id = 2;
+
+  // Final totals (after end_hire calculation).
+  double total_amount_before_discount = 3;
+  double total_amount_after_discount = 4;
+
+  // New events to append (waiting, other charges, correction/refund, etc.).
+  repeated PaymentEvent payment_events = 5;
+}
+
+message FinalizePaymentResponse {
   Payment payment = 1;
 }
 
@@ -214,12 +252,15 @@ service PaymentMethodService {
   rpc SetDefaultUserPaymentMethod(SetDefaultUserPaymentMethodRequest) returns (SetDefaultUserPaymentMethodResponse);
   rpc DeleteUserPaymentMethod(DeleteUserPaymentMethodRequest) returns (DeleteUserPaymentMethodResponse);
   rpc AddPromoCodeUserPaymentMethod(AddPromoCodeUserPaymentMethodRequest) returns (AddPromoCodeUserPaymentMethodResponse);
+  rpc ConsumePromoCodeUserPaymentMethod(ConsumePromoCodeUserPaymentMethodRequest) returns (ConsumePromoCodeUserPaymentMethodResponse);
   rpc EnsureDefaultCashUserPaymentMethod(EnsureDefaultCashUserPaymentMethodRequest) returns (EnsureDefaultCashUserPaymentMethodResponse);
 }
 
 service PaymentService {
   rpc InsertPayment(InsertPaymentRequest) returns (InsertPaymentResponse);
   rpc ListPaymentsByMethod(ListPaymentsByMethodRequest) returns (ListPaymentsByMethodResponse);
+  rpc GetPaymentByServiceRequestID(GetPaymentByServiceRequestIDRequest) returns (GetPaymentByServiceRequestIDResponse);
+  rpc FinalizePayment(FinalizePaymentRequest) returns (FinalizePaymentResponse);
   rpc GetServiceRequest(GetServiceRequestRequest) returns (GetServiceRequestResponse);
 }
 
