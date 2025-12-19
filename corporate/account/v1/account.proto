@@ -60,8 +60,24 @@ message GetCorporateAccountByIdResponse {
   CorporateAccount account = 1;
 }
 
+message ApplyCorporateChargeRequest {
+  // Corporate account id.
+  string id = 1;
+  // Amount to add to current_credit_amount (must be > 0).
+  double amount = 2;
+  // Optional reference id (e.g. service_request_id) for audit trails.
+  string reference_id = 3;
+  // Optional description.
+  string description = 4;
+}
+
+message ApplyCorporateChargeResponse {
+  CorporateAccount account = 1;
+}
+
 service CorporateAccountService {
   rpc GetCorporateAccountById(GetCorporateAccountByIdRequest) returns (GetCorporateAccountByIdResponse);
+  rpc ApplyCorporateCharge(ApplyCorporateChargeRequest) returns (ApplyCorporateChargeResponse);
 }
 
 
