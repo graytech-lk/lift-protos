@@ -26,8 +26,19 @@ message ListSettlementEventsByServiceRequestIDsResponse {
   repeated SPSettlementEvent events = 1;
 }
 
+message CreateSettlementEventRequest {
+  // Event to create. Server may overwrite id/created_time/updated_time.
+  SPSettlementEvent event = 1;
+}
+
+message CreateSettlementEventResponse {
+  SPSettlementEvent event = 1;
+}
+
 service SPSettlementService {
   // Returns settlement events for the provided service_request_ids, sorted by created_time DESC.
   rpc ListSettlementEventsByServiceRequestIDs(ListSettlementEventsByServiceRequestIDsRequest) returns (ListSettlementEventsByServiceRequestIDsResponse);
+  // Creates a new settlement event owned by lift-payment-service.
+  rpc CreateSettlementEvent(CreateSettlementEventRequest) returns (CreateSettlementEventResponse);
 }
 
