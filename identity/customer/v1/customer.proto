@@ -4,22 +4,61 @@ package lift.identity.customer.v1;
 
 option go_package = "github.com/graytech-lk/lift-protos/gen/go/identity/customer/v1;customerv1";
 
+import "google/protobuf/timestamp.proto";
+
 message GetCustomerByPhoneRequest {
   string phone_number = 1;
+}
+
+message GetCustomerByIdRequest {
+  string id = 1;
+}
+
+message ListCustomersByIdsRequest {
+  repeated string user_ids = 1;
+  int64 skip = 2;
+  int64 limit = 3;
 }
 
 message UserCustomer {
   string id = 1;
   string phone_number = 2;
-  string status = 3;
+  string user_level = 3;
+  string gender = 4;
+  string user_sub_type = 5;
+  repeated string payment_methods = 6;
+  int32 wallet_amount = 7;
+  string first_name = 8;
+  string last_name = 9;
+  float rating = 10;
+  int32 number_of_cancellations = 11;
+  string email = 12;
+  bool email_verified = 13;
+  string profile_pic_url = 14;
+  string tac_version = 15;
+  string emergency_contact = 16;
+  string status = 17;
+  google.protobuf.Timestamp created_time = 18;
+  google.protobuf.Timestamp updated_time = 19;
 }
 
 message GetCustomerByPhoneResponse {
   UserCustomer customer = 1;
 }
 
+message GetCustomerByIdResponse {
+  UserCustomer customer = 1;
+}
+
+message ListCustomersByIdsResponse {
+  repeated UserCustomer customers = 1;
+  int64 total_count = 2;
+}
+
 service CustomerService {
   rpc GetCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCustomerByPhoneResponse);
+  rpc GetCustomerById(GetCustomerByIdRequest) returns (GetCustomerByIdResponse);
+  rpc ListCustomersByIds(ListCustomersByIdsRequest) returns (ListCustomersByIdsResponse);
 }
 
 

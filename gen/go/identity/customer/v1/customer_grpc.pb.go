@@ -20,6 +20,8 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	CustomerService_GetCustomerByPhone_FullMethodName = "/lift.identity.customer.v1.CustomerService/GetCustomerByPhone"
+	CustomerService_GetCustomerById_FullMethodName    = "/lift.identity.customer.v1.CustomerService/GetCustomerById"
+	CustomerService_ListCustomersByIds_FullMethodName = "/lift.identity.customer.v1.CustomerService/ListCustomersByIds"
 )
 
 // CustomerServiceClient is the client API for CustomerService service.
@@ -27,6 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CustomerServiceClient interface {
 	GetCustomerByPhone(ctx context.Context, in *GetCustomerByPhoneRequest, opts ...grpc.CallOption) (*GetCustomerByPhoneResponse, error)
+	GetCustomerById(ctx context.Context, in *GetCustomerByIdRequest, opts ...grpc.CallOption) (*GetCustomerByIdResponse, error)
+	ListCustomersByIds(ctx context.Context, in *ListCustomersByIdsRequest, opts ...grpc.CallOption) (*ListCustomersByIdsResponse, error)
 }
 
 type customerServiceClient struct {
@@ -47,11 +51,33 @@ func (c *customerServiceClient) GetCustomerByPhone(ctx context.Context, in *GetC
 	return out, nil
 }
 
+func (c *customerServiceClient) GetCustomerById(ctx context.Context, in *GetCustomerByIdRequest, opts ...grpc.CallOption) (*GetCustomerByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCustomerByIdResponse)
+	err := c.cc.Invoke(ctx, CustomerService_GetCustomerById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *customerServiceClient) ListCustomersByIds(ctx context.Context, in *ListCustomersByIdsRequest, opts ...grpc.CallOption) (*ListCustomersByIdsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCustomersByIdsResponse)
+	err := c.cc.Invoke(ctx, CustomerService_ListCustomersByIds_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CustomerServiceServer is the server API for CustomerService service.
 // All implementations must embed UnimplementedCustomerServiceServer
 // for forward compatibility.
 type CustomerServiceServer interface {
 	GetCustomerByPhone(context.Context, *GetCustomerByPhoneRequest) (*GetCustomerByPhoneResponse, error)
+	GetCustomerById(context.Context, *GetCustomerByIdRequest) (*GetCustomerByIdResponse, error)
+	ListCustomersByIds(context.Context, *ListCustomersByIdsRequest) (*ListCustomersByIdsResponse, error)
 	mustEmbedUnimplementedCustomerServiceServer()
 }
 
@@ -64,6 +90,12 @@ type UnimplementedCustomerServiceServer struct{}
 
 func (UnimplementedCustomerServiceServer) GetCustomerByPhone(context.Context, *GetCustomerByPhoneRequest) (*GetCustomerByPhoneResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerByPhone not implemented")
+}
+func (UnimplementedCustomerServiceServer) GetCustomerById(context.Context, *GetCustomerByIdRequest) (*GetCustomerByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerById not implemented")
+}
+func (UnimplementedCustomerServiceServer) ListCustomersByIds(context.Context, *ListCustomersByIdsRequest) (*ListCustomersByIdsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCustomersByIds not implemented")
 }
 func (UnimplementedCustomerServiceServer) mustEmbedUnimplementedCustomerServiceServer() {}
 func (UnimplementedCustomerServiceServer) testEmbeddedByValue()                         {}
@@ -104,6 +136,42 @@ func _CustomerService_GetCustomerByPhone_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CustomerService_GetCustomerById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCustomerByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerServiceServer).GetCustomerById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CustomerService_GetCustomerById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerServiceServer).GetCustomerById(ctx, req.(*GetCustomerByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CustomerService_ListCustomersByIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCustomersByIdsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerServiceServer).ListCustomersByIds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CustomerService_ListCustomersByIds_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerServiceServer).ListCustomersByIds(ctx, req.(*ListCustomersByIdsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CustomerService_ServiceDesc is the grpc.ServiceDesc for CustomerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +182,14 @@ var CustomerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCustomerByPhone",
 			Handler:    _CustomerService_GetCustomerByPhone_Handler,
+		},
+		{
+			MethodName: "GetCustomerById",
+			Handler:    _CustomerService_GetCustomerById_Handler,
+		},
+		{
+			MethodName: "ListCustomersByIds",
+			Handler:    _CustomerService_ListCustomersByIds_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

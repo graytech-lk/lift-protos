@@ -9,6 +9,7 @@ package customerv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -65,18 +66,138 @@ func (x *GetCustomerByPhoneRequest) GetPhoneNumber() string {
 	return ""
 }
 
-type UserCustomer struct {
+type GetCustomerByIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	PhoneNumber   string                 `protobuf:"bytes,2,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
-	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
+func (x *GetCustomerByIdRequest) Reset() {
+	*x = GetCustomerByIdRequest{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCustomerByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCustomerByIdRequest) ProtoMessage() {}
+
+func (x *GetCustomerByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCustomerByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetCustomerByIdRequest) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetCustomerByIdRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type ListCustomersByIdsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserIds       []string               `protobuf:"bytes,1,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
+	Skip          int64                  `protobuf:"varint,2,opt,name=skip,proto3" json:"skip,omitempty"`
+	Limit         int64                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCustomersByIdsRequest) Reset() {
+	*x = ListCustomersByIdsRequest{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCustomersByIdsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCustomersByIdsRequest) ProtoMessage() {}
+
+func (x *ListCustomersByIdsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCustomersByIdsRequest.ProtoReflect.Descriptor instead.
+func (*ListCustomersByIdsRequest) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListCustomersByIdsRequest) GetUserIds() []string {
+	if x != nil {
+		return x.UserIds
+	}
+	return nil
+}
+
+func (x *ListCustomersByIdsRequest) GetSkip() int64 {
+	if x != nil {
+		return x.Skip
+	}
+	return 0
+}
+
+func (x *ListCustomersByIdsRequest) GetLimit() int64 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type UserCustomer struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	Id                    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PhoneNumber           string                 `protobuf:"bytes,2,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	UserLevel             string                 `protobuf:"bytes,3,opt,name=user_level,json=userLevel,proto3" json:"user_level,omitempty"`
+	Gender                string                 `protobuf:"bytes,4,opt,name=gender,proto3" json:"gender,omitempty"`
+	UserSubType           string                 `protobuf:"bytes,5,opt,name=user_sub_type,json=userSubType,proto3" json:"user_sub_type,omitempty"`
+	PaymentMethods        []string               `protobuf:"bytes,6,rep,name=payment_methods,json=paymentMethods,proto3" json:"payment_methods,omitempty"`
+	WalletAmount          int32                  `protobuf:"varint,7,opt,name=wallet_amount,json=walletAmount,proto3" json:"wallet_amount,omitempty"`
+	FirstName             string                 `protobuf:"bytes,8,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	LastName              string                 `protobuf:"bytes,9,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	Rating                float32                `protobuf:"fixed32,10,opt,name=rating,proto3" json:"rating,omitempty"`
+	NumberOfCancellations int32                  `protobuf:"varint,11,opt,name=number_of_cancellations,json=numberOfCancellations,proto3" json:"number_of_cancellations,omitempty"`
+	Email                 string                 `protobuf:"bytes,12,opt,name=email,proto3" json:"email,omitempty"`
+	EmailVerified         bool                   `protobuf:"varint,13,opt,name=email_verified,json=emailVerified,proto3" json:"email_verified,omitempty"`
+	ProfilePicUrl         string                 `protobuf:"bytes,14,opt,name=profile_pic_url,json=profilePicUrl,proto3" json:"profile_pic_url,omitempty"`
+	TacVersion            string                 `protobuf:"bytes,15,opt,name=tac_version,json=tacVersion,proto3" json:"tac_version,omitempty"`
+	EmergencyContact      string                 `protobuf:"bytes,16,opt,name=emergency_contact,json=emergencyContact,proto3" json:"emergency_contact,omitempty"`
+	Status                string                 `protobuf:"bytes,17,opt,name=status,proto3" json:"status,omitempty"`
+	CreatedTime           *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
+	UpdatedTime           *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=updated_time,json=updatedTime,proto3" json:"updated_time,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
 func (x *UserCustomer) Reset() {
 	*x = UserCustomer{}
-	mi := &file_identity_customer_v1_customer_proto_msgTypes[1]
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -88,7 +209,7 @@ func (x *UserCustomer) String() string {
 func (*UserCustomer) ProtoMessage() {}
 
 func (x *UserCustomer) ProtoReflect() protoreflect.Message {
-	mi := &file_identity_customer_v1_customer_proto_msgTypes[1]
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -101,7 +222,7 @@ func (x *UserCustomer) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserCustomer.ProtoReflect.Descriptor instead.
 func (*UserCustomer) Descriptor() ([]byte, []int) {
-	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{1}
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UserCustomer) GetId() string {
@@ -118,11 +239,123 @@ func (x *UserCustomer) GetPhoneNumber() string {
 	return ""
 }
 
+func (x *UserCustomer) GetUserLevel() string {
+	if x != nil {
+		return x.UserLevel
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetGender() string {
+	if x != nil {
+		return x.Gender
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetUserSubType() string {
+	if x != nil {
+		return x.UserSubType
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetPaymentMethods() []string {
+	if x != nil {
+		return x.PaymentMethods
+	}
+	return nil
+}
+
+func (x *UserCustomer) GetWalletAmount() int32 {
+	if x != nil {
+		return x.WalletAmount
+	}
+	return 0
+}
+
+func (x *UserCustomer) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetLastName() string {
+	if x != nil {
+		return x.LastName
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetRating() float32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *UserCustomer) GetNumberOfCancellations() int32 {
+	if x != nil {
+		return x.NumberOfCancellations
+	}
+	return 0
+}
+
+func (x *UserCustomer) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetEmailVerified() bool {
+	if x != nil {
+		return x.EmailVerified
+	}
+	return false
+}
+
+func (x *UserCustomer) GetProfilePicUrl() string {
+	if x != nil {
+		return x.ProfilePicUrl
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetTacVersion() string {
+	if x != nil {
+		return x.TacVersion
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetEmergencyContact() string {
+	if x != nil {
+		return x.EmergencyContact
+	}
+	return ""
+}
+
 func (x *UserCustomer) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
+}
+
+func (x *UserCustomer) GetCreatedTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedTime
+	}
+	return nil
+}
+
+func (x *UserCustomer) GetUpdatedTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedTime
+	}
+	return nil
 }
 
 type GetCustomerByPhoneResponse struct {
@@ -134,7 +367,7 @@ type GetCustomerByPhoneResponse struct {
 
 func (x *GetCustomerByPhoneResponse) Reset() {
 	*x = GetCustomerByPhoneResponse{}
-	mi := &file_identity_customer_v1_customer_proto_msgTypes[2]
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -146,7 +379,7 @@ func (x *GetCustomerByPhoneResponse) String() string {
 func (*GetCustomerByPhoneResponse) ProtoMessage() {}
 
 func (x *GetCustomerByPhoneResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_identity_customer_v1_customer_proto_msgTypes[2]
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -159,7 +392,7 @@ func (x *GetCustomerByPhoneResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCustomerByPhoneResponse.ProtoReflect.Descriptor instead.
 func (*GetCustomerByPhoneResponse) Descriptor() ([]byte, []int) {
-	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{2}
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetCustomerByPhoneResponse) GetCustomer() *UserCustomer {
@@ -169,21 +402,151 @@ func (x *GetCustomerByPhoneResponse) GetCustomer() *UserCustomer {
 	return nil
 }
 
+type GetCustomerByIdResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Customer      *UserCustomer          `protobuf:"bytes,1,opt,name=customer,proto3" json:"customer,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCustomerByIdResponse) Reset() {
+	*x = GetCustomerByIdResponse{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCustomerByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCustomerByIdResponse) ProtoMessage() {}
+
+func (x *GetCustomerByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCustomerByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetCustomerByIdResponse) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetCustomerByIdResponse) GetCustomer() *UserCustomer {
+	if x != nil {
+		return x.Customer
+	}
+	return nil
+}
+
+type ListCustomersByIdsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Customers     []*UserCustomer        `protobuf:"bytes,1,rep,name=customers,proto3" json:"customers,omitempty"`
+	TotalCount    int64                  `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCustomersByIdsResponse) Reset() {
+	*x = ListCustomersByIdsResponse{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCustomersByIdsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCustomersByIdsResponse) ProtoMessage() {}
+
+func (x *ListCustomersByIdsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCustomersByIdsResponse.ProtoReflect.Descriptor instead.
+func (*ListCustomersByIdsResponse) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListCustomersByIdsResponse) GetCustomers() []*UserCustomer {
+	if x != nil {
+		return x.Customers
+	}
+	return nil
+}
+
+func (x *ListCustomersByIdsResponse) GetTotalCount() int64 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
 var File_identity_customer_v1_customer_proto protoreflect.FileDescriptor
 
 const file_identity_customer_v1_customer_proto_rawDesc = "" +
 	"\n" +
-	"#identity/customer/v1/customer.proto\x12\x19lift.identity.customer.v1\">\n" +
+	"#identity/customer/v1/customer.proto\x12\x19lift.identity.customer.v1\x1a\x1fgoogle/protobuf/timestamp.proto\">\n" +
 	"\x19GetCustomerByPhoneRequest\x12!\n" +
-	"\fphone_number\x18\x01 \x01(\tR\vphoneNumber\"Y\n" +
+	"\fphone_number\x18\x01 \x01(\tR\vphoneNumber\"(\n" +
+	"\x16GetCustomerByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"`\n" +
+	"\x19ListCustomersByIdsRequest\x12\x19\n" +
+	"\buser_ids\x18\x01 \x03(\tR\auserIds\x12\x12\n" +
+	"\x04skip\x18\x02 \x01(\x03R\x04skip\x12\x14\n" +
+	"\x05limit\x18\x03 \x01(\x03R\x05limit\"\xbf\x05\n" +
 	"\fUserCustomer\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
-	"\fphone_number\x18\x02 \x01(\tR\vphoneNumber\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\tR\x06status\"a\n" +
+	"\fphone_number\x18\x02 \x01(\tR\vphoneNumber\x12\x1d\n" +
+	"\n" +
+	"user_level\x18\x03 \x01(\tR\tuserLevel\x12\x16\n" +
+	"\x06gender\x18\x04 \x01(\tR\x06gender\x12\"\n" +
+	"\ruser_sub_type\x18\x05 \x01(\tR\vuserSubType\x12'\n" +
+	"\x0fpayment_methods\x18\x06 \x03(\tR\x0epaymentMethods\x12#\n" +
+	"\rwallet_amount\x18\a \x01(\x05R\fwalletAmount\x12\x1d\n" +
+	"\n" +
+	"first_name\x18\b \x01(\tR\tfirstName\x12\x1b\n" +
+	"\tlast_name\x18\t \x01(\tR\blastName\x12\x16\n" +
+	"\x06rating\x18\n" +
+	" \x01(\x02R\x06rating\x126\n" +
+	"\x17number_of_cancellations\x18\v \x01(\x05R\x15numberOfCancellations\x12\x14\n" +
+	"\x05email\x18\f \x01(\tR\x05email\x12%\n" +
+	"\x0eemail_verified\x18\r \x01(\bR\remailVerified\x12&\n" +
+	"\x0fprofile_pic_url\x18\x0e \x01(\tR\rprofilePicUrl\x12\x1f\n" +
+	"\vtac_version\x18\x0f \x01(\tR\n" +
+	"tacVersion\x12+\n" +
+	"\x11emergency_contact\x18\x10 \x01(\tR\x10emergencyContact\x12\x16\n" +
+	"\x06status\x18\x11 \x01(\tR\x06status\x12=\n" +
+	"\fcreated_time\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
+	"\fupdated_time\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\"a\n" +
 	"\x1aGetCustomerByPhoneResponse\x12C\n" +
-	"\bcustomer\x18\x01 \x01(\v2'.lift.identity.customer.v1.UserCustomerR\bcustomer2\x95\x01\n" +
+	"\bcustomer\x18\x01 \x01(\v2'.lift.identity.customer.v1.UserCustomerR\bcustomer\"^\n" +
+	"\x17GetCustomerByIdResponse\x12C\n" +
+	"\bcustomer\x18\x01 \x01(\v2'.lift.identity.customer.v1.UserCustomerR\bcustomer\"\x84\x01\n" +
+	"\x1aListCustomersByIdsResponse\x12E\n" +
+	"\tcustomers\x18\x01 \x03(\v2'.lift.identity.customer.v1.UserCustomerR\tcustomers\x12\x1f\n" +
+	"\vtotal_count\x18\x02 \x01(\x03R\n" +
+	"totalCount2\x93\x03\n" +
 	"\x0fCustomerService\x12\x81\x01\n" +
-	"\x12GetCustomerByPhone\x124.lift.identity.customer.v1.GetCustomerByPhoneRequest\x1a5.lift.identity.customer.v1.GetCustomerByPhoneResponseBKZIgithub.com/graytech-lk/lift-protos/gen/go/identity/customer/v1;customerv1b\x06proto3"
+	"\x12GetCustomerByPhone\x124.lift.identity.customer.v1.GetCustomerByPhoneRequest\x1a5.lift.identity.customer.v1.GetCustomerByPhoneResponse\x12x\n" +
+	"\x0fGetCustomerById\x121.lift.identity.customer.v1.GetCustomerByIdRequest\x1a2.lift.identity.customer.v1.GetCustomerByIdResponse\x12\x81\x01\n" +
+	"\x12ListCustomersByIds\x124.lift.identity.customer.v1.ListCustomersByIdsRequest\x1a5.lift.identity.customer.v1.ListCustomersByIdsResponseBKZIgithub.com/graytech-lk/lift-protos/gen/go/identity/customer/v1;customerv1b\x06proto3"
 
 var (
 	file_identity_customer_v1_customer_proto_rawDescOnce sync.Once
@@ -197,21 +560,34 @@ func file_identity_customer_v1_customer_proto_rawDescGZIP() []byte {
 	return file_identity_customer_v1_customer_proto_rawDescData
 }
 
-var file_identity_customer_v1_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_identity_customer_v1_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_identity_customer_v1_customer_proto_goTypes = []any{
 	(*GetCustomerByPhoneRequest)(nil),  // 0: lift.identity.customer.v1.GetCustomerByPhoneRequest
-	(*UserCustomer)(nil),               // 1: lift.identity.customer.v1.UserCustomer
-	(*GetCustomerByPhoneResponse)(nil), // 2: lift.identity.customer.v1.GetCustomerByPhoneResponse
+	(*GetCustomerByIdRequest)(nil),     // 1: lift.identity.customer.v1.GetCustomerByIdRequest
+	(*ListCustomersByIdsRequest)(nil),  // 2: lift.identity.customer.v1.ListCustomersByIdsRequest
+	(*UserCustomer)(nil),               // 3: lift.identity.customer.v1.UserCustomer
+	(*GetCustomerByPhoneResponse)(nil), // 4: lift.identity.customer.v1.GetCustomerByPhoneResponse
+	(*GetCustomerByIdResponse)(nil),    // 5: lift.identity.customer.v1.GetCustomerByIdResponse
+	(*ListCustomersByIdsResponse)(nil), // 6: lift.identity.customer.v1.ListCustomersByIdsResponse
+	(*timestamppb.Timestamp)(nil),      // 7: google.protobuf.Timestamp
 }
 var file_identity_customer_v1_customer_proto_depIdxs = []int32{
-	1, // 0: lift.identity.customer.v1.GetCustomerByPhoneResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
-	0, // 1: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:input_type -> lift.identity.customer.v1.GetCustomerByPhoneRequest
-	2, // 2: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:output_type -> lift.identity.customer.v1.GetCustomerByPhoneResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	7, // 0: lift.identity.customer.v1.UserCustomer.created_time:type_name -> google.protobuf.Timestamp
+	7, // 1: lift.identity.customer.v1.UserCustomer.updated_time:type_name -> google.protobuf.Timestamp
+	3, // 2: lift.identity.customer.v1.GetCustomerByPhoneResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
+	3, // 3: lift.identity.customer.v1.GetCustomerByIdResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
+	3, // 4: lift.identity.customer.v1.ListCustomersByIdsResponse.customers:type_name -> lift.identity.customer.v1.UserCustomer
+	0, // 5: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:input_type -> lift.identity.customer.v1.GetCustomerByPhoneRequest
+	1, // 6: lift.identity.customer.v1.CustomerService.GetCustomerById:input_type -> lift.identity.customer.v1.GetCustomerByIdRequest
+	2, // 7: lift.identity.customer.v1.CustomerService.ListCustomersByIds:input_type -> lift.identity.customer.v1.ListCustomersByIdsRequest
+	4, // 8: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:output_type -> lift.identity.customer.v1.GetCustomerByPhoneResponse
+	5, // 9: lift.identity.customer.v1.CustomerService.GetCustomerById:output_type -> lift.identity.customer.v1.GetCustomerByIdResponse
+	6, // 10: lift.identity.customer.v1.CustomerService.ListCustomersByIds:output_type -> lift.identity.customer.v1.ListCustomersByIdsResponse
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_identity_customer_v1_customer_proto_init() }
@@ -225,7 +601,7 @@ func file_identity_customer_v1_customer_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_identity_customer_v1_customer_proto_rawDesc), len(file_identity_customer_v1_customer_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
