@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package lift.platform.rating.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/platform/rating/v1;ratingv1";
+
+import "google/protobuf/timestamp.proto";
+
+// Rating represents a service rating record.
+message Rating {
+  string id = 1;
+  string service_request_id = 2;
+  google.protobuf.Timestamp created = 3;
+  google.protobuf.Timestamp updated = 4;
+  string rating_type = 5;
+  string rated_object_id = 6;
+  string rating_comment = 7;
+  double rating_value = 8;
+}
+
+// RatingComment represents a predefined rating comment.
+message RatingComment {
+  string id = 1;
+  string service_sub_category_id = 2;
+  string rating_type = 3;
+  string comment = 4;
+  int32 related_rating_value = 5;
+  int32 status = 6;
+}
+
+// Pagination contains pagination metadata for list responses.
+message Pagination {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+  int32 number_of_pages = 3;
+  int64 number_of_results = 4;
+}
+
+message CreateRatingRequest {
+  Rating rating = 1;
+}
+
+message CreateRatingResponse {
+  Rating rating = 1;
+}
+
+message GetAllRatingsRequest {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+}
+
+message GetAllRatingsResponse {
+  repeated Rating content = 1;
+  Pagination pagination = 2;
+}
+
+message CreateRatingCommentRequest {
+  RatingComment rating_comment = 1;
+}
+
+message CreateRatingCommentResponse {
+  RatingComment rating_comment = 1;
+}
+
+message GetAllRatingCommentsRequest {
+  int32 page_number = 1;
+  int32 results_per_page = 2;
+}
+
+message GetAllRatingCommentsResponse {
+  repeated RatingComment content = 1;
+  Pagination pagination = 2;
+}
+
+message GetRatingCommentRequest {
+  string rating_comment_id = 1;
+}
+
+message GetRatingCommentResponse {
+  RatingComment rating_comment = 1;
+}
+
+message UpdateRatingCommentRequest {
+  string rating_comment_id = 1;
+  RatingComment rating_comment = 2;
+}
+
+message UpdateRatingCommentResponse {
+  RatingComment rating_comment = 1;
+}
+
+message GetRatingCommentsByTypeAndSubCategoryRequest {
+  string service_sub_category_id = 1;
+  string rating_type = 2;
+}
+
+message GetRatingCommentsByTypeAndSubCategoryResponse {
+  repeated RatingComment content = 1;
+}
+
+message GetRatingsByServiceRequestIDRequest {
+  string service_request_id = 1;
+}
+
+message GetRatingsByServiceRequestIDResponse {
+  repeated Rating content = 1;
+}
+
+// RatingService provides rating-related operations.
+service RatingService {
+  // CreateRating creates a new rating for a service request.
+  rpc CreateRating(CreateRatingRequest) returns (CreateRatingResponse);
+  
+  // GetAllRatings retrieves a paginated list of all ratings.
+  rpc GetAllRatings(GetAllRatingsRequest) returns (GetAllRatingsResponse);
+
+  // GetRatingsByServiceRequestID retrieves all ratings for a given service request.
+  rpc GetRatingsByServiceRequestID(GetRatingsByServiceRequestIDRequest) returns (GetRatingsByServiceRequestIDResponse);
+  
+  // CreateRatingComment creates a new predefined rating comment.
+  rpc CreateRatingComment(CreateRatingCommentRequest) returns (CreateRatingCommentResponse);
+  
+  // GetAllRatingComments retrieves a paginated list of all predefined rating comments.
+  rpc GetAllRatingComments(GetAllRatingCommentsRequest) returns (GetAllRatingCommentsResponse);
+  
+  // GetRatingComment retrieves a single rating comment by ID.
+  rpc GetRatingComment(GetRatingCommentRequest) returns (GetRatingCommentResponse);
+  
+  // UpdateRatingComment updates an existing rating comment.
+  rpc UpdateRatingComment(UpdateRatingCommentRequest) returns (UpdateRatingCommentResponse);
+  
+  // GetRatingCommentsByTypeAndSubCategory retrieves comments filtered by type and sub-category.
+  rpc GetRatingCommentsByTypeAndSubCategory(GetRatingCommentsByTypeAndSubCategoryRequest) returns (GetRatingCommentsByTypeAndSubCategoryResponse);
+}

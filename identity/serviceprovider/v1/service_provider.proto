@@ -10,6 +10,10 @@ message GetServiceProviderByIdRequest {
   string id = 1;
 }
 
+message GetServiceProviderByPhoneNumberRequest {
+  string phone_number = 1;
+}
+
 message DriversLicense {
   string license_id = 1;
   string expiry_date = 2;
@@ -99,6 +103,10 @@ message GetServiceProviderByIdResponse {
   UserServiceProvider service_provider = 1;
 }
 
+message GetServiceProviderByPhoneNumberResponse {
+  UserServiceProvider service_provider = 1;
+}
+
 message ListServiceProvidersRequest {
   string fleet_id = 1;
   string sp_type = 2;
@@ -110,6 +118,7 @@ message ListServiceProvidersResponse {
 
 service ServiceProviderService {
   rpc GetServiceProviderById(GetServiceProviderByIdRequest) returns (GetServiceProviderByIdResponse);
+  rpc GetServiceProviderByPhoneNumber(GetServiceProviderByPhoneNumberRequest) returns (GetServiceProviderByPhoneNumberResponse);
   rpc ListServiceProviders(ListServiceProvidersRequest) returns (ListServiceProvidersResponse);
 }
 
