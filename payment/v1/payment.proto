@@ -126,6 +126,19 @@ message EnsureDefaultCashUserPaymentMethodResponse {
   bool created = 2;
 }
 
+message PaymentMethodConfig {
+  string id = 1;
+  string name = 2;
+}
+
+message GetPaymentMethodByNameRequest {
+  string name = 1;
+}
+
+message GetPaymentMethodByNameResponse {
+  PaymentMethodConfig payment_method = 1;
+}
+
 message Payment {
   string id = 1;
   string payment_type = 2;
@@ -254,6 +267,7 @@ service PaymentMethodService {
   rpc AddPromoCodeUserPaymentMethod(AddPromoCodeUserPaymentMethodRequest) returns (AddPromoCodeUserPaymentMethodResponse);
   rpc ConsumePromoCodeUserPaymentMethod(ConsumePromoCodeUserPaymentMethodRequest) returns (ConsumePromoCodeUserPaymentMethodResponse);
   rpc EnsureDefaultCashUserPaymentMethod(EnsureDefaultCashUserPaymentMethodRequest) returns (EnsureDefaultCashUserPaymentMethodResponse);
+  rpc GetPaymentMethodByName(GetPaymentMethodByNameRequest) returns (GetPaymentMethodByNameResponse);
 }
 
 service PaymentService {
