@@ -17,6 +17,12 @@ message CorporatePolicySubLimitation {
   int32 per_month = 4;
 }
 
+message PolicyLocation {
+  string name = 1;
+  double lat = 2;
+  double lng = 3;
+}
+
 message CorporatePolicyLimitation {
   repeated string sub_category_uuids = 1;
   string start_time = 2;
@@ -27,6 +33,8 @@ message CorporatePolicyLimitation {
   CorporatePolicySubLimitation distance_limitation = 7;
   CorporatePolicySubLimitation cost_limitation = 8;
   CorporatePolicySubLimitation service_count_limitation = 9;
+  repeated PolicyLocation start_locations_v2 = 10;
+  repeated PolicyLocation end_locations_v2 = 11;
 }
 
 message CorporatePolicy {
@@ -50,6 +58,8 @@ message ValidateServiceRequestWithPolicyRequest {
   google.protobuf.Timestamp request_time = 4;
   string start_location = 5;
   repeated string destination_locations = 6;
+  PolicyLocation start_location_v2 = 7;
+  repeated PolicyLocation destination_locations_v2 = 8;
 }
 
 message ValidateServiceRequestWithPolicyResponse {

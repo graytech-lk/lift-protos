@@ -134,6 +134,66 @@ func (x *CorporatePolicySubLimitation) GetPerMonth() int32 {
 	return 0
 }
 
+type PolicyLocation struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Lat           float64                `protobuf:"fixed64,2,opt,name=lat,proto3" json:"lat,omitempty"`
+	Lng           float64                `protobuf:"fixed64,3,opt,name=lng,proto3" json:"lng,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PolicyLocation) Reset() {
+	*x = PolicyLocation{}
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PolicyLocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PolicyLocation) ProtoMessage() {}
+
+func (x *PolicyLocation) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PolicyLocation.ProtoReflect.Descriptor instead.
+func (*PolicyLocation) Descriptor() ([]byte, []int) {
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PolicyLocation) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PolicyLocation) GetLat() float64 {
+	if x != nil {
+		return x.Lat
+	}
+	return 0
+}
+
+func (x *PolicyLocation) GetLng() float64 {
+	if x != nil {
+		return x.Lng
+	}
+	return 0
+}
+
 type CorporatePolicyLimitation struct {
 	state                  protoimpl.MessageState        `protogen:"open.v1"`
 	SubCategoryUuids       []string                      `protobuf:"bytes,1,rep,name=sub_category_uuids,json=subCategoryUuids,proto3" json:"sub_category_uuids,omitempty"`
@@ -145,13 +205,15 @@ type CorporatePolicyLimitation struct {
 	DistanceLimitation     *CorporatePolicySubLimitation `protobuf:"bytes,7,opt,name=distance_limitation,json=distanceLimitation,proto3" json:"distance_limitation,omitempty"`
 	CostLimitation         *CorporatePolicySubLimitation `protobuf:"bytes,8,opt,name=cost_limitation,json=costLimitation,proto3" json:"cost_limitation,omitempty"`
 	ServiceCountLimitation *CorporatePolicySubLimitation `protobuf:"bytes,9,opt,name=service_count_limitation,json=serviceCountLimitation,proto3" json:"service_count_limitation,omitempty"`
+	StartLocationsV2       []*PolicyLocation             `protobuf:"bytes,10,rep,name=start_locations_v2,json=startLocationsV2,proto3" json:"start_locations_v2,omitempty"`
+	EndLocationsV2         []*PolicyLocation             `protobuf:"bytes,11,rep,name=end_locations_v2,json=endLocationsV2,proto3" json:"end_locations_v2,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
 
 func (x *CorporatePolicyLimitation) Reset() {
 	*x = CorporatePolicyLimitation{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[2]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -163,7 +225,7 @@ func (x *CorporatePolicyLimitation) String() string {
 func (*CorporatePolicyLimitation) ProtoMessage() {}
 
 func (x *CorporatePolicyLimitation) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[2]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -176,7 +238,7 @@ func (x *CorporatePolicyLimitation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CorporatePolicyLimitation.ProtoReflect.Descriptor instead.
 func (*CorporatePolicyLimitation) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{2}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CorporatePolicyLimitation) GetSubCategoryUuids() []string {
@@ -242,6 +304,20 @@ func (x *CorporatePolicyLimitation) GetServiceCountLimitation() *CorporatePolicy
 	return nil
 }
 
+func (x *CorporatePolicyLimitation) GetStartLocationsV2() []*PolicyLocation {
+	if x != nil {
+		return x.StartLocationsV2
+	}
+	return nil
+}
+
+func (x *CorporatePolicyLimitation) GetEndLocationsV2() []*PolicyLocation {
+	if x != nil {
+		return x.EndLocationsV2
+	}
+	return nil
+}
+
 type CorporatePolicy struct {
 	state         protoimpl.MessageState                `protogen:"open.v1"`
 	Id            string                                `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -257,7 +333,7 @@ type CorporatePolicy struct {
 
 func (x *CorporatePolicy) Reset() {
 	*x = CorporatePolicy{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[3]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -269,7 +345,7 @@ func (x *CorporatePolicy) String() string {
 func (*CorporatePolicy) ProtoMessage() {}
 
 func (x *CorporatePolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[3]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -282,7 +358,7 @@ func (x *CorporatePolicy) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CorporatePolicy.ProtoReflect.Descriptor instead.
 func (*CorporatePolicy) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{3}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CorporatePolicy) GetId() string {
@@ -343,7 +419,7 @@ type GetCorporatePolicyByIdResponse struct {
 
 func (x *GetCorporatePolicyByIdResponse) Reset() {
 	*x = GetCorporatePolicyByIdResponse{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[4]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -355,7 +431,7 @@ func (x *GetCorporatePolicyByIdResponse) String() string {
 func (*GetCorporatePolicyByIdResponse) ProtoMessage() {}
 
 func (x *GetCorporatePolicyByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[4]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -368,7 +444,7 @@ func (x *GetCorporatePolicyByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCorporatePolicyByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetCorporatePolicyByIdResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{4}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetCorporatePolicyByIdResponse) GetPolicy() *CorporatePolicy {
@@ -379,20 +455,22 @@ func (x *GetCorporatePolicyByIdResponse) GetPolicy() *CorporatePolicy {
 }
 
 type ValidateServiceRequestWithPolicyRequest struct {
-	state                protoimpl.MessageState `protogen:"open.v1"`
-	PolicyId             string                 `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
-	ServiceCategoryId    string                 `protobuf:"bytes,2,opt,name=service_category_id,json=serviceCategoryId,proto3" json:"service_category_id,omitempty"`
-	ServiceSubCategoryId string                 `protobuf:"bytes,3,opt,name=service_sub_category_id,json=serviceSubCategoryId,proto3" json:"service_sub_category_id,omitempty"`
-	RequestTime          *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=request_time,json=requestTime,proto3" json:"request_time,omitempty"`
-	StartLocation        string                 `protobuf:"bytes,5,opt,name=start_location,json=startLocation,proto3" json:"start_location,omitempty"`
-	DestinationLocations []string               `protobuf:"bytes,6,rep,name=destination_locations,json=destinationLocations,proto3" json:"destination_locations,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	PolicyId               string                 `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
+	ServiceCategoryId      string                 `protobuf:"bytes,2,opt,name=service_category_id,json=serviceCategoryId,proto3" json:"service_category_id,omitempty"`
+	ServiceSubCategoryId   string                 `protobuf:"bytes,3,opt,name=service_sub_category_id,json=serviceSubCategoryId,proto3" json:"service_sub_category_id,omitempty"`
+	RequestTime            *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=request_time,json=requestTime,proto3" json:"request_time,omitempty"`
+	StartLocation          string                 `protobuf:"bytes,5,opt,name=start_location,json=startLocation,proto3" json:"start_location,omitempty"`
+	DestinationLocations   []string               `protobuf:"bytes,6,rep,name=destination_locations,json=destinationLocations,proto3" json:"destination_locations,omitempty"`
+	StartLocationV2        *PolicyLocation        `protobuf:"bytes,7,opt,name=start_location_v2,json=startLocationV2,proto3" json:"start_location_v2,omitempty"`
+	DestinationLocationsV2 []*PolicyLocation      `protobuf:"bytes,8,rep,name=destination_locations_v2,json=destinationLocationsV2,proto3" json:"destination_locations_v2,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *ValidateServiceRequestWithPolicyRequest) Reset() {
 	*x = ValidateServiceRequestWithPolicyRequest{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[5]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -404,7 +482,7 @@ func (x *ValidateServiceRequestWithPolicyRequest) String() string {
 func (*ValidateServiceRequestWithPolicyRequest) ProtoMessage() {}
 
 func (x *ValidateServiceRequestWithPolicyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[5]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -417,7 +495,7 @@ func (x *ValidateServiceRequestWithPolicyRequest) ProtoReflect() protoreflect.Me
 
 // Deprecated: Use ValidateServiceRequestWithPolicyRequest.ProtoReflect.Descriptor instead.
 func (*ValidateServiceRequestWithPolicyRequest) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{5}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ValidateServiceRequestWithPolicyRequest) GetPolicyId() string {
@@ -462,6 +540,20 @@ func (x *ValidateServiceRequestWithPolicyRequest) GetDestinationLocations() []st
 	return nil
 }
 
+func (x *ValidateServiceRequestWithPolicyRequest) GetStartLocationV2() *PolicyLocation {
+	if x != nil {
+		return x.StartLocationV2
+	}
+	return nil
+}
+
+func (x *ValidateServiceRequestWithPolicyRequest) GetDestinationLocationsV2() []*PolicyLocation {
+	if x != nil {
+		return x.DestinationLocationsV2
+	}
+	return nil
+}
+
 type ValidateServiceRequestWithPolicyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Allowed       bool                   `protobuf:"varint,1,opt,name=allowed,proto3" json:"allowed,omitempty"`
@@ -472,7 +564,7 @@ type ValidateServiceRequestWithPolicyResponse struct {
 
 func (x *ValidateServiceRequestWithPolicyResponse) Reset() {
 	*x = ValidateServiceRequestWithPolicyResponse{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[6]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -484,7 +576,7 @@ func (x *ValidateServiceRequestWithPolicyResponse) String() string {
 func (*ValidateServiceRequestWithPolicyResponse) ProtoMessage() {}
 
 func (x *ValidateServiceRequestWithPolicyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[6]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -497,7 +589,7 @@ func (x *ValidateServiceRequestWithPolicyResponse) ProtoReflect() protoreflect.M
 
 // Deprecated: Use ValidateServiceRequestWithPolicyResponse.ProtoReflect.Descriptor instead.
 func (*ValidateServiceRequestWithPolicyResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{6}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ValidateServiceRequestWithPolicyResponse) GetAllowed() bool {
@@ -525,7 +617,11 @@ const file_corporate_policy_v1_policy_proto_rawDesc = "" +
 	"\bper_trip\x18\x01 \x01(\x05R\aperTrip\x12\x17\n" +
 	"\aper_day\x18\x02 \x01(\x05R\x06perDay\x12\x19\n" +
 	"\bper_week\x18\x03 \x01(\x05R\aperWeek\x12\x1b\n" +
-	"\tper_month\x18\x04 \x01(\x05R\bperMonth\"\xb6\x04\n" +
+	"\tper_month\x18\x04 \x01(\x05R\bperMonth\"H\n" +
+	"\x0ePolicyLocation\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x10\n" +
+	"\x03lat\x18\x02 \x01(\x01R\x03lat\x12\x10\n" +
+	"\x03lng\x18\x03 \x01(\x01R\x03lng\"\xe2\x05\n" +
 	"\x19CorporatePolicyLimitation\x12,\n" +
 	"\x12sub_category_uuids\x18\x01 \x03(\tR\x10subCategoryUuids\x12\x1d\n" +
 	"\n" +
@@ -536,7 +632,10 @@ const file_corporate_policy_v1_policy_proto_rawDesc = "" +
 	"\rend_locations\x18\x06 \x03(\tR\fendLocations\x12g\n" +
 	"\x13distance_limitation\x18\a \x01(\v26.lift.corporate.policy.v1.CorporatePolicySubLimitationR\x12distanceLimitation\x12_\n" +
 	"\x0fcost_limitation\x18\b \x01(\v26.lift.corporate.policy.v1.CorporatePolicySubLimitationR\x0ecostLimitation\x12p\n" +
-	"\x18service_count_limitation\x18\t \x01(\v26.lift.corporate.policy.v1.CorporatePolicySubLimitationR\x16serviceCountLimitation\"\xcb\x03\n" +
+	"\x18service_count_limitation\x18\t \x01(\v26.lift.corporate.policy.v1.CorporatePolicySubLimitationR\x16serviceCountLimitation\x12V\n" +
+	"\x12start_locations_v2\x18\n" +
+	" \x03(\v2(.lift.corporate.policy.v1.PolicyLocationR\x10startLocationsV2\x12R\n" +
+	"\x10end_locations_v2\x18\v \x03(\v2(.lift.corporate.policy.v1.PolicyLocationR\x0eendLocationsV2\"\xcb\x03\n" +
 	"\x0fCorporatePolicy\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fcorporate_id\x18\x02 \x01(\tR\vcorporateId\x12=\n" +
@@ -549,14 +648,16 @@ const file_corporate_policy_v1_policy_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12I\n" +
 	"\x05value\x18\x02 \x01(\v23.lift.corporate.policy.v1.CorporatePolicyLimitationR\x05value:\x028\x01\"c\n" +
 	"\x1eGetCorporatePolicyByIdResponse\x12A\n" +
-	"\x06policy\x18\x01 \x01(\v2).lift.corporate.policy.v1.CorporatePolicyR\x06policy\"\xc8\x02\n" +
+	"\x06policy\x18\x01 \x01(\v2).lift.corporate.policy.v1.CorporatePolicyR\x06policy\"\x82\x04\n" +
 	"'ValidateServiceRequestWithPolicyRequest\x12\x1b\n" +
 	"\tpolicy_id\x18\x01 \x01(\tR\bpolicyId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x125\n" +
 	"\x17service_sub_category_id\x18\x03 \x01(\tR\x14serviceSubCategoryId\x12=\n" +
 	"\frequest_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vrequestTime\x12%\n" +
 	"\x0estart_location\x18\x05 \x01(\tR\rstartLocation\x123\n" +
-	"\x15destination_locations\x18\x06 \x03(\tR\x14destinationLocations\"\\\n" +
+	"\x15destination_locations\x18\x06 \x03(\tR\x14destinationLocations\x12T\n" +
+	"\x11start_location_v2\x18\a \x01(\v2(.lift.corporate.policy.v1.PolicyLocationR\x0fstartLocationV2\x12b\n" +
+	"\x18destination_locations_v2\x18\b \x03(\v2(.lift.corporate.policy.v1.PolicyLocationR\x16destinationLocationsV2\"\\\n" +
 	"(ValidateServiceRequestWithPolicyResponse\x12\x18\n" +
 	"\aallowed\x18\x01 \x01(\bR\aallowed\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason2\xd2\x02\n" +
@@ -576,37 +677,42 @@ func file_corporate_policy_v1_policy_proto_rawDescGZIP() []byte {
 	return file_corporate_policy_v1_policy_proto_rawDescData
 }
 
-var file_corporate_policy_v1_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_corporate_policy_v1_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_corporate_policy_v1_policy_proto_goTypes = []any{
 	(*GetCorporatePolicyByIdRequest)(nil),            // 0: lift.corporate.policy.v1.GetCorporatePolicyByIdRequest
 	(*CorporatePolicySubLimitation)(nil),             // 1: lift.corporate.policy.v1.CorporatePolicySubLimitation
-	(*CorporatePolicyLimitation)(nil),                // 2: lift.corporate.policy.v1.CorporatePolicyLimitation
-	(*CorporatePolicy)(nil),                          // 3: lift.corporate.policy.v1.CorporatePolicy
-	(*GetCorporatePolicyByIdResponse)(nil),           // 4: lift.corporate.policy.v1.GetCorporatePolicyByIdResponse
-	(*ValidateServiceRequestWithPolicyRequest)(nil),  // 5: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest
-	(*ValidateServiceRequestWithPolicyResponse)(nil), // 6: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyResponse
-	nil,                           // 7: lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
-	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(*PolicyLocation)(nil),                           // 2: lift.corporate.policy.v1.PolicyLocation
+	(*CorporatePolicyLimitation)(nil),                // 3: lift.corporate.policy.v1.CorporatePolicyLimitation
+	(*CorporatePolicy)(nil),                          // 4: lift.corporate.policy.v1.CorporatePolicy
+	(*GetCorporatePolicyByIdResponse)(nil),           // 5: lift.corporate.policy.v1.GetCorporatePolicyByIdResponse
+	(*ValidateServiceRequestWithPolicyRequest)(nil),  // 6: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest
+	(*ValidateServiceRequestWithPolicyResponse)(nil), // 7: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyResponse
+	nil,                           // 8: lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
+	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
 }
 var file_corporate_policy_v1_policy_proto_depIdxs = []int32{
 	1,  // 0: lift.corporate.policy.v1.CorporatePolicyLimitation.distance_limitation:type_name -> lift.corporate.policy.v1.CorporatePolicySubLimitation
 	1,  // 1: lift.corporate.policy.v1.CorporatePolicyLimitation.cost_limitation:type_name -> lift.corporate.policy.v1.CorporatePolicySubLimitation
 	1,  // 2: lift.corporate.policy.v1.CorporatePolicyLimitation.service_count_limitation:type_name -> lift.corporate.policy.v1.CorporatePolicySubLimitation
-	8,  // 3: lift.corporate.policy.v1.CorporatePolicy.created_time:type_name -> google.protobuf.Timestamp
-	8,  // 4: lift.corporate.policy.v1.CorporatePolicy.updated_time:type_name -> google.protobuf.Timestamp
-	7,  // 5: lift.corporate.policy.v1.CorporatePolicy.limitations:type_name -> lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
-	3,  // 6: lift.corporate.policy.v1.GetCorporatePolicyByIdResponse.policy:type_name -> lift.corporate.policy.v1.CorporatePolicy
-	8,  // 7: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.request_time:type_name -> google.protobuf.Timestamp
-	2,  // 8: lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry.value:type_name -> lift.corporate.policy.v1.CorporatePolicyLimitation
-	0,  // 9: lift.corporate.policy.v1.CorporatePolicyService.GetCorporatePolicyById:input_type -> lift.corporate.policy.v1.GetCorporatePolicyByIdRequest
-	5,  // 10: lift.corporate.policy.v1.CorporatePolicyService.ValidateServiceRequestWithPolicy:input_type -> lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest
-	4,  // 11: lift.corporate.policy.v1.CorporatePolicyService.GetCorporatePolicyById:output_type -> lift.corporate.policy.v1.GetCorporatePolicyByIdResponse
-	6,  // 12: lift.corporate.policy.v1.CorporatePolicyService.ValidateServiceRequestWithPolicy:output_type -> lift.corporate.policy.v1.ValidateServiceRequestWithPolicyResponse
-	11, // [11:13] is the sub-list for method output_type
-	9,  // [9:11] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	2,  // 3: lift.corporate.policy.v1.CorporatePolicyLimitation.start_locations_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
+	2,  // 4: lift.corporate.policy.v1.CorporatePolicyLimitation.end_locations_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
+	9,  // 5: lift.corporate.policy.v1.CorporatePolicy.created_time:type_name -> google.protobuf.Timestamp
+	9,  // 6: lift.corporate.policy.v1.CorporatePolicy.updated_time:type_name -> google.protobuf.Timestamp
+	8,  // 7: lift.corporate.policy.v1.CorporatePolicy.limitations:type_name -> lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
+	4,  // 8: lift.corporate.policy.v1.GetCorporatePolicyByIdResponse.policy:type_name -> lift.corporate.policy.v1.CorporatePolicy
+	9,  // 9: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.request_time:type_name -> google.protobuf.Timestamp
+	2,  // 10: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.start_location_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
+	2,  // 11: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.destination_locations_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
+	3,  // 12: lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry.value:type_name -> lift.corporate.policy.v1.CorporatePolicyLimitation
+	0,  // 13: lift.corporate.policy.v1.CorporatePolicyService.GetCorporatePolicyById:input_type -> lift.corporate.policy.v1.GetCorporatePolicyByIdRequest
+	6,  // 14: lift.corporate.policy.v1.CorporatePolicyService.ValidateServiceRequestWithPolicy:input_type -> lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest
+	5,  // 15: lift.corporate.policy.v1.CorporatePolicyService.GetCorporatePolicyById:output_type -> lift.corporate.policy.v1.GetCorporatePolicyByIdResponse
+	7,  // 16: lift.corporate.policy.v1.CorporatePolicyService.ValidateServiceRequestWithPolicy:output_type -> lift.corporate.policy.v1.ValidateServiceRequestWithPolicyResponse
+	15, // [15:17] is the sub-list for method output_type
+	13, // [13:15] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_corporate_policy_v1_policy_proto_init() }
@@ -620,7 +726,7 @@ func file_corporate_policy_v1_policy_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_corporate_policy_v1_policy_proto_rawDesc), len(file_corporate_policy_v1_policy_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
