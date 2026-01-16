@@ -116,10 +116,20 @@ message ListServiceProvidersResponse {
   repeated UserServiceProvider service_providers = 1;
 }
 
+message UpdateServiceProviderRequest {
+  string id = 1;
+  string payload_json = 2;  // JSON string with fields to update (similar to UpdateUser pattern)
+}
+
+message UpdateServiceProviderResponse {
+  UserServiceProvider service_provider = 1;
+}
+
 service ServiceProviderService {
   rpc GetServiceProviderById(GetServiceProviderByIdRequest) returns (GetServiceProviderByIdResponse);
   rpc GetServiceProviderByPhoneNumber(GetServiceProviderByPhoneNumberRequest) returns (GetServiceProviderByPhoneNumberResponse);
   rpc ListServiceProviders(ListServiceProvidersRequest) returns (ListServiceProvidersResponse);
+  rpc UpdateServiceProvider(UpdateServiceProviderRequest) returns (UpdateServiceProviderResponse);
 }
 
 
