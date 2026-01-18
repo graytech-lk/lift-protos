@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CustomerService_GetCustomerByPhone_FullMethodName = "/lift.identity.customer.v1.CustomerService/GetCustomerByPhone"
-	CustomerService_GetCustomerById_FullMethodName    = "/lift.identity.customer.v1.CustomerService/GetCustomerById"
-	CustomerService_ListCustomersByIds_FullMethodName = "/lift.identity.customer.v1.CustomerService/ListCustomersByIds"
+	CustomerService_GetCustomerByPhone_FullMethodName         = "/lift.identity.customer.v1.CustomerService/GetCustomerByPhone"
+	CustomerService_GetCustomerById_FullMethodName            = "/lift.identity.customer.v1.CustomerService/GetCustomerById"
+	CustomerService_ListCustomersByIds_FullMethodName         = "/lift.identity.customer.v1.CustomerService/ListCustomersByIds"
+	CustomerService_AddPaymentMethodToCustomer_FullMethodName = "/lift.identity.customer.v1.CustomerService/AddPaymentMethodToCustomer"
 )
 
 // CustomerServiceClient is the client API for CustomerService service.
@@ -31,6 +32,7 @@ type CustomerServiceClient interface {
 	GetCustomerByPhone(ctx context.Context, in *GetCustomerByPhoneRequest, opts ...grpc.CallOption) (*GetCustomerByPhoneResponse, error)
 	GetCustomerById(ctx context.Context, in *GetCustomerByIdRequest, opts ...grpc.CallOption) (*GetCustomerByIdResponse, error)
 	ListCustomersByIds(ctx context.Context, in *ListCustomersByIdsRequest, opts ...grpc.CallOption) (*ListCustomersByIdsResponse, error)
+	AddPaymentMethodToCustomer(ctx context.Context, in *AddPaymentMethodToCustomerRequest, opts ...grpc.CallOption) (*AddPaymentMethodToCustomerResponse, error)
 }
 
 type customerServiceClient struct {
@@ -71,6 +73,16 @@ func (c *customerServiceClient) ListCustomersByIds(ctx context.Context, in *List
 	return out, nil
 }
 
+func (c *customerServiceClient) AddPaymentMethodToCustomer(ctx context.Context, in *AddPaymentMethodToCustomerRequest, opts ...grpc.CallOption) (*AddPaymentMethodToCustomerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddPaymentMethodToCustomerResponse)
+	err := c.cc.Invoke(ctx, CustomerService_AddPaymentMethodToCustomer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CustomerServiceServer is the server API for CustomerService service.
 // All implementations must embed UnimplementedCustomerServiceServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type CustomerServiceServer interface {
 	GetCustomerByPhone(context.Context, *GetCustomerByPhoneRequest) (*GetCustomerByPhoneResponse, error)
 	GetCustomerById(context.Context, *GetCustomerByIdRequest) (*GetCustomerByIdResponse, error)
 	ListCustomersByIds(context.Context, *ListCustomersByIdsRequest) (*ListCustomersByIdsResponse, error)
+	AddPaymentMethodToCustomer(context.Context, *AddPaymentMethodToCustomerRequest) (*AddPaymentMethodToCustomerResponse, error)
 	mustEmbedUnimplementedCustomerServiceServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedCustomerServiceServer) GetCustomerById(context.Context, *GetC
 }
 func (UnimplementedCustomerServiceServer) ListCustomersByIds(context.Context, *ListCustomersByIdsRequest) (*ListCustomersByIdsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCustomersByIds not implemented")
+}
+func (UnimplementedCustomerServiceServer) AddPaymentMethodToCustomer(context.Context, *AddPaymentMethodToCustomerRequest) (*AddPaymentMethodToCustomerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPaymentMethodToCustomer not implemented")
 }
 func (UnimplementedCustomerServiceServer) mustEmbedUnimplementedCustomerServiceServer() {}
 func (UnimplementedCustomerServiceServer) testEmbeddedByValue()                         {}
@@ -172,6 +188,24 @@ func _CustomerService_ListCustomersByIds_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CustomerService_AddPaymentMethodToCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPaymentMethodToCustomerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerServiceServer).AddPaymentMethodToCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CustomerService_AddPaymentMethodToCustomer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerServiceServer).AddPaymentMethodToCustomer(ctx, req.(*AddPaymentMethodToCustomerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CustomerService_ServiceDesc is the grpc.ServiceDesc for CustomerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var CustomerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListCustomersByIds",
 			Handler:    _CustomerService_ListCustomersByIds_Handler,
+		},
+		{
+			MethodName: "AddPaymentMethodToCustomer",
+			Handler:    _CustomerService_AddPaymentMethodToCustomer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

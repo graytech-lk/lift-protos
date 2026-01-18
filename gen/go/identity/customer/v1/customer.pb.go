@@ -498,6 +498,94 @@ func (x *ListCustomersByIdsResponse) GetTotalCount() int64 {
 	return 0
 }
 
+type AddPaymentMethodToCustomerRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	CustomerId      string                 `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	PaymentMethodId string                 `protobuf:"bytes,2,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *AddPaymentMethodToCustomerRequest) Reset() {
+	*x = AddPaymentMethodToCustomerRequest{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddPaymentMethodToCustomerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddPaymentMethodToCustomerRequest) ProtoMessage() {}
+
+func (x *AddPaymentMethodToCustomerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddPaymentMethodToCustomerRequest.ProtoReflect.Descriptor instead.
+func (*AddPaymentMethodToCustomerRequest) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AddPaymentMethodToCustomerRequest) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *AddPaymentMethodToCustomerRequest) GetPaymentMethodId() string {
+	if x != nil {
+		return x.PaymentMethodId
+	}
+	return ""
+}
+
+type AddPaymentMethodToCustomerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddPaymentMethodToCustomerResponse) Reset() {
+	*x = AddPaymentMethodToCustomerResponse{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddPaymentMethodToCustomerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddPaymentMethodToCustomerResponse) ProtoMessage() {}
+
+func (x *AddPaymentMethodToCustomerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddPaymentMethodToCustomerResponse.ProtoReflect.Descriptor instead.
+func (*AddPaymentMethodToCustomerResponse) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{8}
+}
+
 var File_identity_customer_v1_customer_proto protoreflect.FileDescriptor
 
 const file_identity_customer_v1_customer_proto_rawDesc = "" +
@@ -542,11 +630,17 @@ const file_identity_customer_v1_customer_proto_rawDesc = "" +
 	"\x1aListCustomersByIdsResponse\x12E\n" +
 	"\tcustomers\x18\x01 \x03(\v2'.lift.identity.customer.v1.UserCustomerR\tcustomers\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x03R\n" +
-	"totalCount2\x93\x03\n" +
+	"totalCount\"p\n" +
+	"!AddPaymentMethodToCustomerRequest\x12\x1f\n" +
+	"\vcustomer_id\x18\x01 \x01(\tR\n" +
+	"customerId\x12*\n" +
+	"\x11payment_method_id\x18\x02 \x01(\tR\x0fpaymentMethodId\"$\n" +
+	"\"AddPaymentMethodToCustomerResponse2\xaf\x04\n" +
 	"\x0fCustomerService\x12\x81\x01\n" +
 	"\x12GetCustomerByPhone\x124.lift.identity.customer.v1.GetCustomerByPhoneRequest\x1a5.lift.identity.customer.v1.GetCustomerByPhoneResponse\x12x\n" +
 	"\x0fGetCustomerById\x121.lift.identity.customer.v1.GetCustomerByIdRequest\x1a2.lift.identity.customer.v1.GetCustomerByIdResponse\x12\x81\x01\n" +
-	"\x12ListCustomersByIds\x124.lift.identity.customer.v1.ListCustomersByIdsRequest\x1a5.lift.identity.customer.v1.ListCustomersByIdsResponseBKZIgithub.com/graytech-lk/lift-protos/gen/go/identity/customer/v1;customerv1b\x06proto3"
+	"\x12ListCustomersByIds\x124.lift.identity.customer.v1.ListCustomersByIdsRequest\x1a5.lift.identity.customer.v1.ListCustomersByIdsResponse\x12\x99\x01\n" +
+	"\x1aAddPaymentMethodToCustomer\x12<.lift.identity.customer.v1.AddPaymentMethodToCustomerRequest\x1a=.lift.identity.customer.v1.AddPaymentMethodToCustomerResponseBKZIgithub.com/graytech-lk/lift-protos/gen/go/identity/customer/v1;customerv1b\x06proto3"
 
 var (
 	file_identity_customer_v1_customer_proto_rawDescOnce sync.Once
@@ -560,31 +654,35 @@ func file_identity_customer_v1_customer_proto_rawDescGZIP() []byte {
 	return file_identity_customer_v1_customer_proto_rawDescData
 }
 
-var file_identity_customer_v1_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_identity_customer_v1_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_identity_customer_v1_customer_proto_goTypes = []any{
-	(*GetCustomerByPhoneRequest)(nil),  // 0: lift.identity.customer.v1.GetCustomerByPhoneRequest
-	(*GetCustomerByIdRequest)(nil),     // 1: lift.identity.customer.v1.GetCustomerByIdRequest
-	(*ListCustomersByIdsRequest)(nil),  // 2: lift.identity.customer.v1.ListCustomersByIdsRequest
-	(*UserCustomer)(nil),               // 3: lift.identity.customer.v1.UserCustomer
-	(*GetCustomerByPhoneResponse)(nil), // 4: lift.identity.customer.v1.GetCustomerByPhoneResponse
-	(*GetCustomerByIdResponse)(nil),    // 5: lift.identity.customer.v1.GetCustomerByIdResponse
-	(*ListCustomersByIdsResponse)(nil), // 6: lift.identity.customer.v1.ListCustomersByIdsResponse
-	(*timestamppb.Timestamp)(nil),      // 7: google.protobuf.Timestamp
+	(*GetCustomerByPhoneRequest)(nil),          // 0: lift.identity.customer.v1.GetCustomerByPhoneRequest
+	(*GetCustomerByIdRequest)(nil),             // 1: lift.identity.customer.v1.GetCustomerByIdRequest
+	(*ListCustomersByIdsRequest)(nil),          // 2: lift.identity.customer.v1.ListCustomersByIdsRequest
+	(*UserCustomer)(nil),                       // 3: lift.identity.customer.v1.UserCustomer
+	(*GetCustomerByPhoneResponse)(nil),         // 4: lift.identity.customer.v1.GetCustomerByPhoneResponse
+	(*GetCustomerByIdResponse)(nil),            // 5: lift.identity.customer.v1.GetCustomerByIdResponse
+	(*ListCustomersByIdsResponse)(nil),         // 6: lift.identity.customer.v1.ListCustomersByIdsResponse
+	(*AddPaymentMethodToCustomerRequest)(nil),  // 7: lift.identity.customer.v1.AddPaymentMethodToCustomerRequest
+	(*AddPaymentMethodToCustomerResponse)(nil), // 8: lift.identity.customer.v1.AddPaymentMethodToCustomerResponse
+	(*timestamppb.Timestamp)(nil),              // 9: google.protobuf.Timestamp
 }
 var file_identity_customer_v1_customer_proto_depIdxs = []int32{
-	7, // 0: lift.identity.customer.v1.UserCustomer.created_time:type_name -> google.protobuf.Timestamp
-	7, // 1: lift.identity.customer.v1.UserCustomer.updated_time:type_name -> google.protobuf.Timestamp
+	9, // 0: lift.identity.customer.v1.UserCustomer.created_time:type_name -> google.protobuf.Timestamp
+	9, // 1: lift.identity.customer.v1.UserCustomer.updated_time:type_name -> google.protobuf.Timestamp
 	3, // 2: lift.identity.customer.v1.GetCustomerByPhoneResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
 	3, // 3: lift.identity.customer.v1.GetCustomerByIdResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
 	3, // 4: lift.identity.customer.v1.ListCustomersByIdsResponse.customers:type_name -> lift.identity.customer.v1.UserCustomer
 	0, // 5: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:input_type -> lift.identity.customer.v1.GetCustomerByPhoneRequest
 	1, // 6: lift.identity.customer.v1.CustomerService.GetCustomerById:input_type -> lift.identity.customer.v1.GetCustomerByIdRequest
 	2, // 7: lift.identity.customer.v1.CustomerService.ListCustomersByIds:input_type -> lift.identity.customer.v1.ListCustomersByIdsRequest
-	4, // 8: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:output_type -> lift.identity.customer.v1.GetCustomerByPhoneResponse
-	5, // 9: lift.identity.customer.v1.CustomerService.GetCustomerById:output_type -> lift.identity.customer.v1.GetCustomerByIdResponse
-	6, // 10: lift.identity.customer.v1.CustomerService.ListCustomersByIds:output_type -> lift.identity.customer.v1.ListCustomersByIdsResponse
-	8, // [8:11] is the sub-list for method output_type
-	5, // [5:8] is the sub-list for method input_type
+	7, // 8: lift.identity.customer.v1.CustomerService.AddPaymentMethodToCustomer:input_type -> lift.identity.customer.v1.AddPaymentMethodToCustomerRequest
+	4, // 9: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:output_type -> lift.identity.customer.v1.GetCustomerByPhoneResponse
+	5, // 10: lift.identity.customer.v1.CustomerService.GetCustomerById:output_type -> lift.identity.customer.v1.GetCustomerByIdResponse
+	6, // 11: lift.identity.customer.v1.CustomerService.ListCustomersByIds:output_type -> lift.identity.customer.v1.ListCustomersByIdsResponse
+	8, // 12: lift.identity.customer.v1.CustomerService.AddPaymentMethodToCustomer:output_type -> lift.identity.customer.v1.AddPaymentMethodToCustomerResponse
+	9, // [9:13] is the sub-list for method output_type
+	5, // [5:9] is the sub-list for method input_type
 	5, // [5:5] is the sub-list for extension type_name
 	5, // [5:5] is the sub-list for extension extendee
 	0, // [0:5] is the sub-list for field type_name
@@ -601,7 +699,7 @@ func file_identity_customer_v1_customer_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_identity_customer_v1_customer_proto_rawDesc), len(file_identity_customer_v1_customer_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -55,10 +55,20 @@ message ListCustomersByIdsResponse {
   int64 total_count = 2;
 }
 
+message AddPaymentMethodToCustomerRequest {
+  string customer_id = 1;
+  string payment_method_id = 2;
+}
+
+message AddPaymentMethodToCustomerResponse {
+  // Empty response - success indicated by no error
+}
+
 service CustomerService {
   rpc GetCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCustomerByPhoneResponse);
   rpc GetCustomerById(GetCustomerByIdRequest) returns (GetCustomerByIdResponse);
   rpc ListCustomersByIds(ListCustomersByIdsRequest) returns (ListCustomersByIdsResponse);
+  rpc AddPaymentMethodToCustomer(AddPaymentMethodToCustomerRequest) returns (AddPaymentMethodToCustomerResponse);
 }
 
 
