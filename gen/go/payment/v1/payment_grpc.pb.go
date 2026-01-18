@@ -31,6 +31,7 @@ const (
 	PaymentMethodService_ConsumePromoCodeUserPaymentMethod_FullMethodName  = "/lift.payment.v1.PaymentMethodService/ConsumePromoCodeUserPaymentMethod"
 	PaymentMethodService_EnsureDefaultCashUserPaymentMethod_FullMethodName = "/lift.payment.v1.PaymentMethodService/EnsureDefaultCashUserPaymentMethod"
 	PaymentMethodService_GetPaymentMethodByName_FullMethodName             = "/lift.payment.v1.PaymentMethodService/GetPaymentMethodByName"
+	PaymentMethodService_CreateCorporateUserPaymentMethod_FullMethodName   = "/lift.payment.v1.PaymentMethodService/CreateCorporateUserPaymentMethod"
 )
 
 // PaymentMethodServiceClient is the client API for PaymentMethodService service.
@@ -49,6 +50,7 @@ type PaymentMethodServiceClient interface {
 	ConsumePromoCodeUserPaymentMethod(ctx context.Context, in *ConsumePromoCodeUserPaymentMethodRequest, opts ...grpc.CallOption) (*ConsumePromoCodeUserPaymentMethodResponse, error)
 	EnsureDefaultCashUserPaymentMethod(ctx context.Context, in *EnsureDefaultCashUserPaymentMethodRequest, opts ...grpc.CallOption) (*EnsureDefaultCashUserPaymentMethodResponse, error)
 	GetPaymentMethodByName(ctx context.Context, in *GetPaymentMethodByNameRequest, opts ...grpc.CallOption) (*GetPaymentMethodByNameResponse, error)
+	CreateCorporateUserPaymentMethod(ctx context.Context, in *CreateCorporateUserPaymentMethodRequest, opts ...grpc.CallOption) (*CreateCorporateUserPaymentMethodResponse, error)
 }
 
 type paymentMethodServiceClient struct {
@@ -179,6 +181,16 @@ func (c *paymentMethodServiceClient) GetPaymentMethodByName(ctx context.Context,
 	return out, nil
 }
 
+func (c *paymentMethodServiceClient) CreateCorporateUserPaymentMethod(ctx context.Context, in *CreateCorporateUserPaymentMethodRequest, opts ...grpc.CallOption) (*CreateCorporateUserPaymentMethodResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateCorporateUserPaymentMethodResponse)
+	err := c.cc.Invoke(ctx, PaymentMethodService_CreateCorporateUserPaymentMethod_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PaymentMethodServiceServer is the server API for PaymentMethodService service.
 // All implementations must embed UnimplementedPaymentMethodServiceServer
 // for forward compatibility.
@@ -195,6 +207,7 @@ type PaymentMethodServiceServer interface {
 	ConsumePromoCodeUserPaymentMethod(context.Context, *ConsumePromoCodeUserPaymentMethodRequest) (*ConsumePromoCodeUserPaymentMethodResponse, error)
 	EnsureDefaultCashUserPaymentMethod(context.Context, *EnsureDefaultCashUserPaymentMethodRequest) (*EnsureDefaultCashUserPaymentMethodResponse, error)
 	GetPaymentMethodByName(context.Context, *GetPaymentMethodByNameRequest) (*GetPaymentMethodByNameResponse, error)
+	CreateCorporateUserPaymentMethod(context.Context, *CreateCorporateUserPaymentMethodRequest) (*CreateCorporateUserPaymentMethodResponse, error)
 	mustEmbedUnimplementedPaymentMethodServiceServer()
 }
 
@@ -240,6 +253,9 @@ func (UnimplementedPaymentMethodServiceServer) EnsureDefaultCashUserPaymentMetho
 }
 func (UnimplementedPaymentMethodServiceServer) GetPaymentMethodByName(context.Context, *GetPaymentMethodByNameRequest) (*GetPaymentMethodByNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPaymentMethodByName not implemented")
+}
+func (UnimplementedPaymentMethodServiceServer) CreateCorporateUserPaymentMethod(context.Context, *CreateCorporateUserPaymentMethodRequest) (*CreateCorporateUserPaymentMethodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCorporateUserPaymentMethod not implemented")
 }
 func (UnimplementedPaymentMethodServiceServer) mustEmbedUnimplementedPaymentMethodServiceServer() {}
 func (UnimplementedPaymentMethodServiceServer) testEmbeddedByValue()                              {}
@@ -478,6 +494,24 @@ func _PaymentMethodService_GetPaymentMethodByName_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PaymentMethodService_CreateCorporateUserPaymentMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCorporateUserPaymentMethodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentMethodServiceServer).CreateCorporateUserPaymentMethod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentMethodService_CreateCorporateUserPaymentMethod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentMethodServiceServer).CreateCorporateUserPaymentMethod(ctx, req.(*CreateCorporateUserPaymentMethodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PaymentMethodService_ServiceDesc is the grpc.ServiceDesc for PaymentMethodService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -532,6 +566,10 @@ var PaymentMethodService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPaymentMethodByName",
 			Handler:    _PaymentMethodService_GetPaymentMethodByName_Handler,
+		},
+		{
+			MethodName: "CreateCorporateUserPaymentMethod",
+			Handler:    _PaymentMethodService_CreateCorporateUserPaymentMethod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
