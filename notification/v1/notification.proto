@@ -22,8 +22,19 @@ message SendOTPRequest {
 
 message SendOTPResponse {}
 
+// SendSmsRequest is used for templated SMS (e.g. friend ride tracking).
+// Common SMS method called by lift-operations-service and others.
+message SendSmsRequest {
+  string phone_number = 1;
+  string template = 2;
+  map<string, string> template_data = 3;
+}
+
+message SendSmsResponse {}
+
 service NotificationService {
   rpc SendOTP(SendOTPRequest) returns (SendOTPResponse);
+  rpc SendSms(SendSmsRequest) returns (SendSmsResponse);
 }
 
 
