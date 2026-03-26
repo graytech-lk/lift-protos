@@ -161,6 +161,11 @@ message Payment {
   double total_amount_before_discount = 7;
   google.protobuf.Timestamp updated_time = 8;
   repeated PaymentEvent payment_events = 9;
+  // Ride card orchestration (lift-payment-service Mongo; optional on older records).
+  string gateway_transaction_id = 10;
+  string payment_status = 11;
+  double authorized_amount = 12;
+  double captured_amount = 13;
 }
 
 message PaymentEvent {
@@ -221,6 +226,51 @@ message FinalizePaymentRequest {
 
 message FinalizePaymentResponse {
   Payment payment = 1;
+}
+
+// RidePaymentAuthorize places a card authorization hold for a service request (S2S from operations).
+message RidePaymentAuthorizeRequest {
+  string service_request_id = 1;
+  string user_payment_method_id = 2;
+  double amount = 3;
+}
+
+message RidePaymentAuthorizeResponse {
+  Payment payment = 1;
+}
+
+// RidePaymentCapture settles the final fare against a prior authorization.
+message RidePaymentCaptureRequest {
+  string service_request_id = 1;
+  double amount = 2;
+}
+
+message RidePaymentCaptureResponse {
+  Payment payment = 1;
+}
+
+// RidePaymentReverse voids an authorization (cancel / no driver / fall_out).
+message RidePaymentReverseRequest {
+  string service_request_id = 1;
+}
+
+message RidePaymentReverseResponse {
+  Payment payment = 1;
+}
+
+// RidePaymentStatus returns orchestration state for a service request payment.
+message RidePaymentStatusRequest {
+  string service_request_id = 1;
+}
+
+message RidePaymentStatusResponse {
+  string service_request_id = 1;
+  string payment_status = 2;
+  string payment_type = 3;
+  double authorized_amount = 4;
+  double captured_amount = 5;
+  string gateway_transaction_id = 6;
+  string user_payment_method = 7;
 }
 
 message GetServiceRequestRequest {
@@ -289,6 +339,11 @@ service PaymentService {
   rpc GetPaymentByServiceRequestID(GetPaymentByServiceRequestIDRequest) returns (GetPaymentByServiceRequestIDResponse);
   rpc FinalizePayment(FinalizePaymentRequest) returns (FinalizePaymentResponse);
   rpc GetServiceRequest(GetServiceRequestRequest) returns (GetServiceRequestResponse);
+  // Ride lifecycle card orchestration (called by lift-operations-service, not mobile clients).
+  rpc RidePaymentAuthorize(RidePaymentAuthorizeRequest) returns (RidePaymentAuthorizeResponse);
+  rpc RidePaymentCapture(RidePaymentCaptureRequest) returns (RidePaymentCaptureResponse);
+  rpc RidePaymentReverse(RidePaymentReverseRequest) returns (RidePaymentReverseResponse);
+  rpc RidePaymentStatus(RidePaymentStatusRequest) returns (RidePaymentStatusResponse);
 }
 
 service PromoCodeService {
