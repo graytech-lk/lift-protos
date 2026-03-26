@@ -1632,18 +1632,21 @@ func (x *Payment) GetCapturedAmount() float64 {
 }
 
 type PaymentEvent struct {
-	state                  protoimpl.MessageState `protogen:"open.v1"`
-	Id                     string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	PaymentType            string                 `protobuf:"bytes,2,opt,name=payment_type,json=paymentType,proto3" json:"payment_type,omitempty"`
-	PaymentId              string                 `protobuf:"bytes,3,opt,name=payment_id,json=paymentId,proto3" json:"payment_id,omitempty"`
-	Amount                 float64                `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PaymentType string                 `protobuf:"bytes,2,opt,name=payment_type,json=paymentType,proto3" json:"payment_type,omitempty"`
+	PaymentId   string                 `protobuf:"bytes,3,opt,name=payment_id,json=paymentId,proto3" json:"payment_id,omitempty"`
+	Amount      float64                `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	// Ledger direction: "debit" | "credit" (fare lines, corrections, and card holds/charges).
 	EventType              string                 `protobuf:"bytes,5,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
 	CreatedTime            *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	UpdatedTime            *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_time,json=updatedTime,proto3" json:"updated_time,omitempty"`
 	GatewayReferenceId     string                 `protobuf:"bytes,8,opt,name=gateway_reference_id,json=gatewayReferenceId,proto3" json:"gateway_reference_id,omitempty"`
 	GatewayProcessedStatus string                 `protobuf:"bytes,9,opt,name=gateway_processed_status,json=gatewayProcessedStatus,proto3" json:"gateway_processed_status,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	// Optional CyberSource / ride lifecycle: "authorization" | "capture" | "reversal". Empty for non-gateway rows.
+	GatewayEventType string `protobuf:"bytes,10,opt,name=gateway_event_type,json=gatewayEventType,proto3" json:"gateway_event_type,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *PaymentEvent) Reset() {
@@ -1735,6 +1738,13 @@ func (x *PaymentEvent) GetGatewayReferenceId() string {
 func (x *PaymentEvent) GetGatewayProcessedStatus() string {
 	if x != nil {
 		return x.GatewayProcessedStatus
+	}
+	return ""
+}
+
+func (x *PaymentEvent) GetGatewayEventType() string {
+	if x != nil {
+		return x.GatewayEventType
 	}
 	return ""
 }
@@ -3142,7 +3152,7 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	" \x01(\tR\x14gatewayTransactionId\x12%\n" +
 	"\x0epayment_status\x18\v \x01(\tR\rpaymentStatus\x12+\n" +
 	"\x11authorized_amount\x18\f \x01(\x01R\x10authorizedAmount\x12'\n" +
-	"\x0fcaptured_amount\x18\r \x01(\x01R\x0ecapturedAmount\"\x81\x03\n" +
+	"\x0fcaptured_amount\x18\r \x01(\x01R\x0ecapturedAmount\"\xaf\x03\n" +
 	"\fPaymentEvent\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fpayment_type\x18\x02 \x01(\tR\vpaymentType\x12\x1d\n" +
@@ -3154,7 +3164,9 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	"\fcreated_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
 	"\fupdated_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\x120\n" +
 	"\x14gateway_reference_id\x18\b \x01(\tR\x12gatewayReferenceId\x128\n" +
-	"\x18gateway_processed_status\x18\t \x01(\tR\x16gatewayProcessedStatus\"\xbd\x01\n" +
+	"\x18gateway_processed_status\x18\t \x01(\tR\x16gatewayProcessedStatus\x12,\n" +
+	"\x12gateway_event_type\x18\n" +
+	" \x01(\tR\x10gatewayEventType\"\xbd\x01\n" +
 	"\x1bListPaymentsByMethodRequest\x12,\n" +
 	"\x12payment_method_ids\x18\x01 \x03(\tR\x10paymentMethodIds\x129\n" +
 	"\n" +

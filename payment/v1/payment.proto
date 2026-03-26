@@ -173,11 +173,14 @@ message PaymentEvent {
   string payment_type = 2;
   string payment_id = 3;
   double amount = 4;
+  // Ledger direction: "debit" | "credit" (fare lines, corrections, and card holds/charges).
   string event_type = 5;
   google.protobuf.Timestamp created_time = 6;
   google.protobuf.Timestamp updated_time = 7;
   string gateway_reference_id = 8;
   string gateway_processed_status = 9;
+  // Optional CyberSource / ride lifecycle: "authorization" | "capture" | "reversal". Empty for non-gateway rows.
+  string gateway_event_type = 10;
 }
 
 message ListPaymentsByMethodRequest {
