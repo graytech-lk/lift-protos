@@ -39,7 +39,17 @@ message ListCorporateUsersByCorporateIdResponse {
   int64 total_count = 2;
 }
 
+message SoftDeleteCorporateUserRequest {
+  string corporate_id = 1;
+  string user_id = 2;
+}
+
+message SoftDeleteCorporateUserResponse {
+  string status = 1;
+}
+
 service CorporateUserService {
   rpc ListCorporateUsersByCorporateId(ListCorporateUsersByCorporateIdRequest) returns (ListCorporateUsersByCorporateIdResponse);
+  rpc SoftDeleteCorporateUser(SoftDeleteCorporateUserRequest) returns (SoftDeleteCorporateUserResponse);
 }
 
