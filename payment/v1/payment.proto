@@ -166,6 +166,8 @@ message Payment {
   string payment_status = 11;
   double authorized_amount = 12;
   double captured_amount = 13;
+  double reversed_amount = 14;
+  string trx_comment = 15;
 }
 
 message PaymentEvent {
@@ -255,6 +257,8 @@ message RidePaymentCaptureResponse {
 // RidePaymentReverse voids an authorization (cancel / no driver / fall_out).
 message RidePaymentReverseRequest {
   string service_request_id = 1;
+  double reversed_amount = 2;
+  string trx_comment = 3;
 }
 
 message RidePaymentReverseResponse {

@@ -1506,6 +1506,8 @@ type Payment struct {
 	PaymentStatus        string  `protobuf:"bytes,11,opt,name=payment_status,json=paymentStatus,proto3" json:"payment_status,omitempty"`
 	AuthorizedAmount     float64 `protobuf:"fixed64,12,opt,name=authorized_amount,json=authorizedAmount,proto3" json:"authorized_amount,omitempty"`
 	CapturedAmount       float64 `protobuf:"fixed64,13,opt,name=captured_amount,json=capturedAmount,proto3" json:"captured_amount,omitempty"`
+	ReversedAmount       float64 `protobuf:"fixed64,14,opt,name=reversed_amount,json=reversedAmount,proto3" json:"reversed_amount,omitempty"`
+	TrxComment           string  `protobuf:"bytes,15,opt,name=trx_comment,json=trxComment,proto3" json:"trx_comment,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -1629,6 +1631,20 @@ func (x *Payment) GetCapturedAmount() float64 {
 		return x.CapturedAmount
 	}
 	return 0
+}
+
+func (x *Payment) GetReversedAmount() float64 {
+	if x != nil {
+		return x.ReversedAmount
+	}
+	return 0
+}
+
+func (x *Payment) GetTrxComment() string {
+	if x != nil {
+		return x.TrxComment
+	}
+	return ""
 }
 
 type PaymentEvent struct {
@@ -2398,6 +2414,8 @@ func (x *RidePaymentCaptureResponse) GetPayment() *Payment {
 type RidePaymentReverseRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	ServiceRequestId string                 `protobuf:"bytes,1,opt,name=service_request_id,json=serviceRequestId,proto3" json:"service_request_id,omitempty"`
+	ReversedAmount   float64                `protobuf:"fixed64,2,opt,name=reversed_amount,json=reversedAmount,proto3" json:"reversed_amount,omitempty"`
+	TrxComment       string                 `protobuf:"bytes,3,opt,name=trx_comment,json=trxComment,proto3" json:"trx_comment,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -2435,6 +2453,20 @@ func (*RidePaymentReverseRequest) Descriptor() ([]byte, []int) {
 func (x *RidePaymentReverseRequest) GetServiceRequestId() string {
 	if x != nil {
 		return x.ServiceRequestId
+	}
+	return ""
+}
+
+func (x *RidePaymentReverseRequest) GetReversedAmount() float64 {
+	if x != nil {
+		return x.ReversedAmount
+	}
+	return 0
+}
+
+func (x *RidePaymentReverseRequest) GetTrxComment() string {
+	if x != nil {
+		return x.TrxComment
 	}
 	return ""
 }
@@ -3137,7 +3169,7 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	"\x1dGetPaymentMethodByNameRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"m\n" +
 	"\x1eGetPaymentMethodByNameResponse\x12K\n" +
-	"\x0epayment_method\x18\x01 \x01(\v2$.lift.payment.v1.PaymentMethodConfigR\rpaymentMethod\"\x91\x05\n" +
+	"\x0epayment_method\x18\x01 \x01(\v2$.lift.payment.v1.PaymentMethodConfigR\rpaymentMethod\"\xdb\x05\n" +
 	"\aPayment\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fpayment_type\x18\x02 \x01(\tR\vpaymentType\x12.\n" +
@@ -3152,7 +3184,10 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	" \x01(\tR\x14gatewayTransactionId\x12%\n" +
 	"\x0epayment_status\x18\v \x01(\tR\rpaymentStatus\x12+\n" +
 	"\x11authorized_amount\x18\f \x01(\x01R\x10authorizedAmount\x12'\n" +
-	"\x0fcaptured_amount\x18\r \x01(\x01R\x0ecapturedAmount\"\xaf\x03\n" +
+	"\x0fcaptured_amount\x18\r \x01(\x01R\x0ecapturedAmount\x12'\n" +
+	"\x0freversed_amount\x18\x0e \x01(\x01R\x0ereversedAmount\x12\x1f\n" +
+	"\vtrx_comment\x18\x0f \x01(\tR\n" +
+	"trxComment\"\xaf\x03\n" +
 	"\fPaymentEvent\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fpayment_type\x18\x02 \x01(\tR\vpaymentType\x12\x1d\n" +
@@ -3206,9 +3241,12 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	"\x12service_request_id\x18\x01 \x01(\tR\x10serviceRequestId\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\"P\n" +
 	"\x1aRidePaymentCaptureResponse\x122\n" +
-	"\apayment\x18\x01 \x01(\v2\x18.lift.payment.v1.PaymentR\apayment\"I\n" +
+	"\apayment\x18\x01 \x01(\v2\x18.lift.payment.v1.PaymentR\apayment\"\x93\x01\n" +
 	"\x19RidePaymentReverseRequest\x12,\n" +
-	"\x12service_request_id\x18\x01 \x01(\tR\x10serviceRequestId\"P\n" +
+	"\x12service_request_id\x18\x01 \x01(\tR\x10serviceRequestId\x12'\n" +
+	"\x0freversed_amount\x18\x02 \x01(\x01R\x0ereversedAmount\x12\x1f\n" +
+	"\vtrx_comment\x18\x03 \x01(\tR\n" +
+	"trxComment\"P\n" +
 	"\x1aRidePaymentReverseResponse\x122\n" +
 	"\apayment\x18\x01 \x01(\v2\x18.lift.payment.v1.PaymentR\apayment\"H\n" +
 	"\x18RidePaymentStatusRequest\x12,\n" +
