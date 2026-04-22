@@ -11,6 +11,7 @@ message ListCorporateUsersByCorporateIdRequest {
   string user_sub_type = 2; // Optional filter
   int64 page_number = 3;
   int64 results_per_page = 4;
+  optional string status = 5; // Optional filter (e.g. pending) — US-023 / LIFT-860 dashboard onboarding count
 }
 
 message UserCorporate {

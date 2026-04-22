@@ -28,6 +28,7 @@ type ListCorporateUsersByCorporateIdRequest struct {
 	UserSubType    string                 `protobuf:"bytes,2,opt,name=user_sub_type,json=userSubType,proto3" json:"user_sub_type,omitempty"` // Optional filter
 	PageNumber     int64                  `protobuf:"varint,3,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
 	ResultsPerPage int64                  `protobuf:"varint,4,opt,name=results_per_page,json=resultsPerPage,proto3" json:"results_per_page,omitempty"`
+	Status         *string                `protobuf:"bytes,5,opt,name=status,proto3,oneof" json:"status,omitempty"` // Optional filter (e.g. pending) — US-023 / LIFT-860 dashboard onboarding count
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -88,6 +89,13 @@ func (x *ListCorporateUsersByCorporateIdRequest) GetResultsPerPage() int64 {
 		return x.ResultsPerPage
 	}
 	return 0
+}
+
+func (x *ListCorporateUsersByCorporateIdRequest) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
 }
 
 type UserCorporate struct {
@@ -422,13 +430,15 @@ var File_identity_corporateuser_v1_corporate_user_proto protoreflect.FileDescrip
 
 const file_identity_corporateuser_v1_corporate_user_proto_rawDesc = "" +
 	"\n" +
-	".identity/corporateuser/v1/corporate_user.proto\x12\x1elift.identity.corporateuser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xba\x01\n" +
+	".identity/corporateuser/v1/corporate_user.proto\x12\x1elift.identity.corporateuser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x01\n" +
 	"&ListCorporateUsersByCorporateIdRequest\x12!\n" +
 	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x12\"\n" +
 	"\ruser_sub_type\x18\x02 \x01(\tR\vuserSubType\x12\x1f\n" +
 	"\vpage_number\x18\x03 \x01(\x03R\n" +
 	"pageNumber\x12(\n" +
-	"\x10results_per_page\x18\x04 \x01(\x03R\x0eresultsPerPage\"\x80\x05\n" +
+	"\x10results_per_page\x18\x04 \x01(\x03R\x0eresultsPerPage\x12\x1b\n" +
+	"\x06status\x18\x05 \x01(\tH\x00R\x06status\x88\x01\x01B\t\n" +
+	"\a_status\"\x80\x05\n" +
 	"\rUserCorporate\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fcorporate_id\x18\x02 \x01(\tR\vcorporateId\x12!\n" +
@@ -506,6 +516,7 @@ func file_identity_corporateuser_v1_corporate_user_proto_init() {
 	if File_identity_corporateuser_v1_corporate_user_proto != nil {
 		return
 	}
+	file_identity_corporateuser_v1_corporate_user_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
