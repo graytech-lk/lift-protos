@@ -38,6 +38,8 @@ message UserCorporate {
   google.protobuf.Timestamp created_time = 17;
   google.protobuf.Timestamp updated_time = 18;
   string staff_id = 19;
+  // LIFT-880: human-readable system reference (e.g. CU-XXXXXXXX); may be derived when unset in storage.
+  string corporate_reference_number = 20;
 }
 
 message ListCorporateUsersByCorporateIdResponse {

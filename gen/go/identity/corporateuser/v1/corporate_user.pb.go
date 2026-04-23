@@ -151,8 +151,10 @@ type UserCorporate struct {
 	CreatedTime      *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	UpdatedTime      *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=updated_time,json=updatedTime,proto3" json:"updated_time,omitempty"`
 	StaffId          string                 `protobuf:"bytes,19,opt,name=staff_id,json=staffId,proto3" json:"staff_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// LIFT-880: human-readable system reference (e.g. CU-XXXXXXXX); may be derived when unset in storage.
+	CorporateReferenceNumber string `protobuf:"bytes,20,opt,name=corporate_reference_number,json=corporateReferenceNumber,proto3" json:"corporate_reference_number,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *UserCorporate) Reset() {
@@ -314,6 +316,13 @@ func (x *UserCorporate) GetUpdatedTime() *timestamppb.Timestamp {
 func (x *UserCorporate) GetStaffId() string {
 	if x != nil {
 		return x.StaffId
+	}
+	return ""
+}
+
+func (x *UserCorporate) GetCorporateReferenceNumber() string {
+	if x != nil {
+		return x.CorporateReferenceNumber
 	}
 	return ""
 }
@@ -486,7 +495,7 @@ const file_identity_corporateuser_v1_corporate_user_proto_rawDesc = "" +
 	"\a_searchB\x0f\n" +
 	"\r_phone_numberB\t\n" +
 	"\a_genderB\v\n" +
-	"\t_staff_id\"\x9b\x05\n" +
+	"\t_staff_id\"\xd9\x05\n" +
 	"\rUserCorporate\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fcorporate_id\x18\x02 \x01(\tR\vcorporateId\x12!\n" +
@@ -510,7 +519,8 @@ const file_identity_corporateuser_v1_corporate_user_proto_rawDesc = "" +
 	"\x06status\x18\x10 \x01(\tR\x06status\x12=\n" +
 	"\fcreated_time\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
 	"\fupdated_time\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\x12\x19\n" +
-	"\bstaff_id\x18\x13 \x01(\tR\astaffId\"\x8f\x01\n" +
+	"\bstaff_id\x18\x13 \x01(\tR\astaffId\x12<\n" +
+	"\x1acorporate_reference_number\x18\x14 \x01(\tR\x18corporateReferenceNumber\"\x8f\x01\n" +
 	"'ListCorporateUsersByCorporateIdResponse\x12C\n" +
 	"\x05users\x18\x01 \x03(\v2-.lift.identity.corporateuser.v1.UserCorporateR\x05users\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x03R\n" +

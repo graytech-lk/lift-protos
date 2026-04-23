@@ -22,6 +22,8 @@ message CorporateUser {
   string corporate_id = 9;
   string user_sub_type = 10;
   string status = 11;
+  // LIFT-880: system-assigned corporate user reference (identity user_corporates.corporate_reference_number).
+  string corporate_reference_number = 12;
 }
 
 message GetCorporateUserByIdResponse {

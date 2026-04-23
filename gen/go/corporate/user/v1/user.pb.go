@@ -79,8 +79,10 @@ type CorporateUser struct {
 	CorporateId   string                 `protobuf:"bytes,9,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
 	UserSubType   string                 `protobuf:"bytes,10,opt,name=user_sub_type,json=userSubType,proto3" json:"user_sub_type,omitempty"`
 	Status        string                 `protobuf:"bytes,11,opt,name=status,proto3" json:"status,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// LIFT-880: system-assigned corporate user reference (identity user_corporates.corporate_reference_number).
+	CorporateReferenceNumber string `protobuf:"bytes,12,opt,name=corporate_reference_number,json=corporateReferenceNumber,proto3" json:"corporate_reference_number,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *CorporateUser) Reset() {
@@ -190,6 +192,13 @@ func (x *CorporateUser) GetStatus() string {
 	return ""
 }
 
+func (x *CorporateUser) GetCorporateReferenceNumber() string {
+	if x != nil {
+		return x.CorporateReferenceNumber
+	}
+	return ""
+}
+
 type GetCorporateUserByIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *CorporateUser         `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
@@ -240,7 +249,7 @@ const file_corporate_user_v1_user_proto_rawDesc = "" +
 	"\n" +
 	"\x1ccorporate/user/v1/user.proto\x12\x16lift.corporate.user.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"-\n" +
 	"\x1bGetCorporateUserByIdRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\x98\x03\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xd6\x03\n" +
 	"\rCorporateUser\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12=\n" +
 	"\fcreated_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
@@ -254,7 +263,8 @@ const file_corporate_user_v1_user_proto_rawDesc = "" +
 	"\fcorporate_id\x18\t \x01(\tR\vcorporateId\x12\"\n" +
 	"\ruser_sub_type\x18\n" +
 	" \x01(\tR\vuserSubType\x12\x16\n" +
-	"\x06status\x18\v \x01(\tR\x06status\"Y\n" +
+	"\x06status\x18\v \x01(\tR\x06status\x12<\n" +
+	"\x1acorporate_reference_number\x18\f \x01(\tR\x18corporateReferenceNumber\"Y\n" +
 	"\x1cGetCorporateUserByIdResponse\x129\n" +
 	"\x04user\x18\x01 \x01(\v2%.lift.corporate.user.v1.CorporateUserR\x04user2\x9a\x01\n" +
 	"\x14CorporateUserService\x12\x81\x01\n" +
