@@ -28,7 +28,11 @@ type ListCorporateUsersByCorporateIdRequest struct {
 	UserSubType    string                 `protobuf:"bytes,2,opt,name=user_sub_type,json=userSubType,proto3" json:"user_sub_type,omitempty"` // Optional filter
 	PageNumber     int64                  `protobuf:"varint,3,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
 	ResultsPerPage int64                  `protobuf:"varint,4,opt,name=results_per_page,json=resultsPerPage,proto3" json:"results_per_page,omitempty"`
-	Status         *string                `protobuf:"bytes,5,opt,name=status,proto3,oneof" json:"status,omitempty"` // Optional filter (e.g. pending) — US-023 / LIFT-860 dashboard onboarding count
+	Status         *string                `protobuf:"bytes,5,opt,name=status,proto3,oneof" json:"status,omitempty"`                              // Optional filter (e.g. pending) — US-023 / LIFT-860 dashboard onboarding count
+	Search         *string                `protobuf:"bytes,6,opt,name=search,proto3,oneof" json:"search,omitempty"`                              // Optional: name, email, phone, role (substring, case-insensitive)
+	PhoneNumber    *string                `protobuf:"bytes,7,opt,name=phone_number,json=phoneNumber,proto3,oneof" json:"phone_number,omitempty"` // Optional: contact / phone substring filter
+	Gender         *string                `protobuf:"bytes,8,opt,name=gender,proto3,oneof" json:"gender,omitempty"`                              // Optional: male | female | other
+	StaffId        *string                `protobuf:"bytes,9,opt,name=staff_id,json=staffId,proto3,oneof" json:"staff_id,omitempty"`             // Optional: company / staff id substring
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -98,6 +102,34 @@ func (x *ListCorporateUsersByCorporateIdRequest) GetStatus() string {
 	return ""
 }
 
+func (x *ListCorporateUsersByCorporateIdRequest) GetSearch() string {
+	if x != nil && x.Search != nil {
+		return *x.Search
+	}
+	return ""
+}
+
+func (x *ListCorporateUsersByCorporateIdRequest) GetPhoneNumber() string {
+	if x != nil && x.PhoneNumber != nil {
+		return *x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *ListCorporateUsersByCorporateIdRequest) GetGender() string {
+	if x != nil && x.Gender != nil {
+		return *x.Gender
+	}
+	return ""
+}
+
+func (x *ListCorporateUsersByCorporateIdRequest) GetStaffId() string {
+	if x != nil && x.StaffId != nil {
+		return *x.StaffId
+	}
+	return ""
+}
+
 type UserCorporate struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -118,6 +150,7 @@ type UserCorporate struct {
 	Status           string                 `protobuf:"bytes,16,opt,name=status,proto3" json:"status,omitempty"`
 	CreatedTime      *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	UpdatedTime      *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=updated_time,json=updatedTime,proto3" json:"updated_time,omitempty"`
+	StaffId          string                 `protobuf:"bytes,19,opt,name=staff_id,json=staffId,proto3" json:"staff_id,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -278,6 +311,13 @@ func (x *UserCorporate) GetUpdatedTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *UserCorporate) GetStaffId() string {
+	if x != nil {
+		return x.StaffId
+	}
+	return ""
+}
+
 type ListCorporateUsersByCorporateIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Users         []*UserCorporate       `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
@@ -430,15 +470,23 @@ var File_identity_corporateuser_v1_corporate_user_proto protoreflect.FileDescrip
 
 const file_identity_corporateuser_v1_corporate_user_proto_rawDesc = "" +
 	"\n" +
-	".identity/corporateuser/v1/corporate_user.proto\x12\x1elift.identity.corporateuser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x01\n" +
+	".identity/corporateuser/v1/corporate_user.proto\x12\x1elift.identity.corporateuser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x98\x03\n" +
 	"&ListCorporateUsersByCorporateIdRequest\x12!\n" +
 	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x12\"\n" +
 	"\ruser_sub_type\x18\x02 \x01(\tR\vuserSubType\x12\x1f\n" +
 	"\vpage_number\x18\x03 \x01(\x03R\n" +
 	"pageNumber\x12(\n" +
 	"\x10results_per_page\x18\x04 \x01(\x03R\x0eresultsPerPage\x12\x1b\n" +
-	"\x06status\x18\x05 \x01(\tH\x00R\x06status\x88\x01\x01B\t\n" +
-	"\a_status\"\x80\x05\n" +
+	"\x06status\x18\x05 \x01(\tH\x00R\x06status\x88\x01\x01\x12\x1b\n" +
+	"\x06search\x18\x06 \x01(\tH\x01R\x06search\x88\x01\x01\x12&\n" +
+	"\fphone_number\x18\a \x01(\tH\x02R\vphoneNumber\x88\x01\x01\x12\x1b\n" +
+	"\x06gender\x18\b \x01(\tH\x03R\x06gender\x88\x01\x01\x12\x1e\n" +
+	"\bstaff_id\x18\t \x01(\tH\x04R\astaffId\x88\x01\x01B\t\n" +
+	"\a_statusB\t\n" +
+	"\a_searchB\x0f\n" +
+	"\r_phone_numberB\t\n" +
+	"\a_genderB\v\n" +
+	"\t_staff_id\"\x9b\x05\n" +
 	"\rUserCorporate\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fcorporate_id\x18\x02 \x01(\tR\vcorporateId\x12!\n" +
@@ -461,7 +509,8 @@ const file_identity_corporateuser_v1_corporate_user_proto_rawDesc = "" +
 	"\x11emergency_contact\x18\x0f \x01(\tR\x10emergencyContact\x12\x16\n" +
 	"\x06status\x18\x10 \x01(\tR\x06status\x12=\n" +
 	"\fcreated_time\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
-	"\fupdated_time\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\"\x8f\x01\n" +
+	"\fupdated_time\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\x12\x19\n" +
+	"\bstaff_id\x18\x13 \x01(\tR\astaffId\"\x8f\x01\n" +
 	"'ListCorporateUsersByCorporateIdResponse\x12C\n" +
 	"\x05users\x18\x01 \x03(\v2-.lift.identity.corporateuser.v1.UserCorporateR\x05users\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x03R\n" +
