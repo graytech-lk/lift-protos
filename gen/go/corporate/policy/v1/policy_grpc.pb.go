@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	CorporatePolicyService_GetCorporatePolicyById_FullMethodName           = "/lift.corporate.policy.v1.CorporatePolicyService/GetCorporatePolicyById"
 	CorporatePolicyService_ValidateServiceRequestWithPolicy_FullMethodName = "/lift.corporate.policy.v1.CorporatePolicyService/ValidateServiceRequestWithPolicy"
+	CorporatePolicyService_ListServiceSubCategories_FullMethodName         = "/lift.corporate.policy.v1.CorporatePolicyService/ListServiceSubCategories"
 )
 
 // CorporatePolicyServiceClient is the client API for CorporatePolicyService service.
@@ -29,6 +30,8 @@ const (
 type CorporatePolicyServiceClient interface {
 	GetCorporatePolicyById(ctx context.Context, in *GetCorporatePolicyByIdRequest, opts ...grpc.CallOption) (*GetCorporatePolicyByIdResponse, error)
 	ValidateServiceRequestWithPolicy(ctx context.Context, in *ValidateServiceRequestWithPolicyRequest, opts ...grpc.CallOption) (*ValidateServiceRequestWithPolicyResponse, error)
+	// Aggregates platform ServiceSubCategoryService.GetAllServiceSubCategories (all pages).
+	ListServiceSubCategories(ctx context.Context, in *ListServiceSubCategoriesRequest, opts ...grpc.CallOption) (*ListServiceSubCategoriesResponse, error)
 }
 
 type corporatePolicyServiceClient struct {
@@ -59,12 +62,24 @@ func (c *corporatePolicyServiceClient) ValidateServiceRequestWithPolicy(ctx cont
 	return out, nil
 }
 
+func (c *corporatePolicyServiceClient) ListServiceSubCategories(ctx context.Context, in *ListServiceSubCategoriesRequest, opts ...grpc.CallOption) (*ListServiceSubCategoriesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListServiceSubCategoriesResponse)
+	err := c.cc.Invoke(ctx, CorporatePolicyService_ListServiceSubCategories_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CorporatePolicyServiceServer is the server API for CorporatePolicyService service.
 // All implementations must embed UnimplementedCorporatePolicyServiceServer
 // for forward compatibility.
 type CorporatePolicyServiceServer interface {
 	GetCorporatePolicyById(context.Context, *GetCorporatePolicyByIdRequest) (*GetCorporatePolicyByIdResponse, error)
 	ValidateServiceRequestWithPolicy(context.Context, *ValidateServiceRequestWithPolicyRequest) (*ValidateServiceRequestWithPolicyResponse, error)
+	// Aggregates platform ServiceSubCategoryService.GetAllServiceSubCategories (all pages).
+	ListServiceSubCategories(context.Context, *ListServiceSubCategoriesRequest) (*ListServiceSubCategoriesResponse, error)
 	mustEmbedUnimplementedCorporatePolicyServiceServer()
 }
 
@@ -80,6 +95,9 @@ func (UnimplementedCorporatePolicyServiceServer) GetCorporatePolicyById(context.
 }
 func (UnimplementedCorporatePolicyServiceServer) ValidateServiceRequestWithPolicy(context.Context, *ValidateServiceRequestWithPolicyRequest) (*ValidateServiceRequestWithPolicyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ValidateServiceRequestWithPolicy not implemented")
+}
+func (UnimplementedCorporatePolicyServiceServer) ListServiceSubCategories(context.Context, *ListServiceSubCategoriesRequest) (*ListServiceSubCategoriesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListServiceSubCategories not implemented")
 }
 func (UnimplementedCorporatePolicyServiceServer) mustEmbedUnimplementedCorporatePolicyServiceServer() {
 }
@@ -139,6 +157,24 @@ func _CorporatePolicyService_ValidateServiceRequestWithPolicy_Handler(srv interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CorporatePolicyService_ListServiceSubCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListServiceSubCategoriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorporatePolicyServiceServer).ListServiceSubCategories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorporatePolicyService_ListServiceSubCategories_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorporatePolicyServiceServer).ListServiceSubCategories(ctx, req.(*ListServiceSubCategoriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CorporatePolicyService_ServiceDesc is the grpc.ServiceDesc for CorporatePolicyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,6 +189,10 @@ var CorporatePolicyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateServiceRequestWithPolicy",
 			Handler:    _CorporatePolicyService_ValidateServiceRequestWithPolicy_Handler,
+		},
+		{
+			MethodName: "ListServiceSubCategories",
+			Handler:    _CorporatePolicyService_ListServiceSubCategories_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
