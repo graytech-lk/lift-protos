@@ -191,8 +191,17 @@ type UserCustomer struct {
 	Status                string                 `protobuf:"bytes,17,opt,name=status,proto3" json:"status,omitempty"`
 	CreatedTime           *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	UpdatedTime           *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=updated_time,json=updatedTime,proto3" json:"updated_time,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	// JSON array of favorite route objects (matches user_customers.favorite_locations).
+	FavoriteLocationsJson string `protobuf:"bytes,20,opt,name=favorite_locations_json,json=favoriteLocationsJson,proto3" json:"favorite_locations_json,omitempty"`
+	// JSON object keyed by service category (matches user_customers.usage_details).
+	UsageDetailsJson string `protobuf:"bytes,21,opt,name=usage_details_json,json=usageDetailsJson,proto3" json:"usage_details_json,omitempty"`
+	DeviceType       string `protobuf:"bytes,22,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
+	// True when the customer has registered on a mobile app (non-empty device_token).
+	RegisteredOnApp bool `protobuf:"varint,23,opt,name=registered_on_app,json=registeredOnApp,proto3" json:"registered_on_app,omitempty"`
+	// Job / role designation (Director, Manager, etc.) — LIFT-927 / FRD corporate user table.
+	JobDesignation string `protobuf:"bytes,24,opt,name=job_designation,json=jobDesignation,proto3" json:"job_designation,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UserCustomer) Reset() {
@@ -356,6 +365,41 @@ func (x *UserCustomer) GetUpdatedTime() *timestamppb.Timestamp {
 		return x.UpdatedTime
 	}
 	return nil
+}
+
+func (x *UserCustomer) GetFavoriteLocationsJson() string {
+	if x != nil {
+		return x.FavoriteLocationsJson
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetUsageDetailsJson() string {
+	if x != nil {
+		return x.UsageDetailsJson
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetDeviceType() string {
+	if x != nil {
+		return x.DeviceType
+	}
+	return ""
+}
+
+func (x *UserCustomer) GetRegisteredOnApp() bool {
+	if x != nil {
+		return x.RegisteredOnApp
+	}
+	return false
+}
+
+func (x *UserCustomer) GetJobDesignation() string {
+	if x != nil {
+		return x.JobDesignation
+	}
+	return ""
 }
 
 type GetCustomerByPhoneResponse struct {
@@ -598,7 +642,7 @@ const file_identity_customer_v1_customer_proto_rawDesc = "" +
 	"\x19ListCustomersByIdsRequest\x12\x19\n" +
 	"\buser_ids\x18\x01 \x03(\tR\auserIds\x12\x12\n" +
 	"\x04skip\x18\x02 \x01(\x03R\x04skip\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x03R\x05limit\"\xbf\x05\n" +
+	"\x05limit\x18\x03 \x01(\x03R\x05limit\"\x9b\a\n" +
 	"\fUserCustomer\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fphone_number\x18\x02 \x01(\tR\vphoneNumber\x12\x1d\n" +
@@ -622,7 +666,13 @@ const file_identity_customer_v1_customer_proto_rawDesc = "" +
 	"\x11emergency_contact\x18\x10 \x01(\tR\x10emergencyContact\x12\x16\n" +
 	"\x06status\x18\x11 \x01(\tR\x06status\x12=\n" +
 	"\fcreated_time\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
-	"\fupdated_time\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\"a\n" +
+	"\fupdated_time\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\x126\n" +
+	"\x17favorite_locations_json\x18\x14 \x01(\tR\x15favoriteLocationsJson\x12,\n" +
+	"\x12usage_details_json\x18\x15 \x01(\tR\x10usageDetailsJson\x12\x1f\n" +
+	"\vdevice_type\x18\x16 \x01(\tR\n" +
+	"deviceType\x12*\n" +
+	"\x11registered_on_app\x18\x17 \x01(\bR\x0fregisteredOnApp\x12'\n" +
+	"\x0fjob_designation\x18\x18 \x01(\tR\x0ejobDesignation\"a\n" +
 	"\x1aGetCustomerByPhoneResponse\x12C\n" +
 	"\bcustomer\x18\x01 \x01(\v2'.lift.identity.customer.v1.UserCustomerR\bcustomer\"^\n" +
 	"\x17GetCustomerByIdResponse\x12C\n" +

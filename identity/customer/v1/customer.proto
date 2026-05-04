@@ -40,6 +40,15 @@ message UserCustomer {
   string status = 17;
   google.protobuf.Timestamp created_time = 18;
   google.protobuf.Timestamp updated_time = 19;
+  // JSON array of favorite route objects (matches user_customers.favorite_locations).
+  string favorite_locations_json = 20;
+  // JSON object keyed by service category (matches user_customers.usage_details).
+  string usage_details_json = 21;
+  string device_type = 22;
+  // True when the customer has registered on a mobile app (non-empty device_token).
+  bool registered_on_app = 23;
+  // Job / role designation (Director, Manager, etc.) — LIFT-927 / FRD corporate user table.
+  string job_designation = 24;
 }
 
 message GetCustomerByPhoneResponse {
