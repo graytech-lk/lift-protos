@@ -45,6 +45,7 @@ message ServiceSubCategory {
   bool status = 5;
   string icon_url = 6;
   ServiceSubParameters sub_service_parameters = 7;
+  string service_category_name = 8;
 }
 
 message GetServiceSubCategoryResponse {

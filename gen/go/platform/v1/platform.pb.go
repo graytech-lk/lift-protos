@@ -332,6 +332,7 @@ type ServiceSubCategory struct {
 	Status                 bool                   `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
 	IconUrl                string                 `protobuf:"bytes,6,opt,name=icon_url,json=iconUrl,proto3" json:"icon_url,omitempty"`
 	SubServiceParameters   *ServiceSubParameters  `protobuf:"bytes,7,opt,name=sub_service_parameters,json=subServiceParameters,proto3" json:"sub_service_parameters,omitempty"`
+	ServiceCategoryName    string                 `protobuf:"bytes,8,opt,name=service_category_name,json=serviceCategoryName,proto3" json:"service_category_name,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -413,6 +414,13 @@ func (x *ServiceSubCategory) GetSubServiceParameters() *ServiceSubParameters {
 		return x.SubServiceParameters
 	}
 	return nil
+}
+
+func (x *ServiceSubCategory) GetServiceCategoryName() string {
+	if x != nil {
+		return x.ServiceCategoryName
+	}
+	return ""
 }
 
 type GetServiceSubCategoryResponse struct {
@@ -960,7 +968,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"app_charge\x18\t \x01(\x01R\tappCharge\x12/\n" +
 	"\x13passenger_insurance\x18\n" +
-	" \x01(\x01R\x12passengerInsurance\"\xe9\x02\n" +
+	" \x01(\x01R\x12passengerInsurance\"\x9d\x03\n" +
 	"\x12ServiceSubCategory\x125\n" +
 	"\x17sub_service_category_id\x18\x01 \x01(\tR\x14subServiceCategoryId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x129\n" +
@@ -968,7 +976,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x16\n" +
 	"\x06status\x18\x05 \x01(\bR\x06status\x12\x19\n" +
 	"\bicon_url\x18\x06 \x01(\tR\aiconUrl\x12\\\n" +
-	"\x16sub_service_parameters\x18\a \x01(\v2&.lift.platform.v1.ServiceSubParametersR\x14subServiceParameters\"w\n" +
+	"\x16sub_service_parameters\x18\a \x01(\v2&.lift.platform.v1.ServiceSubParametersR\x14subServiceParameters\x122\n" +
+	"\x15service_category_name\x18\b \x01(\tR\x13serviceCategoryName\"w\n" +
 	"\x1dGetServiceSubCategoryResponse\x12V\n" +
 	"\x14service_sub_category\x18\x01 \x01(\v2$.lift.platform.v1.ServiceSubCategoryR\x12serviceSubCategory\"\xed\x01\n" +
 	"\x0fServiceCategory\x12.\n" +
