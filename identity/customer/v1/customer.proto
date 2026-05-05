@@ -73,11 +73,27 @@ message AddPaymentMethodToCustomerResponse {
   // Empty response - success indicated by no error
 }
 
+// UpdateCustomerCorporateFieldsRequest patches corporate-admin-editable fields only
+// (US-006). Omitted optional fields are left unchanged.
+message UpdateCustomerCorporateFieldsRequest {
+  string customer_id = 1;
+  optional string job_designation = 2;
+  optional string status = 3;
+  // When false, clears device registration (non–app user). When true, requires an
+  // existing device_token or the call fails with FAILED_PRECONDITION.
+  optional bool registered_on_app = 4;
+}
+
+message UpdateCustomerCorporateFieldsResponse {
+  UserCustomer customer = 1;
+}
+
 service CustomerService {
   rpc GetCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCustomerByPhoneResponse);
   rpc GetCustomerById(GetCustomerByIdRequest) returns (GetCustomerByIdResponse);
   rpc ListCustomersByIds(ListCustomersByIdsRequest) returns (ListCustomersByIdsResponse);
   rpc AddPaymentMethodToCustomer(AddPaymentMethodToCustomerRequest) returns (AddPaymentMethodToCustomerResponse);
+  rpc UpdateCustomerCorporateFields(UpdateCustomerCorporateFieldsRequest) returns (UpdateCustomerCorporateFieldsResponse);
 }
 
 

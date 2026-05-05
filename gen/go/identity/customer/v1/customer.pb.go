@@ -630,6 +630,122 @@ func (*AddPaymentMethodToCustomerResponse) Descriptor() ([]byte, []int) {
 	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{8}
 }
 
+// UpdateCustomerCorporateFieldsRequest patches corporate-admin-editable fields only
+// (US-006). Omitted optional fields are left unchanged.
+type UpdateCustomerCorporateFieldsRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	CustomerId     string                 `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	JobDesignation *string                `protobuf:"bytes,2,opt,name=job_designation,json=jobDesignation,proto3,oneof" json:"job_designation,omitempty"`
+	Status         *string                `protobuf:"bytes,3,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	// When false, clears device registration (non–app user). When true, requires an
+	// existing device_token or the call fails with FAILED_PRECONDITION.
+	RegisteredOnApp *bool `protobuf:"varint,4,opt,name=registered_on_app,json=registeredOnApp,proto3,oneof" json:"registered_on_app,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *UpdateCustomerCorporateFieldsRequest) Reset() {
+	*x = UpdateCustomerCorporateFieldsRequest{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCustomerCorporateFieldsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCustomerCorporateFieldsRequest) ProtoMessage() {}
+
+func (x *UpdateCustomerCorporateFieldsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCustomerCorporateFieldsRequest.ProtoReflect.Descriptor instead.
+func (*UpdateCustomerCorporateFieldsRequest) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateCustomerCorporateFieldsRequest) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *UpdateCustomerCorporateFieldsRequest) GetJobDesignation() string {
+	if x != nil && x.JobDesignation != nil {
+		return *x.JobDesignation
+	}
+	return ""
+}
+
+func (x *UpdateCustomerCorporateFieldsRequest) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
+}
+
+func (x *UpdateCustomerCorporateFieldsRequest) GetRegisteredOnApp() bool {
+	if x != nil && x.RegisteredOnApp != nil {
+		return *x.RegisteredOnApp
+	}
+	return false
+}
+
+type UpdateCustomerCorporateFieldsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Customer      *UserCustomer          `protobuf:"bytes,1,opt,name=customer,proto3" json:"customer,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateCustomerCorporateFieldsResponse) Reset() {
+	*x = UpdateCustomerCorporateFieldsResponse{}
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCustomerCorporateFieldsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCustomerCorporateFieldsResponse) ProtoMessage() {}
+
+func (x *UpdateCustomerCorporateFieldsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_customer_v1_customer_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCustomerCorporateFieldsResponse.ProtoReflect.Descriptor instead.
+func (*UpdateCustomerCorporateFieldsResponse) Descriptor() ([]byte, []int) {
+	return file_identity_customer_v1_customer_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateCustomerCorporateFieldsResponse) GetCustomer() *UserCustomer {
+	if x != nil {
+		return x.Customer
+	}
+	return nil
+}
+
 var File_identity_customer_v1_customer_proto protoreflect.FileDescriptor
 
 const file_identity_customer_v1_customer_proto_rawDesc = "" +
@@ -685,12 +801,24 @@ const file_identity_customer_v1_customer_proto_rawDesc = "" +
 	"\vcustomer_id\x18\x01 \x01(\tR\n" +
 	"customerId\x12*\n" +
 	"\x11payment_method_id\x18\x02 \x01(\tR\x0fpaymentMethodId\"$\n" +
-	"\"AddPaymentMethodToCustomerResponse2\xaf\x04\n" +
+	"\"AddPaymentMethodToCustomerResponse\"\xf8\x01\n" +
+	"$UpdateCustomerCorporateFieldsRequest\x12\x1f\n" +
+	"\vcustomer_id\x18\x01 \x01(\tR\n" +
+	"customerId\x12,\n" +
+	"\x0fjob_designation\x18\x02 \x01(\tH\x00R\x0ejobDesignation\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\x03 \x01(\tH\x01R\x06status\x88\x01\x01\x12/\n" +
+	"\x11registered_on_app\x18\x04 \x01(\bH\x02R\x0fregisteredOnApp\x88\x01\x01B\x12\n" +
+	"\x10_job_designationB\t\n" +
+	"\a_statusB\x14\n" +
+	"\x12_registered_on_app\"l\n" +
+	"%UpdateCustomerCorporateFieldsResponse\x12C\n" +
+	"\bcustomer\x18\x01 \x01(\v2'.lift.identity.customer.v1.UserCustomerR\bcustomer2\xd4\x05\n" +
 	"\x0fCustomerService\x12\x81\x01\n" +
 	"\x12GetCustomerByPhone\x124.lift.identity.customer.v1.GetCustomerByPhoneRequest\x1a5.lift.identity.customer.v1.GetCustomerByPhoneResponse\x12x\n" +
 	"\x0fGetCustomerById\x121.lift.identity.customer.v1.GetCustomerByIdRequest\x1a2.lift.identity.customer.v1.GetCustomerByIdResponse\x12\x81\x01\n" +
 	"\x12ListCustomersByIds\x124.lift.identity.customer.v1.ListCustomersByIdsRequest\x1a5.lift.identity.customer.v1.ListCustomersByIdsResponse\x12\x99\x01\n" +
-	"\x1aAddPaymentMethodToCustomer\x12<.lift.identity.customer.v1.AddPaymentMethodToCustomerRequest\x1a=.lift.identity.customer.v1.AddPaymentMethodToCustomerResponseBKZIgithub.com/graytech-lk/lift-protos/gen/go/identity/customer/v1;customerv1b\x06proto3"
+	"\x1aAddPaymentMethodToCustomer\x12<.lift.identity.customer.v1.AddPaymentMethodToCustomerRequest\x1a=.lift.identity.customer.v1.AddPaymentMethodToCustomerResponse\x12\xa2\x01\n" +
+	"\x1dUpdateCustomerCorporateFields\x12?.lift.identity.customer.v1.UpdateCustomerCorporateFieldsRequest\x1a@.lift.identity.customer.v1.UpdateCustomerCorporateFieldsResponseBKZIgithub.com/graytech-lk/lift-protos/gen/go/identity/customer/v1;customerv1b\x06proto3"
 
 var (
 	file_identity_customer_v1_customer_proto_rawDescOnce sync.Once
@@ -704,38 +832,43 @@ func file_identity_customer_v1_customer_proto_rawDescGZIP() []byte {
 	return file_identity_customer_v1_customer_proto_rawDescData
 }
 
-var file_identity_customer_v1_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_identity_customer_v1_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_identity_customer_v1_customer_proto_goTypes = []any{
-	(*GetCustomerByPhoneRequest)(nil),          // 0: lift.identity.customer.v1.GetCustomerByPhoneRequest
-	(*GetCustomerByIdRequest)(nil),             // 1: lift.identity.customer.v1.GetCustomerByIdRequest
-	(*ListCustomersByIdsRequest)(nil),          // 2: lift.identity.customer.v1.ListCustomersByIdsRequest
-	(*UserCustomer)(nil),                       // 3: lift.identity.customer.v1.UserCustomer
-	(*GetCustomerByPhoneResponse)(nil),         // 4: lift.identity.customer.v1.GetCustomerByPhoneResponse
-	(*GetCustomerByIdResponse)(nil),            // 5: lift.identity.customer.v1.GetCustomerByIdResponse
-	(*ListCustomersByIdsResponse)(nil),         // 6: lift.identity.customer.v1.ListCustomersByIdsResponse
-	(*AddPaymentMethodToCustomerRequest)(nil),  // 7: lift.identity.customer.v1.AddPaymentMethodToCustomerRequest
-	(*AddPaymentMethodToCustomerResponse)(nil), // 8: lift.identity.customer.v1.AddPaymentMethodToCustomerResponse
-	(*timestamppb.Timestamp)(nil),              // 9: google.protobuf.Timestamp
+	(*GetCustomerByPhoneRequest)(nil),             // 0: lift.identity.customer.v1.GetCustomerByPhoneRequest
+	(*GetCustomerByIdRequest)(nil),                // 1: lift.identity.customer.v1.GetCustomerByIdRequest
+	(*ListCustomersByIdsRequest)(nil),             // 2: lift.identity.customer.v1.ListCustomersByIdsRequest
+	(*UserCustomer)(nil),                          // 3: lift.identity.customer.v1.UserCustomer
+	(*GetCustomerByPhoneResponse)(nil),            // 4: lift.identity.customer.v1.GetCustomerByPhoneResponse
+	(*GetCustomerByIdResponse)(nil),               // 5: lift.identity.customer.v1.GetCustomerByIdResponse
+	(*ListCustomersByIdsResponse)(nil),            // 6: lift.identity.customer.v1.ListCustomersByIdsResponse
+	(*AddPaymentMethodToCustomerRequest)(nil),     // 7: lift.identity.customer.v1.AddPaymentMethodToCustomerRequest
+	(*AddPaymentMethodToCustomerResponse)(nil),    // 8: lift.identity.customer.v1.AddPaymentMethodToCustomerResponse
+	(*UpdateCustomerCorporateFieldsRequest)(nil),  // 9: lift.identity.customer.v1.UpdateCustomerCorporateFieldsRequest
+	(*UpdateCustomerCorporateFieldsResponse)(nil), // 10: lift.identity.customer.v1.UpdateCustomerCorporateFieldsResponse
+	(*timestamppb.Timestamp)(nil),                 // 11: google.protobuf.Timestamp
 }
 var file_identity_customer_v1_customer_proto_depIdxs = []int32{
-	9, // 0: lift.identity.customer.v1.UserCustomer.created_time:type_name -> google.protobuf.Timestamp
-	9, // 1: lift.identity.customer.v1.UserCustomer.updated_time:type_name -> google.protobuf.Timestamp
-	3, // 2: lift.identity.customer.v1.GetCustomerByPhoneResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
-	3, // 3: lift.identity.customer.v1.GetCustomerByIdResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
-	3, // 4: lift.identity.customer.v1.ListCustomersByIdsResponse.customers:type_name -> lift.identity.customer.v1.UserCustomer
-	0, // 5: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:input_type -> lift.identity.customer.v1.GetCustomerByPhoneRequest
-	1, // 6: lift.identity.customer.v1.CustomerService.GetCustomerById:input_type -> lift.identity.customer.v1.GetCustomerByIdRequest
-	2, // 7: lift.identity.customer.v1.CustomerService.ListCustomersByIds:input_type -> lift.identity.customer.v1.ListCustomersByIdsRequest
-	7, // 8: lift.identity.customer.v1.CustomerService.AddPaymentMethodToCustomer:input_type -> lift.identity.customer.v1.AddPaymentMethodToCustomerRequest
-	4, // 9: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:output_type -> lift.identity.customer.v1.GetCustomerByPhoneResponse
-	5, // 10: lift.identity.customer.v1.CustomerService.GetCustomerById:output_type -> lift.identity.customer.v1.GetCustomerByIdResponse
-	6, // 11: lift.identity.customer.v1.CustomerService.ListCustomersByIds:output_type -> lift.identity.customer.v1.ListCustomersByIdsResponse
-	8, // 12: lift.identity.customer.v1.CustomerService.AddPaymentMethodToCustomer:output_type -> lift.identity.customer.v1.AddPaymentMethodToCustomerResponse
-	9, // [9:13] is the sub-list for method output_type
-	5, // [5:9] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	11, // 0: lift.identity.customer.v1.UserCustomer.created_time:type_name -> google.protobuf.Timestamp
+	11, // 1: lift.identity.customer.v1.UserCustomer.updated_time:type_name -> google.protobuf.Timestamp
+	3,  // 2: lift.identity.customer.v1.GetCustomerByPhoneResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
+	3,  // 3: lift.identity.customer.v1.GetCustomerByIdResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
+	3,  // 4: lift.identity.customer.v1.ListCustomersByIdsResponse.customers:type_name -> lift.identity.customer.v1.UserCustomer
+	3,  // 5: lift.identity.customer.v1.UpdateCustomerCorporateFieldsResponse.customer:type_name -> lift.identity.customer.v1.UserCustomer
+	0,  // 6: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:input_type -> lift.identity.customer.v1.GetCustomerByPhoneRequest
+	1,  // 7: lift.identity.customer.v1.CustomerService.GetCustomerById:input_type -> lift.identity.customer.v1.GetCustomerByIdRequest
+	2,  // 8: lift.identity.customer.v1.CustomerService.ListCustomersByIds:input_type -> lift.identity.customer.v1.ListCustomersByIdsRequest
+	7,  // 9: lift.identity.customer.v1.CustomerService.AddPaymentMethodToCustomer:input_type -> lift.identity.customer.v1.AddPaymentMethodToCustomerRequest
+	9,  // 10: lift.identity.customer.v1.CustomerService.UpdateCustomerCorporateFields:input_type -> lift.identity.customer.v1.UpdateCustomerCorporateFieldsRequest
+	4,  // 11: lift.identity.customer.v1.CustomerService.GetCustomerByPhone:output_type -> lift.identity.customer.v1.GetCustomerByPhoneResponse
+	5,  // 12: lift.identity.customer.v1.CustomerService.GetCustomerById:output_type -> lift.identity.customer.v1.GetCustomerByIdResponse
+	6,  // 13: lift.identity.customer.v1.CustomerService.ListCustomersByIds:output_type -> lift.identity.customer.v1.ListCustomersByIdsResponse
+	8,  // 14: lift.identity.customer.v1.CustomerService.AddPaymentMethodToCustomer:output_type -> lift.identity.customer.v1.AddPaymentMethodToCustomerResponse
+	10, // 15: lift.identity.customer.v1.CustomerService.UpdateCustomerCorporateFields:output_type -> lift.identity.customer.v1.UpdateCustomerCorporateFieldsResponse
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_identity_customer_v1_customer_proto_init() }
@@ -743,13 +876,14 @@ func file_identity_customer_v1_customer_proto_init() {
 	if File_identity_customer_v1_customer_proto != nil {
 		return
 	}
+	file_identity_customer_v1_customer_proto_msgTypes[9].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_identity_customer_v1_customer_proto_rawDesc), len(file_identity_customer_v1_customer_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
