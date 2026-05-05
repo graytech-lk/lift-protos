@@ -88,12 +88,26 @@ message UpdateCustomerCorporateFieldsResponse {
   UserCustomer customer = 1;
 }
 
+message JobDesignationItem {
+  string code = 1;
+  string label = 2;
+  int32 sort_order = 3;
+}
+
+message ListJobDesignationsResponse {
+  repeated JobDesignationItem designations = 1;
+}
+
+message ListJobDesignationsRequest {}
+
 service CustomerService {
   rpc GetCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCustomerByPhoneResponse);
   rpc GetCustomerById(GetCustomerByIdRequest) returns (GetCustomerByIdResponse);
   rpc ListCustomersByIds(ListCustomersByIdsRequest) returns (ListCustomersByIdsResponse);
   rpc AddPaymentMethodToCustomer(AddPaymentMethodToCustomerRequest) returns (AddPaymentMethodToCustomerResponse);
   rpc UpdateCustomerCorporateFields(UpdateCustomerCorporateFieldsRequest) returns (UpdateCustomerCorporateFieldsResponse);
+  // ListJobDesignations returns active rows from reference_job_designations (corporate admin UI).
+  rpc ListJobDesignations(ListJobDesignationsRequest) returns (ListJobDesignationsResponse);
 }
 
 

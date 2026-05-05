@@ -24,6 +24,7 @@ const (
 	CustomerService_ListCustomersByIds_FullMethodName            = "/lift.identity.customer.v1.CustomerService/ListCustomersByIds"
 	CustomerService_AddPaymentMethodToCustomer_FullMethodName    = "/lift.identity.customer.v1.CustomerService/AddPaymentMethodToCustomer"
 	CustomerService_UpdateCustomerCorporateFields_FullMethodName = "/lift.identity.customer.v1.CustomerService/UpdateCustomerCorporateFields"
+	CustomerService_ListJobDesignations_FullMethodName           = "/lift.identity.customer.v1.CustomerService/ListJobDesignations"
 )
 
 // CustomerServiceClient is the client API for CustomerService service.
@@ -35,6 +36,8 @@ type CustomerServiceClient interface {
 	ListCustomersByIds(ctx context.Context, in *ListCustomersByIdsRequest, opts ...grpc.CallOption) (*ListCustomersByIdsResponse, error)
 	AddPaymentMethodToCustomer(ctx context.Context, in *AddPaymentMethodToCustomerRequest, opts ...grpc.CallOption) (*AddPaymentMethodToCustomerResponse, error)
 	UpdateCustomerCorporateFields(ctx context.Context, in *UpdateCustomerCorporateFieldsRequest, opts ...grpc.CallOption) (*UpdateCustomerCorporateFieldsResponse, error)
+	// ListJobDesignations returns active rows from reference_job_designations (corporate admin UI).
+	ListJobDesignations(ctx context.Context, in *ListJobDesignationsRequest, opts ...grpc.CallOption) (*ListJobDesignationsResponse, error)
 }
 
 type customerServiceClient struct {
@@ -95,6 +98,16 @@ func (c *customerServiceClient) UpdateCustomerCorporateFields(ctx context.Contex
 	return out, nil
 }
 
+func (c *customerServiceClient) ListJobDesignations(ctx context.Context, in *ListJobDesignationsRequest, opts ...grpc.CallOption) (*ListJobDesignationsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListJobDesignationsResponse)
+	err := c.cc.Invoke(ctx, CustomerService_ListJobDesignations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CustomerServiceServer is the server API for CustomerService service.
 // All implementations must embed UnimplementedCustomerServiceServer
 // for forward compatibility.
@@ -104,6 +117,8 @@ type CustomerServiceServer interface {
 	ListCustomersByIds(context.Context, *ListCustomersByIdsRequest) (*ListCustomersByIdsResponse, error)
 	AddPaymentMethodToCustomer(context.Context, *AddPaymentMethodToCustomerRequest) (*AddPaymentMethodToCustomerResponse, error)
 	UpdateCustomerCorporateFields(context.Context, *UpdateCustomerCorporateFieldsRequest) (*UpdateCustomerCorporateFieldsResponse, error)
+	// ListJobDesignations returns active rows from reference_job_designations (corporate admin UI).
+	ListJobDesignations(context.Context, *ListJobDesignationsRequest) (*ListJobDesignationsResponse, error)
 	mustEmbedUnimplementedCustomerServiceServer()
 }
 
@@ -128,6 +143,9 @@ func (UnimplementedCustomerServiceServer) AddPaymentMethodToCustomer(context.Con
 }
 func (UnimplementedCustomerServiceServer) UpdateCustomerCorporateFields(context.Context, *UpdateCustomerCorporateFieldsRequest) (*UpdateCustomerCorporateFieldsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateCustomerCorporateFields not implemented")
+}
+func (UnimplementedCustomerServiceServer) ListJobDesignations(context.Context, *ListJobDesignationsRequest) (*ListJobDesignationsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListJobDesignations not implemented")
 }
 func (UnimplementedCustomerServiceServer) mustEmbedUnimplementedCustomerServiceServer() {}
 func (UnimplementedCustomerServiceServer) testEmbeddedByValue()                         {}
@@ -240,6 +258,24 @@ func _CustomerService_UpdateCustomerCorporateFields_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CustomerService_ListJobDesignations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListJobDesignationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerServiceServer).ListJobDesignations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CustomerService_ListJobDesignations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerServiceServer).ListJobDesignations(ctx, req.(*ListJobDesignationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CustomerService_ServiceDesc is the grpc.ServiceDesc for CustomerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +302,10 @@ var CustomerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateCustomerCorporateFields",
 			Handler:    _CustomerService_UpdateCustomerCorporateFields_Handler,
+		},
+		{
+			MethodName: "ListJobDesignations",
+			Handler:    _CustomerService_ListJobDesignations_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
