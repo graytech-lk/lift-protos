@@ -40,6 +40,15 @@ message UserCustomer {
   string status = 17;
   google.protobuf.Timestamp created_time = 18;
   google.protobuf.Timestamp updated_time = 19;
+  // JSON array of favorite route objects (matches user_customers.favorite_locations).
+  string favorite_locations_json = 20;
+  // JSON object keyed by service category (matches user_customers.usage_details).
+  string usage_details_json = 21;
+  string device_type = 22;
+  // True when the customer has registered on a mobile app (non-empty device_token).
+  bool registered_on_app = 23;
+  // Job / role designation (Director, Manager, etc.) — LIFT-927 / FRD corporate user table.
+  string job_designation = 24;
 }
 
 message GetCustomerByPhoneResponse {
@@ -64,11 +73,41 @@ message AddPaymentMethodToCustomerResponse {
   // Empty response - success indicated by no error
 }
 
+// UpdateCustomerCorporateFieldsRequest patches corporate-admin-editable fields only
+// (US-006). Omitted optional fields are left unchanged.
+message UpdateCustomerCorporateFieldsRequest {
+  string customer_id = 1;
+  optional string job_designation = 2;
+  optional string status = 3;
+  // When false, clears device registration (non–app user). When true, requires an
+  // existing device_token or the call fails with FAILED_PRECONDITION.
+  optional bool registered_on_app = 4;
+}
+
+message UpdateCustomerCorporateFieldsResponse {
+  UserCustomer customer = 1;
+}
+
+message JobDesignationItem {
+  string code = 1;
+  string label = 2;
+  int32 sort_order = 3;
+}
+
+message ListJobDesignationsResponse {
+  repeated JobDesignationItem designations = 1;
+}
+
+message ListJobDesignationsRequest {}
+
 service CustomerService {
   rpc GetCustomerByPhone(GetCustomerByPhoneRequest) returns (GetCustomerByPhoneResponse);
   rpc GetCustomerById(GetCustomerByIdRequest) returns (GetCustomerByIdResponse);
   rpc ListCustomersByIds(ListCustomersByIdsRequest) returns (ListCustomersByIdsResponse);
   rpc AddPaymentMethodToCustomer(AddPaymentMethodToCustomerRequest) returns (AddPaymentMethodToCustomerResponse);
+  rpc UpdateCustomerCorporateFields(UpdateCustomerCorporateFieldsRequest) returns (UpdateCustomerCorporateFieldsResponse);
+  // ListJobDesignations returns active rows from reference_job_designations (corporate admin UI).
+  rpc ListJobDesignations(ListJobDesignationsRequest) returns (ListJobDesignationsResponse);
 }
 
 

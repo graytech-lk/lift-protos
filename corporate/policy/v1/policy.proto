@@ -67,8 +67,26 @@ message ValidateServiceRequestWithPolicyResponse {
   string reason = 2;
 }
 
+// Catalog option for US-017 category limitations (backed by platform DB / gRPC).
+message ServiceSubCategoryOption {
+  string service_sub_category_id = 1;
+  string service_category_id = 2;
+  string sub_service_category_name = 3;
+}
+
+message ListServiceSubCategoriesRequest {
+  // Reserved for future tenant scoping; ignored today (catalog is global per platform).
+  string corporate_id = 1;
+}
+
+message ListServiceSubCategoriesResponse {
+  repeated ServiceSubCategoryOption items = 1;
+}
+
 service CorporatePolicyService {
   rpc GetCorporatePolicyById(GetCorporatePolicyByIdRequest) returns (GetCorporatePolicyByIdResponse);
   rpc ValidateServiceRequestWithPolicy(ValidateServiceRequestWithPolicyRequest) returns (ValidateServiceRequestWithPolicyResponse);
+  // Aggregates platform ServiceSubCategoryService.GetAllServiceSubCategories (all pages).
+  rpc ListServiceSubCategories(ListServiceSubCategoriesRequest) returns (ListServiceSubCategoriesResponse);
 }
 
