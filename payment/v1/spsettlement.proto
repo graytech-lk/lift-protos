@@ -16,6 +16,8 @@ message SPSettlementEvent {
   string service_request_id = 7;
   string service_description = 8;
   string event_status = 9;
+  string settlement_id = 10;
+  string user_id = 11;
 }
 
 message ListSettlementEventsByServiceRequestIDsRequest {
