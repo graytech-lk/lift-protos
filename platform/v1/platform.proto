@@ -99,8 +99,26 @@ message GetTaxAmountsResponse {
   TaxAmounts tax_amounts = 1;
 }
 
+message CustomerAppConfig {
+  string id = 1;
+  string config_category = 2;
+  google.protobuf.Struct properties = 3;
+}
+
+message GetCustomerAppConfigByCategoryRequest {
+  string config_category = 1;
+}
+
+message GetCustomerAppConfigByCategoryResponse {
+  CustomerAppConfig config = 1;
+}
+
 service ConfigurationService {
   rpc GetConfigurationByCategory(GetConfigurationByCategoryRequest) returns (GetConfigurationByCategoryResponse);
+}
+
+service CustomerAppConfigService {
+  rpc GetCustomerAppConfigByCategory(GetCustomerAppConfigByCategoryRequest) returns (GetCustomerAppConfigByCategoryResponse);
 }
 
 service TaxConfigService {

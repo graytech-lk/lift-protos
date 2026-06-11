@@ -939,6 +939,154 @@ func (x *GetTaxAmountsResponse) GetTaxAmounts() *TaxAmounts {
 	return nil
 }
 
+type CustomerAppConfig struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ConfigCategory string                 `protobuf:"bytes,2,opt,name=config_category,json=configCategory,proto3" json:"config_category,omitempty"`
+	Properties     *structpb.Struct       `protobuf:"bytes,3,opt,name=properties,proto3" json:"properties,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CustomerAppConfig) Reset() {
+	*x = CustomerAppConfig{}
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CustomerAppConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CustomerAppConfig) ProtoMessage() {}
+
+func (x *CustomerAppConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CustomerAppConfig.ProtoReflect.Descriptor instead.
+func (*CustomerAppConfig) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *CustomerAppConfig) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CustomerAppConfig) GetConfigCategory() string {
+	if x != nil {
+		return x.ConfigCategory
+	}
+	return ""
+}
+
+func (x *CustomerAppConfig) GetProperties() *structpb.Struct {
+	if x != nil {
+		return x.Properties
+	}
+	return nil
+}
+
+type GetCustomerAppConfigByCategoryRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ConfigCategory string                 `protobuf:"bytes,1,opt,name=config_category,json=configCategory,proto3" json:"config_category,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetCustomerAppConfigByCategoryRequest) Reset() {
+	*x = GetCustomerAppConfigByCategoryRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCustomerAppConfigByCategoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCustomerAppConfigByCategoryRequest) ProtoMessage() {}
+
+func (x *GetCustomerAppConfigByCategoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCustomerAppConfigByCategoryRequest.ProtoReflect.Descriptor instead.
+func (*GetCustomerAppConfigByCategoryRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetCustomerAppConfigByCategoryRequest) GetConfigCategory() string {
+	if x != nil {
+		return x.ConfigCategory
+	}
+	return ""
+}
+
+type GetCustomerAppConfigByCategoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Config        *CustomerAppConfig     `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCustomerAppConfigByCategoryResponse) Reset() {
+	*x = GetCustomerAppConfigByCategoryResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCustomerAppConfigByCategoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCustomerAppConfigByCategoryResponse) ProtoMessage() {}
+
+func (x *GetCustomerAppConfigByCategoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCustomerAppConfigByCategoryResponse.ProtoReflect.Descriptor instead.
+func (*GetCustomerAppConfigByCategoryResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetCustomerAppConfigByCategoryResponse) GetConfig() *CustomerAppConfig {
+	if x != nil {
+		return x.Config
+	}
+	return nil
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
@@ -1022,9 +1170,21 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"ssclAmount\"V\n" +
 	"\x15GetTaxAmountsResponse\x12=\n" +
 	"\vtax_amounts\x18\x01 \x01(\v2\x1c.lift.platform.v1.TaxAmountsR\n" +
-	"taxAmounts2\xa0\x01\n" +
+	"taxAmounts\"\x85\x01\n" +
+	"\x11CustomerAppConfig\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12'\n" +
+	"\x0fconfig_category\x18\x02 \x01(\tR\x0econfigCategory\x127\n" +
+	"\n" +
+	"properties\x18\x03 \x01(\v2\x17.google.protobuf.StructR\n" +
+	"properties\"P\n" +
+	"%GetCustomerAppConfigByCategoryRequest\x12'\n" +
+	"\x0fconfig_category\x18\x01 \x01(\tR\x0econfigCategory\"e\n" +
+	"&GetCustomerAppConfigByCategoryResponse\x12;\n" +
+	"\x06config\x18\x01 \x01(\v2#.lift.platform.v1.CustomerAppConfigR\x06config2\xa0\x01\n" +
 	"\x14ConfigurationService\x12\x87\x01\n" +
-	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2d\n" +
+	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2\xb0\x01\n" +
+	"\x18CustomerAppConfigService\x12\x93\x01\n" +
+	"\x1eGetCustomerAppConfigByCategory\x127.lift.platform.v1.GetCustomerAppConfigByCategoryRequest\x1a8.lift.platform.v1.GetCustomerAppConfigByCategoryResponse2d\n" +
 	"\x10TaxConfigService\x12P\n" +
 	"\rGetTaxAmounts\x12\x16.google.protobuf.Empty\x1a'.lift.platform.v1.GetTaxAmountsResponse2\x98\x01\n" +
 	"\x16ServiceCategoryService\x12~\n" +
@@ -1045,28 +1205,31 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_platform_v1_platform_proto_goTypes = []any{
-	(*GetConfigurationByCategoryRequest)(nil),  // 0: lift.platform.v1.GetConfigurationByCategoryRequest
-	(*Configuration)(nil),                      // 1: lift.platform.v1.Configuration
-	(*GetConfigurationByCategoryResponse)(nil), // 2: lift.platform.v1.GetConfigurationByCategoryResponse
-	(*GetServiceSubCategoryRequest)(nil),       // 3: lift.platform.v1.GetServiceSubCategoryRequest
-	(*ServiceSubParameters)(nil),               // 4: lift.platform.v1.ServiceSubParameters
-	(*ServiceSubCategory)(nil),                 // 5: lift.platform.v1.ServiceSubCategory
-	(*GetServiceSubCategoryResponse)(nil),      // 6: lift.platform.v1.GetServiceSubCategoryResponse
-	(*ServiceCategory)(nil),                    // 7: lift.platform.v1.ServiceCategory
-	(*Pagination)(nil),                         // 8: lift.platform.v1.Pagination
-	(*GetAllServiceCategoriesRequest)(nil),     // 9: lift.platform.v1.GetAllServiceCategoriesRequest
-	(*GetAllServiceCategoriesResponse)(nil),    // 10: lift.platform.v1.GetAllServiceCategoriesResponse
-	(*GetAllServiceSubCategoriesRequest)(nil),  // 11: lift.platform.v1.GetAllServiceSubCategoriesRequest
-	(*GetAllServiceSubCategoriesResponse)(nil), // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse
-	(*TaxAmounts)(nil),                         // 13: lift.platform.v1.TaxAmounts
-	(*GetTaxAmountsResponse)(nil),              // 14: lift.platform.v1.GetTaxAmountsResponse
-	(*structpb.Struct)(nil),                    // 15: google.protobuf.Struct
-	(*emptypb.Empty)(nil),                      // 16: google.protobuf.Empty
+	(*GetConfigurationByCategoryRequest)(nil),      // 0: lift.platform.v1.GetConfigurationByCategoryRequest
+	(*Configuration)(nil),                          // 1: lift.platform.v1.Configuration
+	(*GetConfigurationByCategoryResponse)(nil),     // 2: lift.platform.v1.GetConfigurationByCategoryResponse
+	(*GetServiceSubCategoryRequest)(nil),           // 3: lift.platform.v1.GetServiceSubCategoryRequest
+	(*ServiceSubParameters)(nil),                   // 4: lift.platform.v1.ServiceSubParameters
+	(*ServiceSubCategory)(nil),                     // 5: lift.platform.v1.ServiceSubCategory
+	(*GetServiceSubCategoryResponse)(nil),          // 6: lift.platform.v1.GetServiceSubCategoryResponse
+	(*ServiceCategory)(nil),                        // 7: lift.platform.v1.ServiceCategory
+	(*Pagination)(nil),                             // 8: lift.platform.v1.Pagination
+	(*GetAllServiceCategoriesRequest)(nil),         // 9: lift.platform.v1.GetAllServiceCategoriesRequest
+	(*GetAllServiceCategoriesResponse)(nil),        // 10: lift.platform.v1.GetAllServiceCategoriesResponse
+	(*GetAllServiceSubCategoriesRequest)(nil),      // 11: lift.platform.v1.GetAllServiceSubCategoriesRequest
+	(*GetAllServiceSubCategoriesResponse)(nil),     // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse
+	(*TaxAmounts)(nil),                             // 13: lift.platform.v1.TaxAmounts
+	(*GetTaxAmountsResponse)(nil),                  // 14: lift.platform.v1.GetTaxAmountsResponse
+	(*CustomerAppConfig)(nil),                      // 15: lift.platform.v1.CustomerAppConfig
+	(*GetCustomerAppConfigByCategoryRequest)(nil),  // 16: lift.platform.v1.GetCustomerAppConfigByCategoryRequest
+	(*GetCustomerAppConfigByCategoryResponse)(nil), // 17: lift.platform.v1.GetCustomerAppConfigByCategoryResponse
+	(*structpb.Struct)(nil),                        // 18: google.protobuf.Struct
+	(*emptypb.Empty)(nil),                          // 19: google.protobuf.Empty
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	15, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
+	18, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
 	1,  // 1: lift.platform.v1.GetConfigurationByCategoryResponse.configuration:type_name -> lift.platform.v1.Configuration
 	4,  // 2: lift.platform.v1.ServiceSubCategory.sub_service_parameters:type_name -> lift.platform.v1.ServiceSubParameters
 	5,  // 3: lift.platform.v1.GetServiceSubCategoryResponse.service_sub_category:type_name -> lift.platform.v1.ServiceSubCategory
@@ -1075,21 +1238,25 @@ var file_platform_v1_platform_proto_depIdxs = []int32{
 	5,  // 6: lift.platform.v1.GetAllServiceSubCategoriesResponse.content:type_name -> lift.platform.v1.ServiceSubCategory
 	8,  // 7: lift.platform.v1.GetAllServiceSubCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
 	13, // 8: lift.platform.v1.GetTaxAmountsResponse.tax_amounts:type_name -> lift.platform.v1.TaxAmounts
-	0,  // 9: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
-	16, // 10: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
-	9,  // 11: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
-	3,  // 12: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
-	11, // 13: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
-	2,  // 14: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
-	14, // 15: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
-	10, // 16: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
-	6,  // 17: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
-	12, // 18: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	18, // 9: lift.platform.v1.CustomerAppConfig.properties:type_name -> google.protobuf.Struct
+	15, // 10: lift.platform.v1.GetCustomerAppConfigByCategoryResponse.config:type_name -> lift.platform.v1.CustomerAppConfig
+	0,  // 11: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
+	16, // 12: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:input_type -> lift.platform.v1.GetCustomerAppConfigByCategoryRequest
+	19, // 13: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
+	9,  // 14: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
+	3,  // 15: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
+	11, // 16: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
+	2,  // 17: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
+	17, // 18: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:output_type -> lift.platform.v1.GetCustomerAppConfigByCategoryResponse
+	14, // 19: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
+	10, // 20: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
+	6,  // 21: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
+	12, // 22: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_platform_proto_init() }
@@ -1103,9 +1270,9 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   18,
 			NumExtensions: 0,
-			NumServices:   4,
+			NumServices:   5,
 		},
 		GoTypes:           file_platform_v1_platform_proto_goTypes,
 		DependencyIndexes: file_platform_v1_platform_proto_depIdxs,
