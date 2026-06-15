@@ -33,6 +33,8 @@ type SPSettlementEvent struct {
 	ServiceRequestId    string                 `protobuf:"bytes,7,opt,name=service_request_id,json=serviceRequestId,proto3" json:"service_request_id,omitempty"`
 	ServiceDescription  string                 `protobuf:"bytes,8,opt,name=service_description,json=serviceDescription,proto3" json:"service_description,omitempty"`
 	EventStatus         string                 `protobuf:"bytes,9,opt,name=event_status,json=eventStatus,proto3" json:"event_status,omitempty"`
+	SettlementId        string                 `protobuf:"bytes,10,opt,name=settlement_id,json=settlementId,proto3" json:"settlement_id,omitempty"`
+	UserId              string                 `protobuf:"bytes,11,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -126,6 +128,20 @@ func (x *SPSettlementEvent) GetServiceDescription() string {
 func (x *SPSettlementEvent) GetEventStatus() string {
 	if x != nil {
 		return x.EventStatus
+	}
+	return ""
+}
+
+func (x *SPSettlementEvent) GetSettlementId() string {
+	if x != nil {
+		return x.SettlementId
+	}
+	return ""
+}
+
+func (x *SPSettlementEvent) GetUserId() string {
+	if x != nil {
+		return x.UserId
 	}
 	return ""
 }
@@ -311,7 +327,7 @@ var File_payment_v1_spsettlement_proto protoreflect.FileDescriptor
 
 const file_payment_v1_spsettlement_proto_rawDesc = "" +
 	"\n" +
-	"\x1dpayment/v1/spsettlement.proto\x12\x0flift.payment.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa7\x03\n" +
+	"\x1dpayment/v1/spsettlement.proto\x12\x0flift.payment.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe5\x03\n" +
 	"\x11SPSettlementEvent\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12=\n" +
 	"\fcreated_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
@@ -321,7 +337,10 @@ const file_payment_v1_spsettlement_proto_rawDesc = "" +
 	"\x11settlement_amount\x18\x06 \x01(\x01R\x10settlementAmount\x12,\n" +
 	"\x12service_request_id\x18\a \x01(\tR\x10serviceRequestId\x12/\n" +
 	"\x13service_description\x18\b \x01(\tR\x12serviceDescription\x12!\n" +
-	"\fevent_status\x18\t \x01(\tR\veventStatus\"`\n" +
+	"\fevent_status\x18\t \x01(\tR\veventStatus\x12#\n" +
+	"\rsettlement_id\x18\n" +
+	" \x01(\tR\fsettlementId\x12\x17\n" +
+	"\auser_id\x18\v \x01(\tR\x06userId\"`\n" +
 	".ListSettlementEventsByServiceRequestIDsRequest\x12.\n" +
 	"\x13service_request_ids\x18\x01 \x03(\tR\x11serviceRequestIds\"m\n" +
 	"/ListSettlementEventsByServiceRequestIDsResponse\x12:\n" +
