@@ -569,3 +569,257 @@ var ServiceSubCategoryService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "platform/v1/platform.proto",
 }
+
+const (
+	VehicleTypeService_ListVehicleTypes_FullMethodName     = "/lift.platform.v1.VehicleTypeService/ListVehicleTypes"
+	VehicleTypeService_GetVehicleType_FullMethodName       = "/lift.platform.v1.VehicleTypeService/GetVehicleType"
+	VehicleTypeService_CreateVehicleType_FullMethodName    = "/lift.platform.v1.VehicleTypeService/CreateVehicleType"
+	VehicleTypeService_UpdateVehicleType_FullMethodName    = "/lift.platform.v1.VehicleTypeService/UpdateVehicleType"
+	VehicleTypeService_SetVehicleTypeStatus_FullMethodName = "/lift.platform.v1.VehicleTypeService/SetVehicleTypeStatus"
+)
+
+// VehicleTypeServiceClient is the client API for VehicleTypeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type VehicleTypeServiceClient interface {
+	ListVehicleTypes(ctx context.Context, in *ListVehicleTypesRequest, opts ...grpc.CallOption) (*ListVehicleTypesResponse, error)
+	GetVehicleType(ctx context.Context, in *GetVehicleTypeRequest, opts ...grpc.CallOption) (*GetVehicleTypeResponse, error)
+	CreateVehicleType(ctx context.Context, in *CreateVehicleTypeRequest, opts ...grpc.CallOption) (*CreateVehicleTypeResponse, error)
+	UpdateVehicleType(ctx context.Context, in *UpdateVehicleTypeRequest, opts ...grpc.CallOption) (*UpdateVehicleTypeResponse, error)
+	SetVehicleTypeStatus(ctx context.Context, in *SetVehicleTypeStatusRequest, opts ...grpc.CallOption) (*SetVehicleTypeStatusResponse, error)
+}
+
+type vehicleTypeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewVehicleTypeServiceClient(cc grpc.ClientConnInterface) VehicleTypeServiceClient {
+	return &vehicleTypeServiceClient{cc}
+}
+
+func (c *vehicleTypeServiceClient) ListVehicleTypes(ctx context.Context, in *ListVehicleTypesRequest, opts ...grpc.CallOption) (*ListVehicleTypesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListVehicleTypesResponse)
+	err := c.cc.Invoke(ctx, VehicleTypeService_ListVehicleTypes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vehicleTypeServiceClient) GetVehicleType(ctx context.Context, in *GetVehicleTypeRequest, opts ...grpc.CallOption) (*GetVehicleTypeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetVehicleTypeResponse)
+	err := c.cc.Invoke(ctx, VehicleTypeService_GetVehicleType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vehicleTypeServiceClient) CreateVehicleType(ctx context.Context, in *CreateVehicleTypeRequest, opts ...grpc.CallOption) (*CreateVehicleTypeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateVehicleTypeResponse)
+	err := c.cc.Invoke(ctx, VehicleTypeService_CreateVehicleType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vehicleTypeServiceClient) UpdateVehicleType(ctx context.Context, in *UpdateVehicleTypeRequest, opts ...grpc.CallOption) (*UpdateVehicleTypeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateVehicleTypeResponse)
+	err := c.cc.Invoke(ctx, VehicleTypeService_UpdateVehicleType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vehicleTypeServiceClient) SetVehicleTypeStatus(ctx context.Context, in *SetVehicleTypeStatusRequest, opts ...grpc.CallOption) (*SetVehicleTypeStatusResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetVehicleTypeStatusResponse)
+	err := c.cc.Invoke(ctx, VehicleTypeService_SetVehicleTypeStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// VehicleTypeServiceServer is the server API for VehicleTypeService service.
+// All implementations must embed UnimplementedVehicleTypeServiceServer
+// for forward compatibility.
+type VehicleTypeServiceServer interface {
+	ListVehicleTypes(context.Context, *ListVehicleTypesRequest) (*ListVehicleTypesResponse, error)
+	GetVehicleType(context.Context, *GetVehicleTypeRequest) (*GetVehicleTypeResponse, error)
+	CreateVehicleType(context.Context, *CreateVehicleTypeRequest) (*CreateVehicleTypeResponse, error)
+	UpdateVehicleType(context.Context, *UpdateVehicleTypeRequest) (*UpdateVehicleTypeResponse, error)
+	SetVehicleTypeStatus(context.Context, *SetVehicleTypeStatusRequest) (*SetVehicleTypeStatusResponse, error)
+	mustEmbedUnimplementedVehicleTypeServiceServer()
+}
+
+// UnimplementedVehicleTypeServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedVehicleTypeServiceServer struct{}
+
+func (UnimplementedVehicleTypeServiceServer) ListVehicleTypes(context.Context, *ListVehicleTypesRequest) (*ListVehicleTypesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListVehicleTypes not implemented")
+}
+func (UnimplementedVehicleTypeServiceServer) GetVehicleType(context.Context, *GetVehicleTypeRequest) (*GetVehicleTypeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetVehicleType not implemented")
+}
+func (UnimplementedVehicleTypeServiceServer) CreateVehicleType(context.Context, *CreateVehicleTypeRequest) (*CreateVehicleTypeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateVehicleType not implemented")
+}
+func (UnimplementedVehicleTypeServiceServer) UpdateVehicleType(context.Context, *UpdateVehicleTypeRequest) (*UpdateVehicleTypeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateVehicleType not implemented")
+}
+func (UnimplementedVehicleTypeServiceServer) SetVehicleTypeStatus(context.Context, *SetVehicleTypeStatusRequest) (*SetVehicleTypeStatusResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SetVehicleTypeStatus not implemented")
+}
+func (UnimplementedVehicleTypeServiceServer) mustEmbedUnimplementedVehicleTypeServiceServer() {}
+func (UnimplementedVehicleTypeServiceServer) testEmbeddedByValue()                            {}
+
+// UnsafeVehicleTypeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to VehicleTypeServiceServer will
+// result in compilation errors.
+type UnsafeVehicleTypeServiceServer interface {
+	mustEmbedUnimplementedVehicleTypeServiceServer()
+}
+
+func RegisterVehicleTypeServiceServer(s grpc.ServiceRegistrar, srv VehicleTypeServiceServer) {
+	// If the following call panics, it indicates UnimplementedVehicleTypeServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&VehicleTypeService_ServiceDesc, srv)
+}
+
+func _VehicleTypeService_ListVehicleTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListVehicleTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VehicleTypeServiceServer).ListVehicleTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VehicleTypeService_ListVehicleTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VehicleTypeServiceServer).ListVehicleTypes(ctx, req.(*ListVehicleTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VehicleTypeService_GetVehicleType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetVehicleTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VehicleTypeServiceServer).GetVehicleType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VehicleTypeService_GetVehicleType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VehicleTypeServiceServer).GetVehicleType(ctx, req.(*GetVehicleTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VehicleTypeService_CreateVehicleType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateVehicleTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VehicleTypeServiceServer).CreateVehicleType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VehicleTypeService_CreateVehicleType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VehicleTypeServiceServer).CreateVehicleType(ctx, req.(*CreateVehicleTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VehicleTypeService_UpdateVehicleType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVehicleTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VehicleTypeServiceServer).UpdateVehicleType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VehicleTypeService_UpdateVehicleType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VehicleTypeServiceServer).UpdateVehicleType(ctx, req.(*UpdateVehicleTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VehicleTypeService_SetVehicleTypeStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetVehicleTypeStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VehicleTypeServiceServer).SetVehicleTypeStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VehicleTypeService_SetVehicleTypeStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VehicleTypeServiceServer).SetVehicleTypeStatus(ctx, req.(*SetVehicleTypeStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// VehicleTypeService_ServiceDesc is the grpc.ServiceDesc for VehicleTypeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var VehicleTypeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "lift.platform.v1.VehicleTypeService",
+	HandlerType: (*VehicleTypeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ListVehicleTypes",
+			Handler:    _VehicleTypeService_ListVehicleTypes_Handler,
+		},
+		{
+			MethodName: "GetVehicleType",
+			Handler:    _VehicleTypeService_GetVehicleType_Handler,
+		},
+		{
+			MethodName: "CreateVehicleType",
+			Handler:    _VehicleTypeService_CreateVehicleType_Handler,
+		},
+		{
+			MethodName: "UpdateVehicleType",
+			Handler:    _VehicleTypeService_UpdateVehicleType_Handler,
+		},
+		{
+			MethodName: "SetVehicleTypeStatus",
+			Handler:    _VehicleTypeService_SetVehicleTypeStatus_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "platform/v1/platform.proto",
+}

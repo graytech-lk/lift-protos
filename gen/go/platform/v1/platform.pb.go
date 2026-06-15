@@ -333,8 +333,10 @@ type ServiceSubCategory struct {
 	IconUrl                string                 `protobuf:"bytes,6,opt,name=icon_url,json=iconUrl,proto3" json:"icon_url,omitempty"`
 	SubServiceParameters   *ServiceSubParameters  `protobuf:"bytes,7,opt,name=sub_service_parameters,json=subServiceParameters,proto3" json:"sub_service_parameters,omitempty"`
 	ServiceCategoryName    string                 `protobuf:"bytes,8,opt,name=service_category_name,json=serviceCategoryName,proto3" json:"service_category_name,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	// vehicle_type_id is optional — unset means no vehicle type assigned yet.
+	VehicleTypeId *int32 `protobuf:"varint,9,opt,name=vehicle_type_id,json=vehicleTypeId,proto3,oneof" json:"vehicle_type_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ServiceSubCategory) Reset() {
@@ -423,6 +425,537 @@ func (x *ServiceSubCategory) GetServiceCategoryName() string {
 	return ""
 }
 
+func (x *ServiceSubCategory) GetVehicleTypeId() int32 {
+	if x != nil && x.VehicleTypeId != nil {
+		return *x.VehicleTypeId
+	}
+	return 0
+}
+
+type VehicleType struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Status        bool                   `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VehicleType) Reset() {
+	*x = VehicleType{}
+	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VehicleType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VehicleType) ProtoMessage() {}
+
+func (x *VehicleType) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VehicleType.ProtoReflect.Descriptor instead.
+func (*VehicleType) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *VehicleType) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *VehicleType) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *VehicleType) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+type ListVehicleTypesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ActiveOnly    bool                   `protobuf:"varint,1,opt,name=active_only,json=activeOnly,proto3" json:"active_only,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListVehicleTypesRequest) Reset() {
+	*x = ListVehicleTypesRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListVehicleTypesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListVehicleTypesRequest) ProtoMessage() {}
+
+func (x *ListVehicleTypesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListVehicleTypesRequest.ProtoReflect.Descriptor instead.
+func (*ListVehicleTypesRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListVehicleTypesRequest) GetActiveOnly() bool {
+	if x != nil {
+		return x.ActiveOnly
+	}
+	return false
+}
+
+type ListVehicleTypesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VehicleTypes  []*VehicleType         `protobuf:"bytes,1,rep,name=vehicle_types,json=vehicleTypes,proto3" json:"vehicle_types,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListVehicleTypesResponse) Reset() {
+	*x = ListVehicleTypesResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListVehicleTypesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListVehicleTypesResponse) ProtoMessage() {}
+
+func (x *ListVehicleTypesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListVehicleTypesResponse.ProtoReflect.Descriptor instead.
+func (*ListVehicleTypesResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListVehicleTypesResponse) GetVehicleTypes() []*VehicleType {
+	if x != nil {
+		return x.VehicleTypes
+	}
+	return nil
+}
+
+type GetVehicleTypeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetVehicleTypeRequest) Reset() {
+	*x = GetVehicleTypeRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetVehicleTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetVehicleTypeRequest) ProtoMessage() {}
+
+func (x *GetVehicleTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetVehicleTypeRequest.ProtoReflect.Descriptor instead.
+func (*GetVehicleTypeRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetVehicleTypeRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetVehicleTypeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VehicleType   *VehicleType           `protobuf:"bytes,1,opt,name=vehicle_type,json=vehicleType,proto3" json:"vehicle_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetVehicleTypeResponse) Reset() {
+	*x = GetVehicleTypeResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetVehicleTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetVehicleTypeResponse) ProtoMessage() {}
+
+func (x *GetVehicleTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetVehicleTypeResponse.ProtoReflect.Descriptor instead.
+func (*GetVehicleTypeResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetVehicleTypeResponse) GetVehicleType() *VehicleType {
+	if x != nil {
+		return x.VehicleType
+	}
+	return nil
+}
+
+type CreateVehicleTypeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateVehicleTypeRequest) Reset() {
+	*x = CreateVehicleTypeRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateVehicleTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateVehicleTypeRequest) ProtoMessage() {}
+
+func (x *CreateVehicleTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateVehicleTypeRequest.ProtoReflect.Descriptor instead.
+func (*CreateVehicleTypeRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *CreateVehicleTypeRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type CreateVehicleTypeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VehicleType   *VehicleType           `protobuf:"bytes,1,opt,name=vehicle_type,json=vehicleType,proto3" json:"vehicle_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateVehicleTypeResponse) Reset() {
+	*x = CreateVehicleTypeResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateVehicleTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateVehicleTypeResponse) ProtoMessage() {}
+
+func (x *CreateVehicleTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateVehicleTypeResponse.ProtoReflect.Descriptor instead.
+func (*CreateVehicleTypeResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *CreateVehicleTypeResponse) GetVehicleType() *VehicleType {
+	if x != nil {
+		return x.VehicleType
+	}
+	return nil
+}
+
+type UpdateVehicleTypeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Status        bool                   `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateVehicleTypeRequest) Reset() {
+	*x = UpdateVehicleTypeRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateVehicleTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateVehicleTypeRequest) ProtoMessage() {}
+
+func (x *UpdateVehicleTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateVehicleTypeRequest.ProtoReflect.Descriptor instead.
+func (*UpdateVehicleTypeRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UpdateVehicleTypeRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateVehicleTypeRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateVehicleTypeRequest) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+type UpdateVehicleTypeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VehicleType   *VehicleType           `protobuf:"bytes,1,opt,name=vehicle_type,json=vehicleType,proto3" json:"vehicle_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateVehicleTypeResponse) Reset() {
+	*x = UpdateVehicleTypeResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateVehicleTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateVehicleTypeResponse) ProtoMessage() {}
+
+func (x *UpdateVehicleTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateVehicleTypeResponse.ProtoReflect.Descriptor instead.
+func (*UpdateVehicleTypeResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *UpdateVehicleTypeResponse) GetVehicleType() *VehicleType {
+	if x != nil {
+		return x.VehicleType
+	}
+	return nil
+}
+
+type SetVehicleTypeStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Active        bool                   `protobuf:"varint,2,opt,name=active,proto3" json:"active,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetVehicleTypeStatusRequest) Reset() {
+	*x = SetVehicleTypeStatusRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetVehicleTypeStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetVehicleTypeStatusRequest) ProtoMessage() {}
+
+func (x *SetVehicleTypeStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetVehicleTypeStatusRequest.ProtoReflect.Descriptor instead.
+func (*SetVehicleTypeStatusRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *SetVehicleTypeStatusRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SetVehicleTypeStatusRequest) GetActive() bool {
+	if x != nil {
+		return x.Active
+	}
+	return false
+}
+
+type SetVehicleTypeStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VehicleType   *VehicleType           `protobuf:"bytes,1,opt,name=vehicle_type,json=vehicleType,proto3" json:"vehicle_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetVehicleTypeStatusResponse) Reset() {
+	*x = SetVehicleTypeStatusResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetVehicleTypeStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetVehicleTypeStatusResponse) ProtoMessage() {}
+
+func (x *SetVehicleTypeStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetVehicleTypeStatusResponse.ProtoReflect.Descriptor instead.
+func (*SetVehicleTypeStatusResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *SetVehicleTypeStatusResponse) GetVehicleType() *VehicleType {
+	if x != nil {
+		return x.VehicleType
+	}
+	return nil
+}
+
 type GetServiceSubCategoryResponse struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	ServiceSubCategory *ServiceSubCategory    `protobuf:"bytes,1,opt,name=service_sub_category,json=serviceSubCategory,proto3" json:"service_sub_category,omitempty"`
@@ -432,7 +965,7 @@ type GetServiceSubCategoryResponse struct {
 
 func (x *GetServiceSubCategoryResponse) Reset() {
 	*x = GetServiceSubCategoryResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	mi := &file_platform_v1_platform_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -444,7 +977,7 @@ func (x *GetServiceSubCategoryResponse) String() string {
 func (*GetServiceSubCategoryResponse) ProtoMessage() {}
 
 func (x *GetServiceSubCategoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[6]
+	mi := &file_platform_v1_platform_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -457,7 +990,7 @@ func (x *GetServiceSubCategoryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetServiceSubCategoryResponse.ProtoReflect.Descriptor instead.
 func (*GetServiceSubCategoryResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{6}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetServiceSubCategoryResponse) GetServiceSubCategory() *ServiceSubCategory {
@@ -481,7 +1014,7 @@ type ServiceCategory struct {
 
 func (x *ServiceCategory) Reset() {
 	*x = ServiceCategory{}
-	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	mi := &file_platform_v1_platform_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -493,7 +1026,7 @@ func (x *ServiceCategory) String() string {
 func (*ServiceCategory) ProtoMessage() {}
 
 func (x *ServiceCategory) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[7]
+	mi := &file_platform_v1_platform_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -506,7 +1039,7 @@ func (x *ServiceCategory) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceCategory.ProtoReflect.Descriptor instead.
 func (*ServiceCategory) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{7}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ServiceCategory) GetServiceCategoryId() string {
@@ -563,7 +1096,7 @@ type Pagination struct {
 
 func (x *Pagination) Reset() {
 	*x = Pagination{}
-	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	mi := &file_platform_v1_platform_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -575,7 +1108,7 @@ func (x *Pagination) String() string {
 func (*Pagination) ProtoMessage() {}
 
 func (x *Pagination) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[8]
+	mi := &file_platform_v1_platform_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -588,7 +1121,7 @@ func (x *Pagination) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Pagination.ProtoReflect.Descriptor instead.
 func (*Pagination) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{8}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *Pagination) GetPageNumber() int32 {
@@ -630,7 +1163,7 @@ type GetAllServiceCategoriesRequest struct {
 
 func (x *GetAllServiceCategoriesRequest) Reset() {
 	*x = GetAllServiceCategoriesRequest{}
-	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	mi := &file_platform_v1_platform_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -642,7 +1175,7 @@ func (x *GetAllServiceCategoriesRequest) String() string {
 func (*GetAllServiceCategoriesRequest) ProtoMessage() {}
 
 func (x *GetAllServiceCategoriesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[9]
+	mi := &file_platform_v1_platform_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -655,7 +1188,7 @@ func (x *GetAllServiceCategoriesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllServiceCategoriesRequest.ProtoReflect.Descriptor instead.
 func (*GetAllServiceCategoriesRequest) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{9}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GetAllServiceCategoriesRequest) GetPageNumber() int32 {
@@ -689,7 +1222,7 @@ type GetAllServiceCategoriesResponse struct {
 
 func (x *GetAllServiceCategoriesResponse) Reset() {
 	*x = GetAllServiceCategoriesResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	mi := &file_platform_v1_platform_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -701,7 +1234,7 @@ func (x *GetAllServiceCategoriesResponse) String() string {
 func (*GetAllServiceCategoriesResponse) ProtoMessage() {}
 
 func (x *GetAllServiceCategoriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[10]
+	mi := &file_platform_v1_platform_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -714,7 +1247,7 @@ func (x *GetAllServiceCategoriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllServiceCategoriesResponse.ProtoReflect.Descriptor instead.
 func (*GetAllServiceCategoriesResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{10}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetAllServiceCategoriesResponse) GetContent() []*ServiceCategory {
@@ -742,7 +1275,7 @@ type GetAllServiceSubCategoriesRequest struct {
 
 func (x *GetAllServiceSubCategoriesRequest) Reset() {
 	*x = GetAllServiceSubCategoriesRequest{}
-	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	mi := &file_platform_v1_platform_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -754,7 +1287,7 @@ func (x *GetAllServiceSubCategoriesRequest) String() string {
 func (*GetAllServiceSubCategoriesRequest) ProtoMessage() {}
 
 func (x *GetAllServiceSubCategoriesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[11]
+	mi := &file_platform_v1_platform_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -767,7 +1300,7 @@ func (x *GetAllServiceSubCategoriesRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetAllServiceSubCategoriesRequest.ProtoReflect.Descriptor instead.
 func (*GetAllServiceSubCategoriesRequest) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{11}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *GetAllServiceSubCategoriesRequest) GetPageNumber() int32 {
@@ -801,7 +1334,7 @@ type GetAllServiceSubCategoriesResponse struct {
 
 func (x *GetAllServiceSubCategoriesResponse) Reset() {
 	*x = GetAllServiceSubCategoriesResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	mi := &file_platform_v1_platform_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -813,7 +1346,7 @@ func (x *GetAllServiceSubCategoriesResponse) String() string {
 func (*GetAllServiceSubCategoriesResponse) ProtoMessage() {}
 
 func (x *GetAllServiceSubCategoriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[12]
+	mi := &file_platform_v1_platform_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -826,7 +1359,7 @@ func (x *GetAllServiceSubCategoriesResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use GetAllServiceSubCategoriesResponse.ProtoReflect.Descriptor instead.
 func (*GetAllServiceSubCategoriesResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{12}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *GetAllServiceSubCategoriesResponse) GetContent() []*ServiceSubCategory {
@@ -853,7 +1386,7 @@ type TaxAmounts struct {
 
 func (x *TaxAmounts) Reset() {
 	*x = TaxAmounts{}
-	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	mi := &file_platform_v1_platform_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -865,7 +1398,7 @@ func (x *TaxAmounts) String() string {
 func (*TaxAmounts) ProtoMessage() {}
 
 func (x *TaxAmounts) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[13]
+	mi := &file_platform_v1_platform_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -878,7 +1411,7 @@ func (x *TaxAmounts) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaxAmounts.ProtoReflect.Descriptor instead.
 func (*TaxAmounts) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{13}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *TaxAmounts) GetVatAmount() float64 {
@@ -904,7 +1437,7 @@ type GetTaxAmountsResponse struct {
 
 func (x *GetTaxAmountsResponse) Reset() {
 	*x = GetTaxAmountsResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	mi := &file_platform_v1_platform_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -916,7 +1449,7 @@ func (x *GetTaxAmountsResponse) String() string {
 func (*GetTaxAmountsResponse) ProtoMessage() {}
 
 func (x *GetTaxAmountsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[14]
+	mi := &file_platform_v1_platform_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -929,7 +1462,7 @@ func (x *GetTaxAmountsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTaxAmountsResponse.ProtoReflect.Descriptor instead.
 func (*GetTaxAmountsResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{14}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *GetTaxAmountsResponse) GetTaxAmounts() *TaxAmounts {
@@ -950,7 +1483,7 @@ type CustomerAppConfig struct {
 
 func (x *CustomerAppConfig) Reset() {
 	*x = CustomerAppConfig{}
-	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	mi := &file_platform_v1_platform_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -962,7 +1495,7 @@ func (x *CustomerAppConfig) String() string {
 func (*CustomerAppConfig) ProtoMessage() {}
 
 func (x *CustomerAppConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[15]
+	mi := &file_platform_v1_platform_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -975,7 +1508,7 @@ func (x *CustomerAppConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CustomerAppConfig.ProtoReflect.Descriptor instead.
 func (*CustomerAppConfig) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{15}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *CustomerAppConfig) GetId() string {
@@ -1008,7 +1541,7 @@ type GetCustomerAppConfigByCategoryRequest struct {
 
 func (x *GetCustomerAppConfigByCategoryRequest) Reset() {
 	*x = GetCustomerAppConfigByCategoryRequest{}
-	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	mi := &file_platform_v1_platform_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1020,7 +1553,7 @@ func (x *GetCustomerAppConfigByCategoryRequest) String() string {
 func (*GetCustomerAppConfigByCategoryRequest) ProtoMessage() {}
 
 func (x *GetCustomerAppConfigByCategoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[16]
+	mi := &file_platform_v1_platform_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1033,7 +1566,7 @@ func (x *GetCustomerAppConfigByCategoryRequest) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use GetCustomerAppConfigByCategoryRequest.ProtoReflect.Descriptor instead.
 func (*GetCustomerAppConfigByCategoryRequest) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{16}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *GetCustomerAppConfigByCategoryRequest) GetConfigCategory() string {
@@ -1052,7 +1585,7 @@ type GetCustomerAppConfigByCategoryResponse struct {
 
 func (x *GetCustomerAppConfigByCategoryResponse) Reset() {
 	*x = GetCustomerAppConfigByCategoryResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[17]
+	mi := &file_platform_v1_platform_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1064,7 +1597,7 @@ func (x *GetCustomerAppConfigByCategoryResponse) String() string {
 func (*GetCustomerAppConfigByCategoryResponse) ProtoMessage() {}
 
 func (x *GetCustomerAppConfigByCategoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[17]
+	mi := &file_platform_v1_platform_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1077,7 +1610,7 @@ func (x *GetCustomerAppConfigByCategoryResponse) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use GetCustomerAppConfigByCategoryResponse.ProtoReflect.Descriptor instead.
 func (*GetCustomerAppConfigByCategoryResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{17}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *GetCustomerAppConfigByCategoryResponse) GetConfig() *CustomerAppConfig {
@@ -1116,7 +1649,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"app_charge\x18\t \x01(\x01R\tappCharge\x12/\n" +
 	"\x13passenger_insurance\x18\n" +
-	" \x01(\x01R\x12passengerInsurance\"\x9d\x03\n" +
+	" \x01(\x01R\x12passengerInsurance\"\xde\x03\n" +
 	"\x12ServiceSubCategory\x125\n" +
 	"\x17sub_service_category_id\x18\x01 \x01(\tR\x14subServiceCategoryId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x129\n" +
@@ -1125,7 +1658,37 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x06status\x18\x05 \x01(\bR\x06status\x12\x19\n" +
 	"\bicon_url\x18\x06 \x01(\tR\aiconUrl\x12\\\n" +
 	"\x16sub_service_parameters\x18\a \x01(\v2&.lift.platform.v1.ServiceSubParametersR\x14subServiceParameters\x122\n" +
-	"\x15service_category_name\x18\b \x01(\tR\x13serviceCategoryName\"w\n" +
+	"\x15service_category_name\x18\b \x01(\tR\x13serviceCategoryName\x12+\n" +
+	"\x0fvehicle_type_id\x18\t \x01(\x05H\x00R\rvehicleTypeId\x88\x01\x01B\x12\n" +
+	"\x10_vehicle_type_id\"I\n" +
+	"\vVehicleType\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\bR\x06status\":\n" +
+	"\x17ListVehicleTypesRequest\x12\x1f\n" +
+	"\vactive_only\x18\x01 \x01(\bR\n" +
+	"activeOnly\"^\n" +
+	"\x18ListVehicleTypesResponse\x12B\n" +
+	"\rvehicle_types\x18\x01 \x03(\v2\x1d.lift.platform.v1.VehicleTypeR\fvehicleTypes\"'\n" +
+	"\x15GetVehicleTypeRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"Z\n" +
+	"\x16GetVehicleTypeResponse\x12@\n" +
+	"\fvehicle_type\x18\x01 \x01(\v2\x1d.lift.platform.v1.VehicleTypeR\vvehicleType\".\n" +
+	"\x18CreateVehicleTypeRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"]\n" +
+	"\x19CreateVehicleTypeResponse\x12@\n" +
+	"\fvehicle_type\x18\x01 \x01(\v2\x1d.lift.platform.v1.VehicleTypeR\vvehicleType\"V\n" +
+	"\x18UpdateVehicleTypeRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\bR\x06status\"]\n" +
+	"\x19UpdateVehicleTypeResponse\x12@\n" +
+	"\fvehicle_type\x18\x01 \x01(\v2\x1d.lift.platform.v1.VehicleTypeR\vvehicleType\"E\n" +
+	"\x1bSetVehicleTypeStatusRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x16\n" +
+	"\x06active\x18\x02 \x01(\bR\x06active\"`\n" +
+	"\x1cSetVehicleTypeStatusResponse\x12@\n" +
+	"\fvehicle_type\x18\x01 \x01(\v2\x1d.lift.platform.v1.VehicleTypeR\vvehicleType\"w\n" +
 	"\x1dGetServiceSubCategoryResponse\x12V\n" +
 	"\x14service_sub_category\x18\x01 \x01(\v2$.lift.platform.v1.ServiceSubCategoryR\x12serviceSubCategory\"\xed\x01\n" +
 	"\x0fServiceCategory\x12.\n" +
@@ -1191,7 +1754,13 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x17GetAllServiceCategories\x120.lift.platform.v1.GetAllServiceCategoriesRequest\x1a1.lift.platform.v1.GetAllServiceCategoriesResponse2\x9f\x02\n" +
 	"\x19ServiceSubCategoryService\x12x\n" +
 	"\x15GetServiceSubCategory\x12..lift.platform.v1.GetServiceSubCategoryRequest\x1a/.lift.platform.v1.GetServiceSubCategoryResponse\x12\x87\x01\n" +
-	"\x1aGetAllServiceSubCategories\x123.lift.platform.v1.GetAllServiceSubCategoriesRequest\x1a4.lift.platform.v1.GetAllServiceSubCategoriesResponseBBZ@github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1b\x06proto3"
+	"\x1aGetAllServiceSubCategories\x123.lift.platform.v1.GetAllServiceSubCategoriesRequest\x1a4.lift.platform.v1.GetAllServiceSubCategoriesResponse2\xb7\x04\n" +
+	"\x12VehicleTypeService\x12i\n" +
+	"\x10ListVehicleTypes\x12).lift.platform.v1.ListVehicleTypesRequest\x1a*.lift.platform.v1.ListVehicleTypesResponse\x12c\n" +
+	"\x0eGetVehicleType\x12'.lift.platform.v1.GetVehicleTypeRequest\x1a(.lift.platform.v1.GetVehicleTypeResponse\x12l\n" +
+	"\x11CreateVehicleType\x12*.lift.platform.v1.CreateVehicleTypeRequest\x1a+.lift.platform.v1.CreateVehicleTypeResponse\x12l\n" +
+	"\x11UpdateVehicleType\x12*.lift.platform.v1.UpdateVehicleTypeRequest\x1a+.lift.platform.v1.UpdateVehicleTypeResponse\x12u\n" +
+	"\x14SetVehicleTypeStatus\x12-.lift.platform.v1.SetVehicleTypeStatusRequest\x1a..lift.platform.v1.SetVehicleTypeStatusResponseBBZ@github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1b\x06proto3"
 
 var (
 	file_platform_v1_platform_proto_rawDescOnce sync.Once
@@ -1205,7 +1774,7 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetConfigurationByCategoryRequest)(nil),      // 0: lift.platform.v1.GetConfigurationByCategoryRequest
 	(*Configuration)(nil),                          // 1: lift.platform.v1.Configuration
@@ -1213,50 +1782,76 @@ var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetServiceSubCategoryRequest)(nil),           // 3: lift.platform.v1.GetServiceSubCategoryRequest
 	(*ServiceSubParameters)(nil),                   // 4: lift.platform.v1.ServiceSubParameters
 	(*ServiceSubCategory)(nil),                     // 5: lift.platform.v1.ServiceSubCategory
-	(*GetServiceSubCategoryResponse)(nil),          // 6: lift.platform.v1.GetServiceSubCategoryResponse
-	(*ServiceCategory)(nil),                        // 7: lift.platform.v1.ServiceCategory
-	(*Pagination)(nil),                             // 8: lift.platform.v1.Pagination
-	(*GetAllServiceCategoriesRequest)(nil),         // 9: lift.platform.v1.GetAllServiceCategoriesRequest
-	(*GetAllServiceCategoriesResponse)(nil),        // 10: lift.platform.v1.GetAllServiceCategoriesResponse
-	(*GetAllServiceSubCategoriesRequest)(nil),      // 11: lift.platform.v1.GetAllServiceSubCategoriesRequest
-	(*GetAllServiceSubCategoriesResponse)(nil),     // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse
-	(*TaxAmounts)(nil),                             // 13: lift.platform.v1.TaxAmounts
-	(*GetTaxAmountsResponse)(nil),                  // 14: lift.platform.v1.GetTaxAmountsResponse
-	(*CustomerAppConfig)(nil),                      // 15: lift.platform.v1.CustomerAppConfig
-	(*GetCustomerAppConfigByCategoryRequest)(nil),  // 16: lift.platform.v1.GetCustomerAppConfigByCategoryRequest
-	(*GetCustomerAppConfigByCategoryResponse)(nil), // 17: lift.platform.v1.GetCustomerAppConfigByCategoryResponse
-	(*structpb.Struct)(nil),                        // 18: google.protobuf.Struct
-	(*emptypb.Empty)(nil),                          // 19: google.protobuf.Empty
+	(*VehicleType)(nil),                            // 6: lift.platform.v1.VehicleType
+	(*ListVehicleTypesRequest)(nil),                // 7: lift.platform.v1.ListVehicleTypesRequest
+	(*ListVehicleTypesResponse)(nil),               // 8: lift.platform.v1.ListVehicleTypesResponse
+	(*GetVehicleTypeRequest)(nil),                  // 9: lift.platform.v1.GetVehicleTypeRequest
+	(*GetVehicleTypeResponse)(nil),                 // 10: lift.platform.v1.GetVehicleTypeResponse
+	(*CreateVehicleTypeRequest)(nil),               // 11: lift.platform.v1.CreateVehicleTypeRequest
+	(*CreateVehicleTypeResponse)(nil),              // 12: lift.platform.v1.CreateVehicleTypeResponse
+	(*UpdateVehicleTypeRequest)(nil),               // 13: lift.platform.v1.UpdateVehicleTypeRequest
+	(*UpdateVehicleTypeResponse)(nil),              // 14: lift.platform.v1.UpdateVehicleTypeResponse
+	(*SetVehicleTypeStatusRequest)(nil),            // 15: lift.platform.v1.SetVehicleTypeStatusRequest
+	(*SetVehicleTypeStatusResponse)(nil),           // 16: lift.platform.v1.SetVehicleTypeStatusResponse
+	(*GetServiceSubCategoryResponse)(nil),          // 17: lift.platform.v1.GetServiceSubCategoryResponse
+	(*ServiceCategory)(nil),                        // 18: lift.platform.v1.ServiceCategory
+	(*Pagination)(nil),                             // 19: lift.platform.v1.Pagination
+	(*GetAllServiceCategoriesRequest)(nil),         // 20: lift.platform.v1.GetAllServiceCategoriesRequest
+	(*GetAllServiceCategoriesResponse)(nil),        // 21: lift.platform.v1.GetAllServiceCategoriesResponse
+	(*GetAllServiceSubCategoriesRequest)(nil),      // 22: lift.platform.v1.GetAllServiceSubCategoriesRequest
+	(*GetAllServiceSubCategoriesResponse)(nil),     // 23: lift.platform.v1.GetAllServiceSubCategoriesResponse
+	(*TaxAmounts)(nil),                             // 24: lift.platform.v1.TaxAmounts
+	(*GetTaxAmountsResponse)(nil),                  // 25: lift.platform.v1.GetTaxAmountsResponse
+	(*CustomerAppConfig)(nil),                      // 26: lift.platform.v1.CustomerAppConfig
+	(*GetCustomerAppConfigByCategoryRequest)(nil),  // 27: lift.platform.v1.GetCustomerAppConfigByCategoryRequest
+	(*GetCustomerAppConfigByCategoryResponse)(nil), // 28: lift.platform.v1.GetCustomerAppConfigByCategoryResponse
+	(*structpb.Struct)(nil),                        // 29: google.protobuf.Struct
+	(*emptypb.Empty)(nil),                          // 30: google.protobuf.Empty
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	18, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
+	29, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
 	1,  // 1: lift.platform.v1.GetConfigurationByCategoryResponse.configuration:type_name -> lift.platform.v1.Configuration
 	4,  // 2: lift.platform.v1.ServiceSubCategory.sub_service_parameters:type_name -> lift.platform.v1.ServiceSubParameters
-	5,  // 3: lift.platform.v1.GetServiceSubCategoryResponse.service_sub_category:type_name -> lift.platform.v1.ServiceSubCategory
-	7,  // 4: lift.platform.v1.GetAllServiceCategoriesResponse.content:type_name -> lift.platform.v1.ServiceCategory
-	8,  // 5: lift.platform.v1.GetAllServiceCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
-	5,  // 6: lift.platform.v1.GetAllServiceSubCategoriesResponse.content:type_name -> lift.platform.v1.ServiceSubCategory
-	8,  // 7: lift.platform.v1.GetAllServiceSubCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
-	13, // 8: lift.platform.v1.GetTaxAmountsResponse.tax_amounts:type_name -> lift.platform.v1.TaxAmounts
-	18, // 9: lift.platform.v1.CustomerAppConfig.properties:type_name -> google.protobuf.Struct
-	15, // 10: lift.platform.v1.GetCustomerAppConfigByCategoryResponse.config:type_name -> lift.platform.v1.CustomerAppConfig
-	0,  // 11: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
-	16, // 12: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:input_type -> lift.platform.v1.GetCustomerAppConfigByCategoryRequest
-	19, // 13: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
-	9,  // 14: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
-	3,  // 15: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
-	11, // 16: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
-	2,  // 17: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
-	17, // 18: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:output_type -> lift.platform.v1.GetCustomerAppConfigByCategoryResponse
-	14, // 19: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
-	10, // 20: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
-	6,  // 21: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
-	12, // 22: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
-	17, // [17:23] is the sub-list for method output_type
-	11, // [11:17] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	6,  // 3: lift.platform.v1.ListVehicleTypesResponse.vehicle_types:type_name -> lift.platform.v1.VehicleType
+	6,  // 4: lift.platform.v1.GetVehicleTypeResponse.vehicle_type:type_name -> lift.platform.v1.VehicleType
+	6,  // 5: lift.platform.v1.CreateVehicleTypeResponse.vehicle_type:type_name -> lift.platform.v1.VehicleType
+	6,  // 6: lift.platform.v1.UpdateVehicleTypeResponse.vehicle_type:type_name -> lift.platform.v1.VehicleType
+	6,  // 7: lift.platform.v1.SetVehicleTypeStatusResponse.vehicle_type:type_name -> lift.platform.v1.VehicleType
+	5,  // 8: lift.platform.v1.GetServiceSubCategoryResponse.service_sub_category:type_name -> lift.platform.v1.ServiceSubCategory
+	18, // 9: lift.platform.v1.GetAllServiceCategoriesResponse.content:type_name -> lift.platform.v1.ServiceCategory
+	19, // 10: lift.platform.v1.GetAllServiceCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
+	5,  // 11: lift.platform.v1.GetAllServiceSubCategoriesResponse.content:type_name -> lift.platform.v1.ServiceSubCategory
+	19, // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
+	24, // 13: lift.platform.v1.GetTaxAmountsResponse.tax_amounts:type_name -> lift.platform.v1.TaxAmounts
+	29, // 14: lift.platform.v1.CustomerAppConfig.properties:type_name -> google.protobuf.Struct
+	26, // 15: lift.platform.v1.GetCustomerAppConfigByCategoryResponse.config:type_name -> lift.platform.v1.CustomerAppConfig
+	0,  // 16: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
+	27, // 17: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:input_type -> lift.platform.v1.GetCustomerAppConfigByCategoryRequest
+	30, // 18: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
+	20, // 19: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
+	3,  // 20: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
+	22, // 21: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
+	7,  // 22: lift.platform.v1.VehicleTypeService.ListVehicleTypes:input_type -> lift.platform.v1.ListVehicleTypesRequest
+	9,  // 23: lift.platform.v1.VehicleTypeService.GetVehicleType:input_type -> lift.platform.v1.GetVehicleTypeRequest
+	11, // 24: lift.platform.v1.VehicleTypeService.CreateVehicleType:input_type -> lift.platform.v1.CreateVehicleTypeRequest
+	13, // 25: lift.platform.v1.VehicleTypeService.UpdateVehicleType:input_type -> lift.platform.v1.UpdateVehicleTypeRequest
+	15, // 26: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:input_type -> lift.platform.v1.SetVehicleTypeStatusRequest
+	2,  // 27: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
+	28, // 28: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:output_type -> lift.platform.v1.GetCustomerAppConfigByCategoryResponse
+	25, // 29: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
+	21, // 30: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
+	17, // 31: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
+	23, // 32: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
+	8,  // 33: lift.platform.v1.VehicleTypeService.ListVehicleTypes:output_type -> lift.platform.v1.ListVehicleTypesResponse
+	10, // 34: lift.platform.v1.VehicleTypeService.GetVehicleType:output_type -> lift.platform.v1.GetVehicleTypeResponse
+	12, // 35: lift.platform.v1.VehicleTypeService.CreateVehicleType:output_type -> lift.platform.v1.CreateVehicleTypeResponse
+	14, // 36: lift.platform.v1.VehicleTypeService.UpdateVehicleType:output_type -> lift.platform.v1.UpdateVehicleTypeResponse
+	16, // 37: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:output_type -> lift.platform.v1.SetVehicleTypeStatusResponse
+	27, // [27:38] is the sub-list for method output_type
+	16, // [16:27] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_platform_proto_init() }
@@ -1264,15 +1859,16 @@ func file_platform_v1_platform_proto_init() {
 	if File_platform_v1_platform_proto != nil {
 		return
 	}
+	file_platform_v1_platform_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   29,
 			NumExtensions: 0,
-			NumServices:   5,
+			NumServices:   6,
 		},
 		GoTypes:           file_platform_v1_platform_proto_goTypes,
 		DependencyIndexes: file_platform_v1_platform_proto_depIdxs,
