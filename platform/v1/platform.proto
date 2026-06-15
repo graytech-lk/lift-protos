@@ -134,4 +134,21 @@ service ServiceSubCategoryService {
   rpc GetAllServiceSubCategories(GetAllServiceSubCategoriesRequest) returns (GetAllServiceSubCategoriesResponse);
 }
 
+message GetSmsGatewayConfigRequest {}
 
+message SmsGatewayConfig {
+  string host     = 1;
+  string port     = 2;
+  string sender   = 3;
+  string username = 4;
+  string password = 5;
+  string timeout  = 6;
+}
+
+message GetSmsGatewayConfigResponse {
+  SmsGatewayConfig config = 1;
+}
+
+service SmsGatewayConfigService {
+  rpc GetSmsGatewayConfig(GetSmsGatewayConfigRequest) returns (GetSmsGatewayConfigResponse);
+}

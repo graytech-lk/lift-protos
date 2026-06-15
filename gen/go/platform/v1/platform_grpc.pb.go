@@ -569,3 +569,92 @@ var ServiceSubCategoryService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "platform/v1/platform.proto",
 }
+
+const (
+	SmsGatewayConfigService_GetSmsGatewayConfig_FullMethodName = "/lift.platform.v1.SmsGatewayConfigService/GetSmsGatewayConfig"
+)
+
+// SmsGatewayConfigServiceClient is the client API for SmsGatewayConfigService.
+// It returns the decrypted SMS gateway config for service-to-service consumers
+// (e.g. lift-notification-service). Uses CustomerAppConfig message types so no
+// new proto generation is needed.
+type SmsGatewayConfigServiceClient interface {
+	GetSmsGatewayConfig(ctx context.Context, in *GetCustomerAppConfigByCategoryRequest, opts ...grpc.CallOption) (*GetCustomerAppConfigByCategoryResponse, error)
+}
+
+type smsGatewayConfigServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewSmsGatewayConfigServiceClient(cc grpc.ClientConnInterface) SmsGatewayConfigServiceClient {
+	return &smsGatewayConfigServiceClient{cc}
+}
+
+func (c *smsGatewayConfigServiceClient) GetSmsGatewayConfig(ctx context.Context, in *GetCustomerAppConfigByCategoryRequest, opts ...grpc.CallOption) (*GetCustomerAppConfigByCategoryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCustomerAppConfigByCategoryResponse)
+	err := c.cc.Invoke(ctx, SmsGatewayConfigService_GetSmsGatewayConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// SmsGatewayConfigServiceServer is the server API for SmsGatewayConfigService.
+type SmsGatewayConfigServiceServer interface {
+	GetSmsGatewayConfig(context.Context, *GetCustomerAppConfigByCategoryRequest) (*GetCustomerAppConfigByCategoryResponse, error)
+	mustEmbedUnimplementedSmsGatewayConfigServiceServer()
+}
+
+// UnimplementedSmsGatewayConfigServiceServer must be embedded for forward compatibility.
+type UnimplementedSmsGatewayConfigServiceServer struct{}
+
+func (UnimplementedSmsGatewayConfigServiceServer) GetSmsGatewayConfig(context.Context, *GetCustomerAppConfigByCategoryRequest) (*GetCustomerAppConfigByCategoryResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetSmsGatewayConfig not implemented")
+}
+func (UnimplementedSmsGatewayConfigServiceServer) mustEmbedUnimplementedSmsGatewayConfigServiceServer() {
+}
+func (UnimplementedSmsGatewayConfigServiceServer) testEmbeddedByValue() {}
+
+// UnsafeSmsGatewayConfigServiceServer may be embedded to opt out of forward compatibility.
+type UnsafeSmsGatewayConfigServiceServer interface {
+	mustEmbedUnimplementedSmsGatewayConfigServiceServer()
+}
+
+func RegisterSmsGatewayConfigServiceServer(s grpc.ServiceRegistrar, srv SmsGatewayConfigServiceServer) {
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&SmsGatewayConfigService_ServiceDesc, srv)
+}
+
+func _SmsGatewayConfigService_GetSmsGatewayConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCustomerAppConfigByCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SmsGatewayConfigServiceServer).GetSmsGatewayConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SmsGatewayConfigService_GetSmsGatewayConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SmsGatewayConfigServiceServer).GetSmsGatewayConfig(ctx, req.(*GetCustomerAppConfigByCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var SmsGatewayConfigService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "lift.platform.v1.SmsGatewayConfigService",
+	HandlerType: (*SmsGatewayConfigServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetSmsGatewayConfig",
+			Handler:    _SmsGatewayConfigService_GetSmsGatewayConfig_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "platform/v1/platform.proto",
+}
