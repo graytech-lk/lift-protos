@@ -46,6 +46,57 @@ message ServiceSubCategory {
   string icon_url = 6;
   ServiceSubParameters sub_service_parameters = 7;
   string service_category_name = 8;
+  // vehicle_type_id is optional — unset means no vehicle type assigned yet.
+  optional int32 vehicle_type_id = 9;
+}
+
+message VehicleType {
+  int32 id = 1;
+  string name = 2;
+  bool status = 3;
+}
+
+message ListVehicleTypesRequest {
+  bool active_only = 1;
+}
+
+message ListVehicleTypesResponse {
+  repeated VehicleType vehicle_types = 1;
+}
+
+message GetVehicleTypeRequest {
+  int32 id = 1;
+}
+
+message GetVehicleTypeResponse {
+  VehicleType vehicle_type = 1;
+}
+
+message CreateVehicleTypeRequest {
+  string name = 1;
+}
+
+message CreateVehicleTypeResponse {
+  VehicleType vehicle_type = 1;
+}
+
+message UpdateVehicleTypeRequest {
+  int32 id = 1;
+  string name = 2;
+  bool status = 3;
+}
+
+message UpdateVehicleTypeResponse {
+  VehicleType vehicle_type = 1;
+}
+
+message SetVehicleTypeStatusRequest {
+  int32 id = 1;
+  bool active = 2;
+}
+
+message SetVehicleTypeStatusResponse {
+  VehicleType vehicle_type = 1;
 }
 
 message GetServiceSubCategoryResponse {
@@ -134,7 +185,13 @@ service ServiceSubCategoryService {
   rpc GetAllServiceSubCategories(GetAllServiceSubCategoriesRequest) returns (GetAllServiceSubCategoriesResponse);
 }
 
-message GetSmsGatewayConfigRequest {}
+service VehicleTypeService {
+  rpc ListVehicleTypes(ListVehicleTypesRequest) returns (ListVehicleTypesResponse);
+  rpc GetVehicleType(GetVehicleTypeRequest) returns (GetVehicleTypeResponse);
+  rpc CreateVehicleType(CreateVehicleTypeRequest) returns (CreateVehicleTypeResponse);
+  rpc UpdateVehicleType(UpdateVehicleTypeRequest) returns (UpdateVehicleTypeResponse);
+  rpc SetVehicleTypeStatus(SetVehicleTypeStatusRequest) returns (SetVehicleTypeStatusResponse);
+}
 
 message SmsGatewayConfig {
   string host     = 1;
@@ -144,6 +201,8 @@ message SmsGatewayConfig {
   string password = 5;
   string timeout  = 6;
 }
+
+message GetSmsGatewayConfigRequest {}
 
 message GetSmsGatewayConfigResponse {
   SmsGatewayConfig config = 1;
