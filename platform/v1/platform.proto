@@ -48,12 +48,16 @@ message ServiceSubCategory {
   string service_category_name = 8;
   // vehicle_type_id is optional — unset means no vehicle type assigned yet.
   optional int32 vehicle_type_id = 9;
+  // vehicle_top_view_image_url is the top-view image URL from the linked vehicle type.
+  // Empty string when no vehicle type is assigned.
+  optional string vehicle_top_view_image_url = 10;
 }
 
 message VehicleType {
   int32 id = 1;
   string name = 2;
   bool status = 3;
+  string top_view_image_url = 4;
 }
 
 message ListVehicleTypesRequest {
