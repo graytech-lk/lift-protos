@@ -125,11 +125,21 @@ message UpdateServiceProviderResponse {
   UserServiceProvider service_provider = 1;
 }
 
+message UpdateCreditDepositRequest {
+  string user_id = 1;
+  double delta = 2;  // amount applied to the service provider's credit_deposit_amount
+}
+
+message UpdateCreditDepositResponse {
+  double credit_deposit_amount = 1;  // resulting balance after the update
+}
+
 service ServiceProviderService {
   rpc GetServiceProviderById(GetServiceProviderByIdRequest) returns (GetServiceProviderByIdResponse);
   rpc GetServiceProviderByPhoneNumber(GetServiceProviderByPhoneNumberRequest) returns (GetServiceProviderByPhoneNumberResponse);
   rpc ListServiceProviders(ListServiceProvidersRequest) returns (ListServiceProvidersResponse);
   rpc UpdateServiceProvider(UpdateServiceProviderRequest) returns (UpdateServiceProviderResponse);
+  rpc UpdateCreditDeposit(UpdateCreditDepositRequest) returns (UpdateCreditDepositResponse);
 }
 
 
