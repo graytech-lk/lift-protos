@@ -338,8 +338,11 @@ type ServiceSubCategory struct {
 	// vehicle_top_view_image_url is the top-view image URL from the linked vehicle type.
 	// Empty string when no vehicle type is assigned.
 	VehicleTopViewImageUrl *string `protobuf:"bytes,10,opt,name=vehicle_top_view_image_url,json=vehicleTopViewImageUrl,proto3,oneof" json:"vehicle_top_view_image_url,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	// vehicle_side_view_image_url is the side-view image URL from the linked vehicle type.
+	// Empty string when no vehicle type is assigned.
+	VehicleSideViewImageUrl *string `protobuf:"bytes,11,opt,name=vehicle_side_view_image_url,json=vehicleSideViewImageUrl,proto3,oneof" json:"vehicle_side_view_image_url,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *ServiceSubCategory) Reset() {
@@ -442,14 +445,22 @@ func (x *ServiceSubCategory) GetVehicleTopViewImageUrl() string {
 	return ""
 }
 
+func (x *ServiceSubCategory) GetVehicleSideViewImageUrl() string {
+	if x != nil && x.VehicleSideViewImageUrl != nil {
+		return *x.VehicleSideViewImageUrl
+	}
+	return ""
+}
+
 type VehicleType struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Id              int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Status          bool                   `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`
-	TopViewImageUrl string                 `protobuf:"bytes,4,opt,name=top_view_image_url,json=topViewImageUrl,proto3" json:"top_view_image_url,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name             string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Status           bool                   `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`
+	TopViewImageUrl  string                 `protobuf:"bytes,4,opt,name=top_view_image_url,json=topViewImageUrl,proto3" json:"top_view_image_url,omitempty"`
+	SideViewImageUrl string                 `protobuf:"bytes,5,opt,name=side_view_image_url,json=sideViewImageUrl,proto3" json:"side_view_image_url,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *VehicleType) Reset() {
@@ -506,6 +517,13 @@ func (x *VehicleType) GetStatus() bool {
 func (x *VehicleType) GetTopViewImageUrl() string {
 	if x != nil {
 		return x.TopViewImageUrl
+	}
+	return ""
+}
+
+func (x *VehicleType) GetSideViewImageUrl() string {
+	if x != nil {
+		return x.SideViewImageUrl
 	}
 	return ""
 }
@@ -1831,7 +1849,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"app_charge\x18\t \x01(\x01R\tappCharge\x12/\n" +
 	"\x13passenger_insurance\x18\n" +
-	" \x01(\x01R\x12passengerInsurance\"\xbe\x04\n" +
+	" \x01(\x01R\x12passengerInsurance\"\xa1\x05\n" +
 	"\x12ServiceSubCategory\x125\n" +
 	"\x17sub_service_category_id\x18\x01 \x01(\tR\x14subServiceCategoryId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x129\n" +
@@ -1843,14 +1861,17 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x15service_category_name\x18\b \x01(\tR\x13serviceCategoryName\x12+\n" +
 	"\x0fvehicle_type_id\x18\t \x01(\x05H\x00R\rvehicleTypeId\x88\x01\x01\x12?\n" +
 	"\x1avehicle_top_view_image_url\x18\n" +
-	" \x01(\tH\x01R\x16vehicleTopViewImageUrl\x88\x01\x01B\x12\n" +
+	" \x01(\tH\x01R\x16vehicleTopViewImageUrl\x88\x01\x01\x12A\n" +
+	"\x1bvehicle_side_view_image_url\x18\v \x01(\tH\x02R\x17vehicleSideViewImageUrl\x88\x01\x01B\x12\n" +
 	"\x10_vehicle_type_idB\x1d\n" +
-	"\x1b_vehicle_top_view_image_url\"v\n" +
+	"\x1b_vehicle_top_view_image_urlB\x1e\n" +
+	"\x1c_vehicle_side_view_image_url\"\xa5\x01\n" +
 	"\vVehicleType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\bR\x06status\x12+\n" +
-	"\x12top_view_image_url\x18\x04 \x01(\tR\x0ftopViewImageUrl\":\n" +
+	"\x12top_view_image_url\x18\x04 \x01(\tR\x0ftopViewImageUrl\x12-\n" +
+	"\x13side_view_image_url\x18\x05 \x01(\tR\x10sideViewImageUrl\":\n" +
 	"\x17ListVehicleTypesRequest\x12\x1f\n" +
 	"\vactive_only\x18\x01 \x01(\bR\n" +
 	"activeOnly\"^\n" +
