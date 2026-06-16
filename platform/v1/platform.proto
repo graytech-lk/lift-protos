@@ -215,3 +215,46 @@ message GetSmsGatewayConfigResponse {
 service SmsGatewayConfigService {
   rpc GetSmsGatewayConfig(GetSmsGatewayConfigRequest) returns (GetSmsGatewayConfigResponse);
 }
+
+message GetOtpSettingsRequest {}
+
+message OtpSettings {
+  int32 otp_length = 1;
+  int32 otp_expiry_minutes = 2;
+  int32 otp_resend_cooldown_seconds = 3;
+  int32 max_otp_attempts = 4;
+  string otp_delivery_method = 5;  // sms_only, email_only, sms_and_email
+  bool otp_numeric_only = 6;
+}
+
+message GetOtpSettingsResponse {
+  OtpSettings settings = 1;
+}
+
+message GetSecurityConfigRequest {
+  string config_key = 1;  // session_settings, admin_security
+}
+
+message SessionSettings {
+  int32 max_concurrent_sessions_driver = 1;
+  int32 max_concurrent_sessions_customer = 2;
+  int32 admin_session_timeout_minutes = 3;
+}
+
+message AdminSecuritySettings {
+  int32 max_failed_login_attempts = 1;
+  int32 admin_lockout_duration_minutes = 2;
+  bool lockout_notification_enabled = 3;
+}
+
+message SecurityConfigResponse {
+  google.protobuf.Struct config = 1;
+}
+
+service OtpConfigService {
+  rpc GetOtpSettings(GetOtpSettingsRequest) returns (GetOtpSettingsResponse);
+}
+
+service SecurityConfigService {
+  rpc GetSecurityConfig(GetSecurityConfigRequest) returns (SecurityConfigResponse);
+}
