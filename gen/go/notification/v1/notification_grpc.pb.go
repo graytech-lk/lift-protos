@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotificationService_SendOTP_FullMethodName = "/lift.notification.v1.NotificationService/SendOTP"
-	NotificationService_SendSms_FullMethodName = "/lift.notification.v1.NotificationService/SendSms"
+	NotificationService_SendOTP_FullMethodName       = "/lift.notification.v1.NotificationService/SendOTP"
+	NotificationService_SendSms_FullMethodName       = "/lift.notification.v1.NotificationService/SendSms"
+	NotificationService_SendTestEmail_FullMethodName = "/lift.notification.v1.NotificationService/SendTestEmail"
 )
 
 // NotificationServiceClient is the client API for NotificationService service.
@@ -29,6 +30,7 @@ const (
 type NotificationServiceClient interface {
 	SendOTP(ctx context.Context, in *SendOTPRequest, opts ...grpc.CallOption) (*SendOTPResponse, error)
 	SendSms(ctx context.Context, in *SendSmsRequest, opts ...grpc.CallOption) (*SendSmsResponse, error)
+	SendTestEmail(ctx context.Context, in *SendTestEmailRequest, opts ...grpc.CallOption) (*SendTestEmailResponse, error)
 }
 
 type notificationServiceClient struct {
@@ -59,12 +61,23 @@ func (c *notificationServiceClient) SendSms(ctx context.Context, in *SendSmsRequ
 	return out, nil
 }
 
+func (c *notificationServiceClient) SendTestEmail(ctx context.Context, in *SendTestEmailRequest, opts ...grpc.CallOption) (*SendTestEmailResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SendTestEmailResponse)
+	err := c.cc.Invoke(ctx, NotificationService_SendTestEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NotificationServiceServer is the server API for NotificationService service.
 // All implementations must embed UnimplementedNotificationServiceServer
 // for forward compatibility.
 type NotificationServiceServer interface {
 	SendOTP(context.Context, *SendOTPRequest) (*SendOTPResponse, error)
 	SendSms(context.Context, *SendSmsRequest) (*SendSmsResponse, error)
+	SendTestEmail(context.Context, *SendTestEmailRequest) (*SendTestEmailResponse, error)
 	mustEmbedUnimplementedNotificationServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedNotificationServiceServer) SendOTP(context.Context, *SendOTPR
 }
 func (UnimplementedNotificationServiceServer) SendSms(context.Context, *SendSmsRequest) (*SendSmsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendSms not implemented")
+}
+func (UnimplementedNotificationServiceServer) SendTestEmail(context.Context, *SendTestEmailRequest) (*SendTestEmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendTestEmail not implemented")
 }
 func (UnimplementedNotificationServiceServer) mustEmbedUnimplementedNotificationServiceServer() {}
 func (UnimplementedNotificationServiceServer) testEmbeddedByValue()                             {}
@@ -138,6 +154,24 @@ func _NotificationService_SendSms_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NotificationService_SendTestEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendTestEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationServiceServer).SendTestEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationService_SendTestEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationServiceServer).SendTestEmail(ctx, req.(*SendTestEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NotificationService_ServiceDesc is the grpc.ServiceDesc for NotificationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var NotificationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendSms",
 			Handler:    _NotificationService_SendSms_Handler,
+		},
+		{
+			MethodName: "SendTestEmail",
+			Handler:    _NotificationService_SendTestEmail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

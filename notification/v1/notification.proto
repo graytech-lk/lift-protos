@@ -32,9 +32,31 @@ message SendSmsRequest {
 
 message SendSmsResponse {}
 
+// SendTestEmailRequest carries candidate (possibly unsaved) SMTP settings used
+// to send a one-off test email from the admin panel. The notification-service
+// owns the actual SMTP send so credentials never leave the gRPC channel.
+message SendTestEmailRequest {
+  string recipient     = 1;
+  string host          = 2;
+  string port          = 3;
+  string encryption    = 4;  // none, ssl, tls
+  bool   auth_required = 5;
+  string smtp_username = 6;
+  string password      = 7;
+  string from_email    = 8;
+  string from_name     = 9;
+  string reply_to      = 10;
+}
+
+message SendTestEmailResponse {
+  bool   sent  = 1;
+  string error = 2;
+}
+
 service NotificationService {
   rpc SendOTP(SendOTPRequest) returns (SendOTPResponse);
   rpc SendSms(SendSmsRequest) returns (SendSmsResponse);
+  rpc SendTestEmail(SendTestEmailRequest) returns (SendTestEmailResponse);
 }
 
 

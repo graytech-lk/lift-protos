@@ -928,6 +928,109 @@ var SmsGatewayConfigService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
+	EmailGatewayConfigService_GetEmailGatewayConfig_FullMethodName = "/lift.platform.v1.EmailGatewayConfigService/GetEmailGatewayConfig"
+)
+
+// EmailGatewayConfigServiceClient is the client API for EmailGatewayConfigService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type EmailGatewayConfigServiceClient interface {
+	GetEmailGatewayConfig(ctx context.Context, in *GetEmailGatewayConfigRequest, opts ...grpc.CallOption) (*GetEmailGatewayConfigResponse, error)
+}
+
+type emailGatewayConfigServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewEmailGatewayConfigServiceClient(cc grpc.ClientConnInterface) EmailGatewayConfigServiceClient {
+	return &emailGatewayConfigServiceClient{cc}
+}
+
+func (c *emailGatewayConfigServiceClient) GetEmailGatewayConfig(ctx context.Context, in *GetEmailGatewayConfigRequest, opts ...grpc.CallOption) (*GetEmailGatewayConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetEmailGatewayConfigResponse)
+	err := c.cc.Invoke(ctx, EmailGatewayConfigService_GetEmailGatewayConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// EmailGatewayConfigServiceServer is the server API for EmailGatewayConfigService service.
+// All implementations must embed UnimplementedEmailGatewayConfigServiceServer
+// for forward compatibility.
+type EmailGatewayConfigServiceServer interface {
+	GetEmailGatewayConfig(context.Context, *GetEmailGatewayConfigRequest) (*GetEmailGatewayConfigResponse, error)
+	mustEmbedUnimplementedEmailGatewayConfigServiceServer()
+}
+
+// UnimplementedEmailGatewayConfigServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedEmailGatewayConfigServiceServer struct{}
+
+func (UnimplementedEmailGatewayConfigServiceServer) GetEmailGatewayConfig(context.Context, *GetEmailGatewayConfigRequest) (*GetEmailGatewayConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEmailGatewayConfig not implemented")
+}
+func (UnimplementedEmailGatewayConfigServiceServer) mustEmbedUnimplementedEmailGatewayConfigServiceServer() {
+}
+func (UnimplementedEmailGatewayConfigServiceServer) testEmbeddedByValue() {}
+
+// UnsafeEmailGatewayConfigServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to EmailGatewayConfigServiceServer will
+// result in compilation errors.
+type UnsafeEmailGatewayConfigServiceServer interface {
+	mustEmbedUnimplementedEmailGatewayConfigServiceServer()
+}
+
+func RegisterEmailGatewayConfigServiceServer(s grpc.ServiceRegistrar, srv EmailGatewayConfigServiceServer) {
+	// If the following call pancis, it indicates UnimplementedEmailGatewayConfigServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&EmailGatewayConfigService_ServiceDesc, srv)
+}
+
+func _EmailGatewayConfigService_GetEmailGatewayConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEmailGatewayConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailGatewayConfigServiceServer).GetEmailGatewayConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EmailGatewayConfigService_GetEmailGatewayConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailGatewayConfigServiceServer).GetEmailGatewayConfig(ctx, req.(*GetEmailGatewayConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// EmailGatewayConfigService_ServiceDesc is the grpc.ServiceDesc for EmailGatewayConfigService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var EmailGatewayConfigService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "lift.platform.v1.EmailGatewayConfigService",
+	HandlerType: (*EmailGatewayConfigServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetEmailGatewayConfig",
+			Handler:    _EmailGatewayConfigService_GetEmailGatewayConfig_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "platform/v1/platform.proto",
+}
+
+const (
 	OtpConfigService_GetOtpSettings_FullMethodName = "/lift.platform.v1.OtpConfigService/GetOtpSettings"
 )
 

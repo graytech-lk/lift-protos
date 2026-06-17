@@ -220,6 +220,28 @@ service SmsGatewayConfigService {
   rpc GetSmsGatewayConfig(GetSmsGatewayConfigRequest) returns (GetSmsGatewayConfigResponse);
 }
 
+message EmailGatewayConfig {
+  string host          = 1;
+  string port          = 2;
+  string encryption    = 3;  // none, ssl, tls
+  bool   auth_required = 4;
+  string username      = 5;  // SMTP auth username (falls back to from_email)
+  string password      = 6;  // decrypted SMTP password
+  string from_email    = 7;
+  string from_name     = 8;
+  string reply_to      = 9;
+}
+
+message GetEmailGatewayConfigRequest {}
+
+message GetEmailGatewayConfigResponse {
+  EmailGatewayConfig config = 1;
+}
+
+service EmailGatewayConfigService {
+  rpc GetEmailGatewayConfig(GetEmailGatewayConfigRequest) returns (GetEmailGatewayConfigResponse);
+}
+
 message GetOtpSettingsRequest {}
 
 message OtpSettings {
