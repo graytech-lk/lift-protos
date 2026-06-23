@@ -37,3 +37,24 @@ service ServiceRequestService {
   rpc ListServiceRequests(ListServiceRequestsRequest) returns (ListServiceRequestsResponse);
 }
 
+message RevokeServiceProviderSessionRequest {
+  // Identity user_id of the service provider whose currently-connected device
+  // should be told to log out (equals service_provider_ids.rider_id).
+  string driver_id = 1;
+}
+
+message RevokeServiceProviderSessionResponse {
+  // True when a live WebSocket connection received the logout signal. False
+  // (with no error) means the driver had no connected device — the token
+  // revocation backstop logs them out on their next request regardless.
+  bool delivered = 1;
+}
+
+// SessionService lets lift-identity-service nudge a service provider's
+// currently-connected device to log out immediately, right after its session
+// was revoked by a login on another device. This is an immediacy optimisation
+// on top of stateful token revocation, not the source of truth.
+service SessionService {
+  rpc RevokeServiceProviderSession(RevokeServiceProviderSessionRequest) returns (RevokeServiceProviderSessionResponse);
+}
+

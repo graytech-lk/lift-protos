@@ -119,3 +119,115 @@ var ServiceRequestService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "operations/v1/operations.proto",
 }
+
+const (
+	SessionService_RevokeServiceProviderSession_FullMethodName = "/lift.operations.v1.SessionService/RevokeServiceProviderSession"
+)
+
+// SessionServiceClient is the client API for SessionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// SessionService lets lift-identity-service nudge a service provider's
+// currently-connected device to log out immediately, right after its session
+// was revoked by a login on another device. This is an immediacy optimisation
+// on top of stateful token revocation, not the source of truth.
+type SessionServiceClient interface {
+	RevokeServiceProviderSession(ctx context.Context, in *RevokeServiceProviderSessionRequest, opts ...grpc.CallOption) (*RevokeServiceProviderSessionResponse, error)
+}
+
+type sessionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewSessionServiceClient(cc grpc.ClientConnInterface) SessionServiceClient {
+	return &sessionServiceClient{cc}
+}
+
+func (c *sessionServiceClient) RevokeServiceProviderSession(ctx context.Context, in *RevokeServiceProviderSessionRequest, opts ...grpc.CallOption) (*RevokeServiceProviderSessionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RevokeServiceProviderSessionResponse)
+	err := c.cc.Invoke(ctx, SessionService_RevokeServiceProviderSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// SessionServiceServer is the server API for SessionService service.
+// All implementations must embed UnimplementedSessionServiceServer
+// for forward compatibility.
+//
+// SessionService lets lift-identity-service nudge a service provider's
+// currently-connected device to log out immediately, right after its session
+// was revoked by a login on another device. This is an immediacy optimisation
+// on top of stateful token revocation, not the source of truth.
+type SessionServiceServer interface {
+	RevokeServiceProviderSession(context.Context, *RevokeServiceProviderSessionRequest) (*RevokeServiceProviderSessionResponse, error)
+	mustEmbedUnimplementedSessionServiceServer()
+}
+
+// UnimplementedSessionServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedSessionServiceServer struct{}
+
+func (UnimplementedSessionServiceServer) RevokeServiceProviderSession(context.Context, *RevokeServiceProviderSessionRequest) (*RevokeServiceProviderSessionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeServiceProviderSession not implemented")
+}
+func (UnimplementedSessionServiceServer) mustEmbedUnimplementedSessionServiceServer() {}
+func (UnimplementedSessionServiceServer) testEmbeddedByValue()                        {}
+
+// UnsafeSessionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SessionServiceServer will
+// result in compilation errors.
+type UnsafeSessionServiceServer interface {
+	mustEmbedUnimplementedSessionServiceServer()
+}
+
+func RegisterSessionServiceServer(s grpc.ServiceRegistrar, srv SessionServiceServer) {
+	// If the following call pancis, it indicates UnimplementedSessionServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&SessionService_ServiceDesc, srv)
+}
+
+func _SessionService_RevokeServiceProviderSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeServiceProviderSessionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SessionServiceServer).RevokeServiceProviderSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SessionService_RevokeServiceProviderSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SessionServiceServer).RevokeServiceProviderSession(ctx, req.(*RevokeServiceProviderSessionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// SessionService_ServiceDesc is the grpc.ServiceDesc for SessionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var SessionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "lift.operations.v1.SessionService",
+	HandlerType: (*SessionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "RevokeServiceProviderSession",
+			Handler:    _SessionService_RevokeServiceProviderSession_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "operations/v1/operations.proto",
+}
