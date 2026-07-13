@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package lift.corporate.audit.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/corporate/audit/v1;corporateauditv1";
+
+// AuditService ingests corporate Audit Trail events pushed by other services
+// (e.g. lift-identity-service corporate-portal login, both success and failed
+// OTP). Entries are corporate-scoped (LIFT-906..910). Callers treat this as
+// best-effort — a failure here must never affect the originating action.
+service AuditService {
+  // RecordEvent appends a single audit entry.
+  rpc RecordEvent(RecordEventRequest) returns (RecordEventResponse);
+}
+
+message RecordEventRequest {
+  string corporate_id = 1; // required — the corporate the event belongs to
+  string user_id      = 2; // actor id (may be empty)
+  string user_name    = 3; // denormalised actor label (may be empty)
+  string category     = 4; // e.g. "authentication"
+  string action_type  = 5; // required — e.g. "login", "logout", "create"
+  string description  = 6; // human-readable summary
+  string status       = 7; // "success" | "failed" | "warning" (default success)
+  string ip_address   = 8; // optional; server falls back to peer addr
+  string device_type  = 9; // optional
+}
+
+message RecordEventResponse {
+  bool ok = 1;
+}
