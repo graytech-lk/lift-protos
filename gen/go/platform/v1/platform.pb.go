@@ -341,8 +341,13 @@ type ServiceSubCategory struct {
 	// vehicle_side_view_image_url is the side-view image URL from the linked vehicle type.
 	// Empty string when no vehicle type is assigned.
 	VehicleSideViewImageUrl *string `protobuf:"bytes,11,opt,name=vehicle_side_view_image_url,json=vehicleSideViewImageUrl,proto3,oneof" json:"vehicle_side_view_image_url,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// highway_enabled gates the highway route option for trips under this
+	// sub-category (LIFT-1673). When false, operations-service forces
+	// avoid_highways regardless of what the client asks for. Additive field —
+	// clients on older builds simply ignore it and behave as before.
+	HighwayEnabled bool `protobuf:"varint,12,opt,name=highway_enabled,json=highwayEnabled,proto3" json:"highway_enabled,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ServiceSubCategory) Reset() {
@@ -450,6 +455,13 @@ func (x *ServiceSubCategory) GetVehicleSideViewImageUrl() string {
 		return *x.VehicleSideViewImageUrl
 	}
 	return ""
+}
+
+func (x *ServiceSubCategory) GetHighwayEnabled() bool {
+	if x != nil {
+		return x.HighwayEnabled
+	}
+	return false
 }
 
 type VehicleType struct {
@@ -2409,7 +2421,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"app_charge\x18\t \x01(\x01R\tappCharge\x12/\n" +
 	"\x13passenger_insurance\x18\n" +
-	" \x01(\x01R\x12passengerInsurance\"\xa1\x05\n" +
+	" \x01(\x01R\x12passengerInsurance\"\xca\x05\n" +
 	"\x12ServiceSubCategory\x125\n" +
 	"\x17sub_service_category_id\x18\x01 \x01(\tR\x14subServiceCategoryId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x129\n" +
@@ -2422,7 +2434,8 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x0fvehicle_type_id\x18\t \x01(\x05H\x00R\rvehicleTypeId\x88\x01\x01\x12?\n" +
 	"\x1avehicle_top_view_image_url\x18\n" +
 	" \x01(\tH\x01R\x16vehicleTopViewImageUrl\x88\x01\x01\x12A\n" +
-	"\x1bvehicle_side_view_image_url\x18\v \x01(\tH\x02R\x17vehicleSideViewImageUrl\x88\x01\x01B\x12\n" +
+	"\x1bvehicle_side_view_image_url\x18\v \x01(\tH\x02R\x17vehicleSideViewImageUrl\x88\x01\x01\x12'\n" +
+	"\x0fhighway_enabled\x18\f \x01(\bR\x0ehighwayEnabledB\x12\n" +
 	"\x10_vehicle_type_idB\x1d\n" +
 	"\x1b_vehicle_top_view_image_urlB\x1e\n" +
 	"\x1c_vehicle_side_view_image_url\"\xa5\x01\n" +

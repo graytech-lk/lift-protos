@@ -54,6 +54,11 @@ message ServiceSubCategory {
   // vehicle_side_view_image_url is the side-view image URL from the linked vehicle type.
   // Empty string when no vehicle type is assigned.
   optional string vehicle_side_view_image_url = 11;
+  // highway_enabled gates the highway route option for trips under this
+  // sub-category (LIFT-1673). When false, operations-service forces
+  // avoid_highways regardless of what the client asks for. Additive field —
+  // clients on older builds simply ignore it and behave as before.
+  bool highway_enabled = 12;
 }
 
 message VehicleType {
