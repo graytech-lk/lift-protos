@@ -464,8 +464,16 @@ type ValidateServiceRequestWithPolicyRequest struct {
 	DestinationLocations   []string               `protobuf:"bytes,6,rep,name=destination_locations,json=destinationLocations,proto3" json:"destination_locations,omitempty"`
 	StartLocationV2        *PolicyLocation        `protobuf:"bytes,7,opt,name=start_location_v2,json=startLocationV2,proto3" json:"start_location_v2,omitempty"`
 	DestinationLocationsV2 []*PolicyLocation      `protobuf:"bytes,8,rep,name=destination_locations_v2,json=destinationLocationsV2,proto3" json:"destination_locations_v2,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	// Estimated fare + distance of THIS trip, for per-trip cost/distance limits.
+	// Zero = not provided (older callers) → the per-trip check is skipped.
+	EstimatedCost     float64 `protobuf:"fixed64,9,opt,name=estimated_cost,json=estimatedCost,proto3" json:"estimated_cost,omitempty"`
+	EstimatedDistance float64 `protobuf:"fixed64,10,opt,name=estimated_distance,json=estimatedDistance,proto3" json:"estimated_distance,omitempty"`
+	// Booking user + corporate, for cumulative per-day/week/month limits.
+	// Empty = not provided → cumulative checks are skipped.
+	UserId        string `protobuf:"bytes,11,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	CorporateId   string `protobuf:"bytes,12,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ValidateServiceRequestWithPolicyRequest) Reset() {
@@ -552,6 +560,34 @@ func (x *ValidateServiceRequestWithPolicyRequest) GetDestinationLocationsV2() []
 		return x.DestinationLocationsV2
 	}
 	return nil
+}
+
+func (x *ValidateServiceRequestWithPolicyRequest) GetEstimatedCost() float64 {
+	if x != nil {
+		return x.EstimatedCost
+	}
+	return 0
+}
+
+func (x *ValidateServiceRequestWithPolicyRequest) GetEstimatedDistance() float64 {
+	if x != nil {
+		return x.EstimatedDistance
+	}
+	return 0
+}
+
+func (x *ValidateServiceRequestWithPolicyRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *ValidateServiceRequestWithPolicyRequest) GetCorporateId() string {
+	if x != nil {
+		return x.CorporateId
+	}
+	return ""
 }
 
 type ValidateServiceRequestWithPolicyResponse struct {
@@ -798,7 +834,7 @@ const file_corporate_policy_v1_policy_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12I\n" +
 	"\x05value\x18\x02 \x01(\v23.lift.corporate.policy.v1.CorporatePolicyLimitationR\x05value:\x028\x01\"c\n" +
 	"\x1eGetCorporatePolicyByIdResponse\x12A\n" +
-	"\x06policy\x18\x01 \x01(\v2).lift.corporate.policy.v1.CorporatePolicyR\x06policy\"\x82\x04\n" +
+	"\x06policy\x18\x01 \x01(\v2).lift.corporate.policy.v1.CorporatePolicyR\x06policy\"\x94\x05\n" +
 	"'ValidateServiceRequestWithPolicyRequest\x12\x1b\n" +
 	"\tpolicy_id\x18\x01 \x01(\tR\bpolicyId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x125\n" +
@@ -807,7 +843,12 @@ const file_corporate_policy_v1_policy_proto_rawDesc = "" +
 	"\x0estart_location\x18\x05 \x01(\tR\rstartLocation\x123\n" +
 	"\x15destination_locations\x18\x06 \x03(\tR\x14destinationLocations\x12T\n" +
 	"\x11start_location_v2\x18\a \x01(\v2(.lift.corporate.policy.v1.PolicyLocationR\x0fstartLocationV2\x12b\n" +
-	"\x18destination_locations_v2\x18\b \x03(\v2(.lift.corporate.policy.v1.PolicyLocationR\x16destinationLocationsV2\"\\\n" +
+	"\x18destination_locations_v2\x18\b \x03(\v2(.lift.corporate.policy.v1.PolicyLocationR\x16destinationLocationsV2\x12%\n" +
+	"\x0eestimated_cost\x18\t \x01(\x01R\restimatedCost\x12-\n" +
+	"\x12estimated_distance\x18\n" +
+	" \x01(\x01R\x11estimatedDistance\x12\x17\n" +
+	"\auser_id\x18\v \x01(\tR\x06userId\x12!\n" +
+	"\fcorporate_id\x18\f \x01(\tR\vcorporateId\"\\\n" +
 	"(ValidateServiceRequestWithPolicyResponse\x12\x18\n" +
 	"\aallowed\x18\x01 \x01(\bR\aallowed\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\"\xbc\x01\n" +

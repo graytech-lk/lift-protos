@@ -60,6 +60,14 @@ message ValidateServiceRequestWithPolicyRequest {
   repeated string destination_locations = 6;
   PolicyLocation start_location_v2 = 7;
   repeated PolicyLocation destination_locations_v2 = 8;
+  // Estimated fare + distance of THIS trip, for per-trip cost/distance limits.
+  // Zero = not provided (older callers) → the per-trip check is skipped.
+  double estimated_cost = 9;
+  double estimated_distance = 10;
+  // Booking user + corporate, for cumulative per-day/week/month limits.
+  // Empty = not provided → cumulative checks are skipped.
+  string user_id = 11;
+  string corporate_id = 12;
 }
 
 message ValidateServiceRequestWithPolicyResponse {
