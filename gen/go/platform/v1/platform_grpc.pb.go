@@ -123,6 +123,7 @@ var ConfigurationService_ServiceDesc = grpc.ServiceDesc{
 
 const (
 	CustomerAppConfigService_GetCustomerAppConfigByCategory_FullMethodName = "/lift.platform.v1.CustomerAppConfigService/GetCustomerAppConfigByCategory"
+	CustomerAppConfigService_GetCorporateBookingConfig_FullMethodName      = "/lift.platform.v1.CustomerAppConfigService/GetCorporateBookingConfig"
 )
 
 // CustomerAppConfigServiceClient is the client API for CustomerAppConfigService service.
@@ -130,6 +131,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CustomerAppConfigServiceClient interface {
 	GetCustomerAppConfigByCategory(ctx context.Context, in *GetCustomerAppConfigByCategoryRequest, opts ...grpc.CallOption) (*GetCustomerAppConfigByCategoryResponse, error)
+	// US-051: per-corporate booking config, keyed by corporate_id.
+	GetCorporateBookingConfig(ctx context.Context, in *GetCorporateBookingConfigRequest, opts ...grpc.CallOption) (*GetCorporateBookingConfigResponse, error)
 }
 
 type customerAppConfigServiceClient struct {
@@ -150,11 +153,23 @@ func (c *customerAppConfigServiceClient) GetCustomerAppConfigByCategory(ctx cont
 	return out, nil
 }
 
+func (c *customerAppConfigServiceClient) GetCorporateBookingConfig(ctx context.Context, in *GetCorporateBookingConfigRequest, opts ...grpc.CallOption) (*GetCorporateBookingConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCorporateBookingConfigResponse)
+	err := c.cc.Invoke(ctx, CustomerAppConfigService_GetCorporateBookingConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CustomerAppConfigServiceServer is the server API for CustomerAppConfigService service.
 // All implementations must embed UnimplementedCustomerAppConfigServiceServer
 // for forward compatibility.
 type CustomerAppConfigServiceServer interface {
 	GetCustomerAppConfigByCategory(context.Context, *GetCustomerAppConfigByCategoryRequest) (*GetCustomerAppConfigByCategoryResponse, error)
+	// US-051: per-corporate booking config, keyed by corporate_id.
+	GetCorporateBookingConfig(context.Context, *GetCorporateBookingConfigRequest) (*GetCorporateBookingConfigResponse, error)
 	mustEmbedUnimplementedCustomerAppConfigServiceServer()
 }
 
@@ -167,6 +182,9 @@ type UnimplementedCustomerAppConfigServiceServer struct{}
 
 func (UnimplementedCustomerAppConfigServiceServer) GetCustomerAppConfigByCategory(context.Context, *GetCustomerAppConfigByCategoryRequest) (*GetCustomerAppConfigByCategoryResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCustomerAppConfigByCategory not implemented")
+}
+func (UnimplementedCustomerAppConfigServiceServer) GetCorporateBookingConfig(context.Context, *GetCorporateBookingConfigRequest) (*GetCorporateBookingConfigResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCorporateBookingConfig not implemented")
 }
 func (UnimplementedCustomerAppConfigServiceServer) mustEmbedUnimplementedCustomerAppConfigServiceServer() {
 }
@@ -208,6 +226,24 @@ func _CustomerAppConfigService_GetCustomerAppConfigByCategory_Handler(srv interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CustomerAppConfigService_GetCorporateBookingConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCorporateBookingConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerAppConfigServiceServer).GetCorporateBookingConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CustomerAppConfigService_GetCorporateBookingConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerAppConfigServiceServer).GetCorporateBookingConfig(ctx, req.(*GetCorporateBookingConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CustomerAppConfigService_ServiceDesc is the grpc.ServiceDesc for CustomerAppConfigService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -218,6 +254,10 @@ var CustomerAppConfigService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCustomerAppConfigByCategory",
 			Handler:    _CustomerAppConfigService_GetCustomerAppConfigByCategory_Handler,
+		},
+		{
+			MethodName: "GetCorporateBookingConfig",
+			Handler:    _CustomerAppConfigService_GetCorporateBookingConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

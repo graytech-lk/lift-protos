@@ -1668,6 +1668,151 @@ func (x *GetCustomerAppConfigByCategoryResponse) GetConfig() *CustomerAppConfig 
 	return nil
 }
 
+// US-051: per-corporate booking configuration (advance window, booking purpose,
+// cancellation, dispute window). Read by operations to enforce the scheduling
+// advance window on corporate bookings. `properties` mirrors the JSONB config
+// (booking_advance_window_hours, require_booking_purpose, ...); empty when the
+// corporate has no row (callers apply defaults).
+type GetCorporateBookingConfigRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CorporateId   string                 `protobuf:"bytes,1,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCorporateBookingConfigRequest) Reset() {
+	*x = GetCorporateBookingConfigRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCorporateBookingConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCorporateBookingConfigRequest) ProtoMessage() {}
+
+func (x *GetCorporateBookingConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCorporateBookingConfigRequest.ProtoReflect.Descriptor instead.
+func (*GetCorporateBookingConfigRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *GetCorporateBookingConfigRequest) GetCorporateId() string {
+	if x != nil {
+		return x.CorporateId
+	}
+	return ""
+}
+
+type CorporateBookingConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CorporateId   string                 `protobuf:"bytes,1,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
+	Properties    *structpb.Struct       `protobuf:"bytes,2,opt,name=properties,proto3" json:"properties,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CorporateBookingConfig) Reset() {
+	*x = CorporateBookingConfig{}
+	mi := &file_platform_v1_platform_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CorporateBookingConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CorporateBookingConfig) ProtoMessage() {}
+
+func (x *CorporateBookingConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CorporateBookingConfig.ProtoReflect.Descriptor instead.
+func (*CorporateBookingConfig) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *CorporateBookingConfig) GetCorporateId() string {
+	if x != nil {
+		return x.CorporateId
+	}
+	return ""
+}
+
+func (x *CorporateBookingConfig) GetProperties() *structpb.Struct {
+	if x != nil {
+		return x.Properties
+	}
+	return nil
+}
+
+type GetCorporateBookingConfigResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Config        *CorporateBookingConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCorporateBookingConfigResponse) Reset() {
+	*x = GetCorporateBookingConfigResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCorporateBookingConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCorporateBookingConfigResponse) ProtoMessage() {}
+
+func (x *GetCorporateBookingConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCorporateBookingConfigResponse.ProtoReflect.Descriptor instead.
+func (*GetCorporateBookingConfigResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *GetCorporateBookingConfigResponse) GetConfig() *CorporateBookingConfig {
+	if x != nil {
+		return x.Config
+	}
+	return nil
+}
+
 type SmsGatewayConfig struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Host          string                 `protobuf:"bytes,1,opt,name=host,proto3" json:"host,omitempty"`
@@ -1682,7 +1827,7 @@ type SmsGatewayConfig struct {
 
 func (x *SmsGatewayConfig) Reset() {
 	*x = SmsGatewayConfig{}
-	mi := &file_platform_v1_platform_proto_msgTypes[29]
+	mi := &file_platform_v1_platform_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1694,7 +1839,7 @@ func (x *SmsGatewayConfig) String() string {
 func (*SmsGatewayConfig) ProtoMessage() {}
 
 func (x *SmsGatewayConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[29]
+	mi := &file_platform_v1_platform_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1707,7 +1852,7 @@ func (x *SmsGatewayConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SmsGatewayConfig.ProtoReflect.Descriptor instead.
 func (*SmsGatewayConfig) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{29}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *SmsGatewayConfig) GetHost() string {
@@ -1760,7 +1905,7 @@ type GetSmsGatewayConfigRequest struct {
 
 func (x *GetSmsGatewayConfigRequest) Reset() {
 	*x = GetSmsGatewayConfigRequest{}
-	mi := &file_platform_v1_platform_proto_msgTypes[30]
+	mi := &file_platform_v1_platform_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1772,7 +1917,7 @@ func (x *GetSmsGatewayConfigRequest) String() string {
 func (*GetSmsGatewayConfigRequest) ProtoMessage() {}
 
 func (x *GetSmsGatewayConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[30]
+	mi := &file_platform_v1_platform_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1785,7 +1930,7 @@ func (x *GetSmsGatewayConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSmsGatewayConfigRequest.ProtoReflect.Descriptor instead.
 func (*GetSmsGatewayConfigRequest) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{30}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{33}
 }
 
 type GetSmsGatewayConfigResponse struct {
@@ -1797,7 +1942,7 @@ type GetSmsGatewayConfigResponse struct {
 
 func (x *GetSmsGatewayConfigResponse) Reset() {
 	*x = GetSmsGatewayConfigResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[31]
+	mi := &file_platform_v1_platform_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1809,7 +1954,7 @@ func (x *GetSmsGatewayConfigResponse) String() string {
 func (*GetSmsGatewayConfigResponse) ProtoMessage() {}
 
 func (x *GetSmsGatewayConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[31]
+	mi := &file_platform_v1_platform_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1822,7 +1967,7 @@ func (x *GetSmsGatewayConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSmsGatewayConfigResponse.ProtoReflect.Descriptor instead.
 func (*GetSmsGatewayConfigResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{31}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *GetSmsGatewayConfigResponse) GetConfig() *SmsGatewayConfig {
@@ -1849,7 +1994,7 @@ type EmailGatewayConfig struct {
 
 func (x *EmailGatewayConfig) Reset() {
 	*x = EmailGatewayConfig{}
-	mi := &file_platform_v1_platform_proto_msgTypes[32]
+	mi := &file_platform_v1_platform_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1861,7 +2006,7 @@ func (x *EmailGatewayConfig) String() string {
 func (*EmailGatewayConfig) ProtoMessage() {}
 
 func (x *EmailGatewayConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[32]
+	mi := &file_platform_v1_platform_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1874,7 +2019,7 @@ func (x *EmailGatewayConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EmailGatewayConfig.ProtoReflect.Descriptor instead.
 func (*EmailGatewayConfig) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{32}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *EmailGatewayConfig) GetHost() string {
@@ -1948,7 +2093,7 @@ type GetEmailGatewayConfigRequest struct {
 
 func (x *GetEmailGatewayConfigRequest) Reset() {
 	*x = GetEmailGatewayConfigRequest{}
-	mi := &file_platform_v1_platform_proto_msgTypes[33]
+	mi := &file_platform_v1_platform_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1960,7 +2105,7 @@ func (x *GetEmailGatewayConfigRequest) String() string {
 func (*GetEmailGatewayConfigRequest) ProtoMessage() {}
 
 func (x *GetEmailGatewayConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[33]
+	mi := &file_platform_v1_platform_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1973,7 +2118,7 @@ func (x *GetEmailGatewayConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEmailGatewayConfigRequest.ProtoReflect.Descriptor instead.
 func (*GetEmailGatewayConfigRequest) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{33}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{36}
 }
 
 type GetEmailGatewayConfigResponse struct {
@@ -1985,7 +2130,7 @@ type GetEmailGatewayConfigResponse struct {
 
 func (x *GetEmailGatewayConfigResponse) Reset() {
 	*x = GetEmailGatewayConfigResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[34]
+	mi := &file_platform_v1_platform_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1997,7 +2142,7 @@ func (x *GetEmailGatewayConfigResponse) String() string {
 func (*GetEmailGatewayConfigResponse) ProtoMessage() {}
 
 func (x *GetEmailGatewayConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[34]
+	mi := &file_platform_v1_platform_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2010,7 +2155,7 @@ func (x *GetEmailGatewayConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEmailGatewayConfigResponse.ProtoReflect.Descriptor instead.
 func (*GetEmailGatewayConfigResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{34}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *GetEmailGatewayConfigResponse) GetConfig() *EmailGatewayConfig {
@@ -2028,7 +2173,7 @@ type GetOtpSettingsRequest struct {
 
 func (x *GetOtpSettingsRequest) Reset() {
 	*x = GetOtpSettingsRequest{}
-	mi := &file_platform_v1_platform_proto_msgTypes[35]
+	mi := &file_platform_v1_platform_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2040,7 +2185,7 @@ func (x *GetOtpSettingsRequest) String() string {
 func (*GetOtpSettingsRequest) ProtoMessage() {}
 
 func (x *GetOtpSettingsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[35]
+	mi := &file_platform_v1_platform_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2053,7 +2198,7 @@ func (x *GetOtpSettingsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOtpSettingsRequest.ProtoReflect.Descriptor instead.
 func (*GetOtpSettingsRequest) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{35}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{38}
 }
 
 type OtpSettings struct {
@@ -2070,7 +2215,7 @@ type OtpSettings struct {
 
 func (x *OtpSettings) Reset() {
 	*x = OtpSettings{}
-	mi := &file_platform_v1_platform_proto_msgTypes[36]
+	mi := &file_platform_v1_platform_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2082,7 +2227,7 @@ func (x *OtpSettings) String() string {
 func (*OtpSettings) ProtoMessage() {}
 
 func (x *OtpSettings) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[36]
+	mi := &file_platform_v1_platform_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2095,7 +2240,7 @@ func (x *OtpSettings) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OtpSettings.ProtoReflect.Descriptor instead.
 func (*OtpSettings) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{36}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *OtpSettings) GetOtpLength() int32 {
@@ -2149,7 +2294,7 @@ type GetOtpSettingsResponse struct {
 
 func (x *GetOtpSettingsResponse) Reset() {
 	*x = GetOtpSettingsResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[37]
+	mi := &file_platform_v1_platform_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2161,7 +2306,7 @@ func (x *GetOtpSettingsResponse) String() string {
 func (*GetOtpSettingsResponse) ProtoMessage() {}
 
 func (x *GetOtpSettingsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[37]
+	mi := &file_platform_v1_platform_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2174,7 +2319,7 @@ func (x *GetOtpSettingsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOtpSettingsResponse.ProtoReflect.Descriptor instead.
 func (*GetOtpSettingsResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{37}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *GetOtpSettingsResponse) GetSettings() *OtpSettings {
@@ -2193,7 +2338,7 @@ type GetSecurityConfigRequest struct {
 
 func (x *GetSecurityConfigRequest) Reset() {
 	*x = GetSecurityConfigRequest{}
-	mi := &file_platform_v1_platform_proto_msgTypes[38]
+	mi := &file_platform_v1_platform_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2205,7 +2350,7 @@ func (x *GetSecurityConfigRequest) String() string {
 func (*GetSecurityConfigRequest) ProtoMessage() {}
 
 func (x *GetSecurityConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[38]
+	mi := &file_platform_v1_platform_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2218,7 +2363,7 @@ func (x *GetSecurityConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSecurityConfigRequest.ProtoReflect.Descriptor instead.
 func (*GetSecurityConfigRequest) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{38}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *GetSecurityConfigRequest) GetConfigKey() string {
@@ -2239,7 +2384,7 @@ type SessionSettings struct {
 
 func (x *SessionSettings) Reset() {
 	*x = SessionSettings{}
-	mi := &file_platform_v1_platform_proto_msgTypes[39]
+	mi := &file_platform_v1_platform_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2251,7 +2396,7 @@ func (x *SessionSettings) String() string {
 func (*SessionSettings) ProtoMessage() {}
 
 func (x *SessionSettings) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[39]
+	mi := &file_platform_v1_platform_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2264,7 +2409,7 @@ func (x *SessionSettings) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SessionSettings.ProtoReflect.Descriptor instead.
 func (*SessionSettings) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{39}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *SessionSettings) GetMaxConcurrentSessionsDriver() int32 {
@@ -2299,7 +2444,7 @@ type AdminSecuritySettings struct {
 
 func (x *AdminSecuritySettings) Reset() {
 	*x = AdminSecuritySettings{}
-	mi := &file_platform_v1_platform_proto_msgTypes[40]
+	mi := &file_platform_v1_platform_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2311,7 +2456,7 @@ func (x *AdminSecuritySettings) String() string {
 func (*AdminSecuritySettings) ProtoMessage() {}
 
 func (x *AdminSecuritySettings) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[40]
+	mi := &file_platform_v1_platform_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2324,7 +2469,7 @@ func (x *AdminSecuritySettings) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminSecuritySettings.ProtoReflect.Descriptor instead.
 func (*AdminSecuritySettings) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{40}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *AdminSecuritySettings) GetMaxFailedLoginAttempts() int32 {
@@ -2357,7 +2502,7 @@ type SecurityConfigResponse struct {
 
 func (x *SecurityConfigResponse) Reset() {
 	*x = SecurityConfigResponse{}
-	mi := &file_platform_v1_platform_proto_msgTypes[41]
+	mi := &file_platform_v1_platform_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2369,7 +2514,7 @@ func (x *SecurityConfigResponse) String() string {
 func (*SecurityConfigResponse) ProtoMessage() {}
 
 func (x *SecurityConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_v1_platform_proto_msgTypes[41]
+	mi := &file_platform_v1_platform_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2382,7 +2527,7 @@ func (x *SecurityConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SecurityConfigResponse.ProtoReflect.Descriptor instead.
 func (*SecurityConfigResponse) Descriptor() ([]byte, []int) {
-	return file_platform_v1_platform_proto_rawDescGZIP(), []int{41}
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *SecurityConfigResponse) GetConfig() *structpb.Struct {
@@ -2523,7 +2668,16 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"%GetCustomerAppConfigByCategoryRequest\x12'\n" +
 	"\x0fconfig_category\x18\x01 \x01(\tR\x0econfigCategory\"e\n" +
 	"&GetCustomerAppConfigByCategoryResponse\x12;\n" +
-	"\x06config\x18\x01 \x01(\v2#.lift.platform.v1.CustomerAppConfigR\x06config\"\xa4\x01\n" +
+	"\x06config\x18\x01 \x01(\v2#.lift.platform.v1.CustomerAppConfigR\x06config\"E\n" +
+	" GetCorporateBookingConfigRequest\x12!\n" +
+	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\"t\n" +
+	"\x16CorporateBookingConfig\x12!\n" +
+	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x127\n" +
+	"\n" +
+	"properties\x18\x02 \x01(\v2\x17.google.protobuf.StructR\n" +
+	"properties\"e\n" +
+	"!GetCorporateBookingConfigResponse\x12@\n" +
+	"\x06config\x18\x01 \x01(\v2(.lift.platform.v1.CorporateBookingConfigR\x06config\"\xa4\x01\n" +
 	"\x10SmsGatewayConfig\x12\x12\n" +
 	"\x04host\x18\x01 \x01(\tR\x04host\x12\x12\n" +
 	"\x04port\x18\x02 \x01(\tR\x04port\x12\x16\n" +
@@ -2575,9 +2729,10 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x16SecurityConfigResponse\x12/\n" +
 	"\x06config\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06config2\xa0\x01\n" +
 	"\x14ConfigurationService\x12\x87\x01\n" +
-	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2\xb0\x01\n" +
+	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2\xb7\x02\n" +
 	"\x18CustomerAppConfigService\x12\x93\x01\n" +
-	"\x1eGetCustomerAppConfigByCategory\x127.lift.platform.v1.GetCustomerAppConfigByCategoryRequest\x1a8.lift.platform.v1.GetCustomerAppConfigByCategoryResponse2d\n" +
+	"\x1eGetCustomerAppConfigByCategory\x127.lift.platform.v1.GetCustomerAppConfigByCategoryRequest\x1a8.lift.platform.v1.GetCustomerAppConfigByCategoryResponse\x12\x84\x01\n" +
+	"\x19GetCorporateBookingConfig\x122.lift.platform.v1.GetCorporateBookingConfigRequest\x1a3.lift.platform.v1.GetCorporateBookingConfigResponse2d\n" +
 	"\x10TaxConfigService\x12P\n" +
 	"\rGetTaxAmounts\x12\x16.google.protobuf.Empty\x1a'.lift.platform.v1.GetTaxAmountsResponse2\x98\x01\n" +
 	"\x16ServiceCategoryService\x12~\n" +
@@ -2612,7 +2767,7 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 42)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 45)
 var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetConfigurationByCategoryRequest)(nil),      // 0: lift.platform.v1.GetConfigurationByCategoryRequest
 	(*Configuration)(nil),                          // 1: lift.platform.v1.Configuration
@@ -2643,24 +2798,27 @@ var file_platform_v1_platform_proto_goTypes = []any{
 	(*CustomerAppConfig)(nil),                      // 26: lift.platform.v1.CustomerAppConfig
 	(*GetCustomerAppConfigByCategoryRequest)(nil),  // 27: lift.platform.v1.GetCustomerAppConfigByCategoryRequest
 	(*GetCustomerAppConfigByCategoryResponse)(nil), // 28: lift.platform.v1.GetCustomerAppConfigByCategoryResponse
-	(*SmsGatewayConfig)(nil),                       // 29: lift.platform.v1.SmsGatewayConfig
-	(*GetSmsGatewayConfigRequest)(nil),             // 30: lift.platform.v1.GetSmsGatewayConfigRequest
-	(*GetSmsGatewayConfigResponse)(nil),            // 31: lift.platform.v1.GetSmsGatewayConfigResponse
-	(*EmailGatewayConfig)(nil),                     // 32: lift.platform.v1.EmailGatewayConfig
-	(*GetEmailGatewayConfigRequest)(nil),           // 33: lift.platform.v1.GetEmailGatewayConfigRequest
-	(*GetEmailGatewayConfigResponse)(nil),          // 34: lift.platform.v1.GetEmailGatewayConfigResponse
-	(*GetOtpSettingsRequest)(nil),                  // 35: lift.platform.v1.GetOtpSettingsRequest
-	(*OtpSettings)(nil),                            // 36: lift.platform.v1.OtpSettings
-	(*GetOtpSettingsResponse)(nil),                 // 37: lift.platform.v1.GetOtpSettingsResponse
-	(*GetSecurityConfigRequest)(nil),               // 38: lift.platform.v1.GetSecurityConfigRequest
-	(*SessionSettings)(nil),                        // 39: lift.platform.v1.SessionSettings
-	(*AdminSecuritySettings)(nil),                  // 40: lift.platform.v1.AdminSecuritySettings
-	(*SecurityConfigResponse)(nil),                 // 41: lift.platform.v1.SecurityConfigResponse
-	(*structpb.Struct)(nil),                        // 42: google.protobuf.Struct
-	(*emptypb.Empty)(nil),                          // 43: google.protobuf.Empty
+	(*GetCorporateBookingConfigRequest)(nil),       // 29: lift.platform.v1.GetCorporateBookingConfigRequest
+	(*CorporateBookingConfig)(nil),                 // 30: lift.platform.v1.CorporateBookingConfig
+	(*GetCorporateBookingConfigResponse)(nil),      // 31: lift.platform.v1.GetCorporateBookingConfigResponse
+	(*SmsGatewayConfig)(nil),                       // 32: lift.platform.v1.SmsGatewayConfig
+	(*GetSmsGatewayConfigRequest)(nil),             // 33: lift.platform.v1.GetSmsGatewayConfigRequest
+	(*GetSmsGatewayConfigResponse)(nil),            // 34: lift.platform.v1.GetSmsGatewayConfigResponse
+	(*EmailGatewayConfig)(nil),                     // 35: lift.platform.v1.EmailGatewayConfig
+	(*GetEmailGatewayConfigRequest)(nil),           // 36: lift.platform.v1.GetEmailGatewayConfigRequest
+	(*GetEmailGatewayConfigResponse)(nil),          // 37: lift.platform.v1.GetEmailGatewayConfigResponse
+	(*GetOtpSettingsRequest)(nil),                  // 38: lift.platform.v1.GetOtpSettingsRequest
+	(*OtpSettings)(nil),                            // 39: lift.platform.v1.OtpSettings
+	(*GetOtpSettingsResponse)(nil),                 // 40: lift.platform.v1.GetOtpSettingsResponse
+	(*GetSecurityConfigRequest)(nil),               // 41: lift.platform.v1.GetSecurityConfigRequest
+	(*SessionSettings)(nil),                        // 42: lift.platform.v1.SessionSettings
+	(*AdminSecuritySettings)(nil),                  // 43: lift.platform.v1.AdminSecuritySettings
+	(*SecurityConfigResponse)(nil),                 // 44: lift.platform.v1.SecurityConfigResponse
+	(*structpb.Struct)(nil),                        // 45: google.protobuf.Struct
+	(*emptypb.Empty)(nil),                          // 46: google.protobuf.Empty
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	42, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
+	45, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
 	1,  // 1: lift.platform.v1.GetConfigurationByCategoryResponse.configuration:type_name -> lift.platform.v1.Configuration
 	4,  // 2: lift.platform.v1.ServiceSubCategory.sub_service_parameters:type_name -> lift.platform.v1.ServiceSubParameters
 	6,  // 3: lift.platform.v1.ListVehicleTypesResponse.vehicle_types:type_name -> lift.platform.v1.VehicleType
@@ -2674,47 +2832,51 @@ var file_platform_v1_platform_proto_depIdxs = []int32{
 	5,  // 11: lift.platform.v1.GetAllServiceSubCategoriesResponse.content:type_name -> lift.platform.v1.ServiceSubCategory
 	19, // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
 	24, // 13: lift.platform.v1.GetTaxAmountsResponse.tax_amounts:type_name -> lift.platform.v1.TaxAmounts
-	42, // 14: lift.platform.v1.CustomerAppConfig.properties:type_name -> google.protobuf.Struct
+	45, // 14: lift.platform.v1.CustomerAppConfig.properties:type_name -> google.protobuf.Struct
 	26, // 15: lift.platform.v1.GetCustomerAppConfigByCategoryResponse.config:type_name -> lift.platform.v1.CustomerAppConfig
-	29, // 16: lift.platform.v1.GetSmsGatewayConfigResponse.config:type_name -> lift.platform.v1.SmsGatewayConfig
-	32, // 17: lift.platform.v1.GetEmailGatewayConfigResponse.config:type_name -> lift.platform.v1.EmailGatewayConfig
-	36, // 18: lift.platform.v1.GetOtpSettingsResponse.settings:type_name -> lift.platform.v1.OtpSettings
-	42, // 19: lift.platform.v1.SecurityConfigResponse.config:type_name -> google.protobuf.Struct
-	0,  // 20: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
-	27, // 21: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:input_type -> lift.platform.v1.GetCustomerAppConfigByCategoryRequest
-	43, // 22: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
-	20, // 23: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
-	3,  // 24: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
-	22, // 25: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
-	7,  // 26: lift.platform.v1.VehicleTypeService.ListVehicleTypes:input_type -> lift.platform.v1.ListVehicleTypesRequest
-	9,  // 27: lift.platform.v1.VehicleTypeService.GetVehicleType:input_type -> lift.platform.v1.GetVehicleTypeRequest
-	11, // 28: lift.platform.v1.VehicleTypeService.CreateVehicleType:input_type -> lift.platform.v1.CreateVehicleTypeRequest
-	13, // 29: lift.platform.v1.VehicleTypeService.UpdateVehicleType:input_type -> lift.platform.v1.UpdateVehicleTypeRequest
-	15, // 30: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:input_type -> lift.platform.v1.SetVehicleTypeStatusRequest
-	30, // 31: lift.platform.v1.SmsGatewayConfigService.GetSmsGatewayConfig:input_type -> lift.platform.v1.GetSmsGatewayConfigRequest
-	33, // 32: lift.platform.v1.EmailGatewayConfigService.GetEmailGatewayConfig:input_type -> lift.platform.v1.GetEmailGatewayConfigRequest
-	35, // 33: lift.platform.v1.OtpConfigService.GetOtpSettings:input_type -> lift.platform.v1.GetOtpSettingsRequest
-	38, // 34: lift.platform.v1.SecurityConfigService.GetSecurityConfig:input_type -> lift.platform.v1.GetSecurityConfigRequest
-	2,  // 35: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
-	28, // 36: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:output_type -> lift.platform.v1.GetCustomerAppConfigByCategoryResponse
-	25, // 37: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
-	21, // 38: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
-	17, // 39: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
-	23, // 40: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
-	8,  // 41: lift.platform.v1.VehicleTypeService.ListVehicleTypes:output_type -> lift.platform.v1.ListVehicleTypesResponse
-	10, // 42: lift.platform.v1.VehicleTypeService.GetVehicleType:output_type -> lift.platform.v1.GetVehicleTypeResponse
-	12, // 43: lift.platform.v1.VehicleTypeService.CreateVehicleType:output_type -> lift.platform.v1.CreateVehicleTypeResponse
-	14, // 44: lift.platform.v1.VehicleTypeService.UpdateVehicleType:output_type -> lift.platform.v1.UpdateVehicleTypeResponse
-	16, // 45: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:output_type -> lift.platform.v1.SetVehicleTypeStatusResponse
-	31, // 46: lift.platform.v1.SmsGatewayConfigService.GetSmsGatewayConfig:output_type -> lift.platform.v1.GetSmsGatewayConfigResponse
-	34, // 47: lift.platform.v1.EmailGatewayConfigService.GetEmailGatewayConfig:output_type -> lift.platform.v1.GetEmailGatewayConfigResponse
-	37, // 48: lift.platform.v1.OtpConfigService.GetOtpSettings:output_type -> lift.platform.v1.GetOtpSettingsResponse
-	41, // 49: lift.platform.v1.SecurityConfigService.GetSecurityConfig:output_type -> lift.platform.v1.SecurityConfigResponse
-	35, // [35:50] is the sub-list for method output_type
-	20, // [20:35] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	45, // 16: lift.platform.v1.CorporateBookingConfig.properties:type_name -> google.protobuf.Struct
+	30, // 17: lift.platform.v1.GetCorporateBookingConfigResponse.config:type_name -> lift.platform.v1.CorporateBookingConfig
+	32, // 18: lift.platform.v1.GetSmsGatewayConfigResponse.config:type_name -> lift.platform.v1.SmsGatewayConfig
+	35, // 19: lift.platform.v1.GetEmailGatewayConfigResponse.config:type_name -> lift.platform.v1.EmailGatewayConfig
+	39, // 20: lift.platform.v1.GetOtpSettingsResponse.settings:type_name -> lift.platform.v1.OtpSettings
+	45, // 21: lift.platform.v1.SecurityConfigResponse.config:type_name -> google.protobuf.Struct
+	0,  // 22: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
+	27, // 23: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:input_type -> lift.platform.v1.GetCustomerAppConfigByCategoryRequest
+	29, // 24: lift.platform.v1.CustomerAppConfigService.GetCorporateBookingConfig:input_type -> lift.platform.v1.GetCorporateBookingConfigRequest
+	46, // 25: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
+	20, // 26: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
+	3,  // 27: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
+	22, // 28: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
+	7,  // 29: lift.platform.v1.VehicleTypeService.ListVehicleTypes:input_type -> lift.platform.v1.ListVehicleTypesRequest
+	9,  // 30: lift.platform.v1.VehicleTypeService.GetVehicleType:input_type -> lift.platform.v1.GetVehicleTypeRequest
+	11, // 31: lift.platform.v1.VehicleTypeService.CreateVehicleType:input_type -> lift.platform.v1.CreateVehicleTypeRequest
+	13, // 32: lift.platform.v1.VehicleTypeService.UpdateVehicleType:input_type -> lift.platform.v1.UpdateVehicleTypeRequest
+	15, // 33: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:input_type -> lift.platform.v1.SetVehicleTypeStatusRequest
+	33, // 34: lift.platform.v1.SmsGatewayConfigService.GetSmsGatewayConfig:input_type -> lift.platform.v1.GetSmsGatewayConfigRequest
+	36, // 35: lift.platform.v1.EmailGatewayConfigService.GetEmailGatewayConfig:input_type -> lift.platform.v1.GetEmailGatewayConfigRequest
+	38, // 36: lift.platform.v1.OtpConfigService.GetOtpSettings:input_type -> lift.platform.v1.GetOtpSettingsRequest
+	41, // 37: lift.platform.v1.SecurityConfigService.GetSecurityConfig:input_type -> lift.platform.v1.GetSecurityConfigRequest
+	2,  // 38: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
+	28, // 39: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:output_type -> lift.platform.v1.GetCustomerAppConfigByCategoryResponse
+	31, // 40: lift.platform.v1.CustomerAppConfigService.GetCorporateBookingConfig:output_type -> lift.platform.v1.GetCorporateBookingConfigResponse
+	25, // 41: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
+	21, // 42: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
+	17, // 43: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
+	23, // 44: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
+	8,  // 45: lift.platform.v1.VehicleTypeService.ListVehicleTypes:output_type -> lift.platform.v1.ListVehicleTypesResponse
+	10, // 46: lift.platform.v1.VehicleTypeService.GetVehicleType:output_type -> lift.platform.v1.GetVehicleTypeResponse
+	12, // 47: lift.platform.v1.VehicleTypeService.CreateVehicleType:output_type -> lift.platform.v1.CreateVehicleTypeResponse
+	14, // 48: lift.platform.v1.VehicleTypeService.UpdateVehicleType:output_type -> lift.platform.v1.UpdateVehicleTypeResponse
+	16, // 49: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:output_type -> lift.platform.v1.SetVehicleTypeStatusResponse
+	34, // 50: lift.platform.v1.SmsGatewayConfigService.GetSmsGatewayConfig:output_type -> lift.platform.v1.GetSmsGatewayConfigResponse
+	37, // 51: lift.platform.v1.EmailGatewayConfigService.GetEmailGatewayConfig:output_type -> lift.platform.v1.GetEmailGatewayConfigResponse
+	40, // 52: lift.platform.v1.OtpConfigService.GetOtpSettings:output_type -> lift.platform.v1.GetOtpSettingsResponse
+	44, // 53: lift.platform.v1.SecurityConfigService.GetSecurityConfig:output_type -> lift.platform.v1.SecurityConfigResponse
+	38, // [38:54] is the sub-list for method output_type
+	22, // [22:38] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() { file_platform_v1_platform_proto_init() }
@@ -2729,7 +2891,7 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   42,
+			NumMessages:   45,
 			NumExtensions: 0,
 			NumServices:   10,
 		},

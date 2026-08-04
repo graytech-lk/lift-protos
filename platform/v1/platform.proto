@@ -177,12 +177,32 @@ message GetCustomerAppConfigByCategoryResponse {
   CustomerAppConfig config = 1;
 }
 
+// US-051: per-corporate booking configuration (advance window, booking purpose,
+// cancellation, dispute window). Read by operations to enforce the scheduling
+// advance window on corporate bookings. `properties` mirrors the JSONB config
+// (booking_advance_window_hours, require_booking_purpose, ...); empty when the
+// corporate has no row (callers apply defaults).
+message GetCorporateBookingConfigRequest {
+  string corporate_id = 1;
+}
+
+message CorporateBookingConfig {
+  string corporate_id = 1;
+  google.protobuf.Struct properties = 2;
+}
+
+message GetCorporateBookingConfigResponse {
+  CorporateBookingConfig config = 1;
+}
+
 service ConfigurationService {
   rpc GetConfigurationByCategory(GetConfigurationByCategoryRequest) returns (GetConfigurationByCategoryResponse);
 }
 
 service CustomerAppConfigService {
   rpc GetCustomerAppConfigByCategory(GetCustomerAppConfigByCategoryRequest) returns (GetCustomerAppConfigByCategoryResponse);
+  // US-051: per-corporate booking config, keyed by corporate_id.
+  rpc GetCorporateBookingConfig(GetCorporateBookingConfigRequest) returns (GetCorporateBookingConfigResponse);
 }
 
 service TaxConfigService {
