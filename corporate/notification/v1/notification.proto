@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package lift.corporate.notification.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/corporate/notification/v1;corporatenotificationv1";
+
+// NotificationService ingests corporate notifications pushed by other services
+// (e.g. lift-operations-service booking / trip events). Entries are
+// corporate-scoped (LIFT-1726). Callers treat this as best-effort — a failure
+// here must never affect the originating action.
+service NotificationService {
+  // RecordNotification appends a single notification to a corporate's feed.
+  rpc RecordNotification(RecordNotificationRequest) returns (RecordNotificationResponse);
+}
+
+message RecordNotificationRequest {
+  string corporate_id = 1; // required — the corporate the notification belongs to
+  string type         = 2; // e.g. "trip", "user_linked"
+  string title        = 3; // required — short headline
+  string body         = 4; // human-readable detail
+  string severity     = 5; // "info" | "success" | "warning" (default info)
+  string ref_type     = 6; // optional deep-link target kind
+  string ref_id       = 7; // optional deep-link target id
+}
+
+message RecordNotificationResponse {
+  bool ok = 1;
+}
