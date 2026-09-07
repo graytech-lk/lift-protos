@@ -19,19 +19,20 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PaymentMethodService_ListUserPaymentMethods_FullMethodName             = "/lift.payment.v1.PaymentMethodService/ListUserPaymentMethods"
-	PaymentMethodService_GetPaymentMethod_FullMethodName                   = "/lift.payment.v1.PaymentMethodService/GetPaymentMethod"
-	PaymentMethodService_GetCorporatePaymentMethod_FullMethodName          = "/lift.payment.v1.PaymentMethodService/GetCorporatePaymentMethod"
-	PaymentMethodService_ListCorporatePaymentMethods_FullMethodName        = "/lift.payment.v1.PaymentMethodService/ListCorporatePaymentMethods"
-	PaymentMethodService_UpdatePaymentMethodStatus_FullMethodName          = "/lift.payment.v1.PaymentMethodService/UpdatePaymentMethodStatus"
-	PaymentMethodService_UpdateUserPaymentMethod_FullMethodName            = "/lift.payment.v1.PaymentMethodService/UpdateUserPaymentMethod"
-	PaymentMethodService_SetDefaultUserPaymentMethod_FullMethodName        = "/lift.payment.v1.PaymentMethodService/SetDefaultUserPaymentMethod"
-	PaymentMethodService_DeleteUserPaymentMethod_FullMethodName            = "/lift.payment.v1.PaymentMethodService/DeleteUserPaymentMethod"
-	PaymentMethodService_AddPromoCodeUserPaymentMethod_FullMethodName      = "/lift.payment.v1.PaymentMethodService/AddPromoCodeUserPaymentMethod"
-	PaymentMethodService_ConsumePromoCodeUserPaymentMethod_FullMethodName  = "/lift.payment.v1.PaymentMethodService/ConsumePromoCodeUserPaymentMethod"
-	PaymentMethodService_EnsureDefaultCashUserPaymentMethod_FullMethodName = "/lift.payment.v1.PaymentMethodService/EnsureDefaultCashUserPaymentMethod"
-	PaymentMethodService_GetPaymentMethodByName_FullMethodName             = "/lift.payment.v1.PaymentMethodService/GetPaymentMethodByName"
-	PaymentMethodService_CreateCorporateUserPaymentMethod_FullMethodName   = "/lift.payment.v1.PaymentMethodService/CreateCorporateUserPaymentMethod"
+	PaymentMethodService_ListUserPaymentMethods_FullMethodName                    = "/lift.payment.v1.PaymentMethodService/ListUserPaymentMethods"
+	PaymentMethodService_GetPaymentMethod_FullMethodName                          = "/lift.payment.v1.PaymentMethodService/GetPaymentMethod"
+	PaymentMethodService_GetCorporatePaymentMethod_FullMethodName                 = "/lift.payment.v1.PaymentMethodService/GetCorporatePaymentMethod"
+	PaymentMethodService_ListCorporatePaymentMethods_FullMethodName               = "/lift.payment.v1.PaymentMethodService/ListCorporatePaymentMethods"
+	PaymentMethodService_UpdatePaymentMethodStatus_FullMethodName                 = "/lift.payment.v1.PaymentMethodService/UpdatePaymentMethodStatus"
+	PaymentMethodService_UpdateUserPaymentMethod_FullMethodName                   = "/lift.payment.v1.PaymentMethodService/UpdateUserPaymentMethod"
+	PaymentMethodService_SetDefaultUserPaymentMethod_FullMethodName               = "/lift.payment.v1.PaymentMethodService/SetDefaultUserPaymentMethod"
+	PaymentMethodService_DeleteUserPaymentMethod_FullMethodName                   = "/lift.payment.v1.PaymentMethodService/DeleteUserPaymentMethod"
+	PaymentMethodService_AddPromoCodeUserPaymentMethod_FullMethodName             = "/lift.payment.v1.PaymentMethodService/AddPromoCodeUserPaymentMethod"
+	PaymentMethodService_ConsumePromoCodeUserPaymentMethod_FullMethodName         = "/lift.payment.v1.PaymentMethodService/ConsumePromoCodeUserPaymentMethod"
+	PaymentMethodService_EnsureDefaultCashUserPaymentMethod_FullMethodName        = "/lift.payment.v1.PaymentMethodService/EnsureDefaultCashUserPaymentMethod"
+	PaymentMethodService_GetPaymentMethodByName_FullMethodName                    = "/lift.payment.v1.PaymentMethodService/GetPaymentMethodByName"
+	PaymentMethodService_CreateCorporateUserPaymentMethod_FullMethodName          = "/lift.payment.v1.PaymentMethodService/CreateCorporateUserPaymentMethod"
+	PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_FullMethodName = "/lift.payment.v1.PaymentMethodService/UpdateCorporatePaymentMethodServicePolicy"
 )
 
 // PaymentMethodServiceClient is the client API for PaymentMethodService service.
@@ -51,6 +52,9 @@ type PaymentMethodServiceClient interface {
 	EnsureDefaultCashUserPaymentMethod(ctx context.Context, in *EnsureDefaultCashUserPaymentMethodRequest, opts ...grpc.CallOption) (*EnsureDefaultCashUserPaymentMethodResponse, error)
 	GetPaymentMethodByName(ctx context.Context, in *GetPaymentMethodByNameRequest, opts ...grpc.CallOption) (*GetPaymentMethodByNameResponse, error)
 	CreateCorporateUserPaymentMethod(ctx context.Context, in *CreateCorporateUserPaymentMethodRequest, opts ...grpc.CallOption) (*CreateCorporateUserPaymentMethodResponse, error)
+	// LIFT-1928: change the corporate service policy (group) on a user's corporate
+	// payment method — the authoritative store for the assignment.
+	UpdateCorporatePaymentMethodServicePolicy(ctx context.Context, in *UpdateCorporatePaymentMethodServicePolicyRequest, opts ...grpc.CallOption) (*UpdateCorporatePaymentMethodServicePolicyResponse, error)
 }
 
 type paymentMethodServiceClient struct {
@@ -191,6 +195,16 @@ func (c *paymentMethodServiceClient) CreateCorporateUserPaymentMethod(ctx contex
 	return out, nil
 }
 
+func (c *paymentMethodServiceClient) UpdateCorporatePaymentMethodServicePolicy(ctx context.Context, in *UpdateCorporatePaymentMethodServicePolicyRequest, opts ...grpc.CallOption) (*UpdateCorporatePaymentMethodServicePolicyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateCorporatePaymentMethodServicePolicyResponse)
+	err := c.cc.Invoke(ctx, PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PaymentMethodServiceServer is the server API for PaymentMethodService service.
 // All implementations must embed UnimplementedPaymentMethodServiceServer
 // for forward compatibility.
@@ -208,6 +222,9 @@ type PaymentMethodServiceServer interface {
 	EnsureDefaultCashUserPaymentMethod(context.Context, *EnsureDefaultCashUserPaymentMethodRequest) (*EnsureDefaultCashUserPaymentMethodResponse, error)
 	GetPaymentMethodByName(context.Context, *GetPaymentMethodByNameRequest) (*GetPaymentMethodByNameResponse, error)
 	CreateCorporateUserPaymentMethod(context.Context, *CreateCorporateUserPaymentMethodRequest) (*CreateCorporateUserPaymentMethodResponse, error)
+	// LIFT-1928: change the corporate service policy (group) on a user's corporate
+	// payment method — the authoritative store for the assignment.
+	UpdateCorporatePaymentMethodServicePolicy(context.Context, *UpdateCorporatePaymentMethodServicePolicyRequest) (*UpdateCorporatePaymentMethodServicePolicyResponse, error)
 	mustEmbedUnimplementedPaymentMethodServiceServer()
 }
 
@@ -256,6 +273,9 @@ func (UnimplementedPaymentMethodServiceServer) GetPaymentMethodByName(context.Co
 }
 func (UnimplementedPaymentMethodServiceServer) CreateCorporateUserPaymentMethod(context.Context, *CreateCorporateUserPaymentMethodRequest) (*CreateCorporateUserPaymentMethodResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateCorporateUserPaymentMethod not implemented")
+}
+func (UnimplementedPaymentMethodServiceServer) UpdateCorporatePaymentMethodServicePolicy(context.Context, *UpdateCorporatePaymentMethodServicePolicyRequest) (*UpdateCorporatePaymentMethodServicePolicyResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateCorporatePaymentMethodServicePolicy not implemented")
 }
 func (UnimplementedPaymentMethodServiceServer) mustEmbedUnimplementedPaymentMethodServiceServer() {}
 func (UnimplementedPaymentMethodServiceServer) testEmbeddedByValue()                              {}
@@ -512,6 +532,24 @@ func _PaymentMethodService_CreateCorporateUserPaymentMethod_Handler(srv interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCorporatePaymentMethodServicePolicyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentMethodServiceServer).UpdateCorporatePaymentMethodServicePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentMethodServiceServer).UpdateCorporatePaymentMethodServicePolicy(ctx, req.(*UpdateCorporatePaymentMethodServicePolicyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PaymentMethodService_ServiceDesc is the grpc.ServiceDesc for PaymentMethodService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -570,6 +608,10 @@ var PaymentMethodService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateCorporateUserPaymentMethod",
 			Handler:    _PaymentMethodService_CreateCorporateUserPaymentMethod_Handler,
+		},
+		{
+			MethodName: "UpdateCorporatePaymentMethodServicePolicy",
+			Handler:    _PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

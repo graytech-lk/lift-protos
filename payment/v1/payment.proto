@@ -42,6 +42,17 @@ message GetCorporatePaymentMethodRequest {
   string corporate_id = 2;
 }
 
+// LIFT-1928: update a corporate payment method's service policy (group).
+message UpdateCorporatePaymentMethodServicePolicyRequest {
+  string user_id = 1;
+  string corporate_id = 2;
+  string service_policy_id = 3;
+}
+
+message UpdateCorporatePaymentMethodServicePolicyResponse {
+  UserPaymentMethod method = 1;
+}
+
 message GetCorporatePaymentMethodResponse {
   UserPaymentMethod method = 1;
 }
@@ -338,6 +349,9 @@ service PaymentMethodService {
   rpc EnsureDefaultCashUserPaymentMethod(EnsureDefaultCashUserPaymentMethodRequest) returns (EnsureDefaultCashUserPaymentMethodResponse);
   rpc GetPaymentMethodByName(GetPaymentMethodByNameRequest) returns (GetPaymentMethodByNameResponse);
   rpc CreateCorporateUserPaymentMethod(CreateCorporateUserPaymentMethodRequest) returns (CreateCorporateUserPaymentMethodResponse);
+  // LIFT-1928: change the corporate service policy (group) on a user's corporate
+  // payment method — the authoritative store for the assignment.
+  rpc UpdateCorporatePaymentMethodServicePolicy(UpdateCorporatePaymentMethodServicePolicyRequest) returns (UpdateCorporatePaymentMethodServicePolicyResponse);
 }
 
 service PaymentService {
