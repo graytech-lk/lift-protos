@@ -195,6 +195,14 @@ message GetCorporateBookingConfigResponse {
   CorporateBookingConfig config = 1;
 }
 
+// LIFT-2039: the corporate contact config (LIFT Base hotline + email) from the
+// singleton corporate_contact_config row — the same DB-driven values the
+// corporate portal's Contact Us page reads over HTTP.
+message GetCorporateContactConfigResponse {
+  string hotline = 1;
+  string email = 2;
+}
+
 service ConfigurationService {
   rpc GetConfigurationByCategory(GetConfigurationByCategoryRequest) returns (GetConfigurationByCategoryResponse);
 }
@@ -203,6 +211,8 @@ service CustomerAppConfigService {
   rpc GetCustomerAppConfigByCategory(GetCustomerAppConfigByCategoryRequest) returns (GetCustomerAppConfigByCategoryResponse);
   // US-051: per-corporate booking config, keyed by corporate_id.
   rpc GetCorporateBookingConfig(GetCorporateBookingConfigRequest) returns (GetCorporateBookingConfigResponse);
+  // LIFT-2039: LIFT Base hotline + email for fall-out notifications (SMS).
+  rpc GetCorporateContactConfig(google.protobuf.Empty) returns (GetCorporateContactConfigResponse);
 }
 
 service TaxConfigService {

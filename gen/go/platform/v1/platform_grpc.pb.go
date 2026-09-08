@@ -124,6 +124,7 @@ var ConfigurationService_ServiceDesc = grpc.ServiceDesc{
 const (
 	CustomerAppConfigService_GetCustomerAppConfigByCategory_FullMethodName = "/lift.platform.v1.CustomerAppConfigService/GetCustomerAppConfigByCategory"
 	CustomerAppConfigService_GetCorporateBookingConfig_FullMethodName      = "/lift.platform.v1.CustomerAppConfigService/GetCorporateBookingConfig"
+	CustomerAppConfigService_GetCorporateContactConfig_FullMethodName      = "/lift.platform.v1.CustomerAppConfigService/GetCorporateContactConfig"
 )
 
 // CustomerAppConfigServiceClient is the client API for CustomerAppConfigService service.
@@ -133,6 +134,8 @@ type CustomerAppConfigServiceClient interface {
 	GetCustomerAppConfigByCategory(ctx context.Context, in *GetCustomerAppConfigByCategoryRequest, opts ...grpc.CallOption) (*GetCustomerAppConfigByCategoryResponse, error)
 	// US-051: per-corporate booking config, keyed by corporate_id.
 	GetCorporateBookingConfig(ctx context.Context, in *GetCorporateBookingConfigRequest, opts ...grpc.CallOption) (*GetCorporateBookingConfigResponse, error)
+	// LIFT-2039: LIFT Base hotline + email for fall-out notifications (SMS).
+	GetCorporateContactConfig(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetCorporateContactConfigResponse, error)
 }
 
 type customerAppConfigServiceClient struct {
@@ -163,6 +166,16 @@ func (c *customerAppConfigServiceClient) GetCorporateBookingConfig(ctx context.C
 	return out, nil
 }
 
+func (c *customerAppConfigServiceClient) GetCorporateContactConfig(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetCorporateContactConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCorporateContactConfigResponse)
+	err := c.cc.Invoke(ctx, CustomerAppConfigService_GetCorporateContactConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CustomerAppConfigServiceServer is the server API for CustomerAppConfigService service.
 // All implementations must embed UnimplementedCustomerAppConfigServiceServer
 // for forward compatibility.
@@ -170,6 +183,8 @@ type CustomerAppConfigServiceServer interface {
 	GetCustomerAppConfigByCategory(context.Context, *GetCustomerAppConfigByCategoryRequest) (*GetCustomerAppConfigByCategoryResponse, error)
 	// US-051: per-corporate booking config, keyed by corporate_id.
 	GetCorporateBookingConfig(context.Context, *GetCorporateBookingConfigRequest) (*GetCorporateBookingConfigResponse, error)
+	// LIFT-2039: LIFT Base hotline + email for fall-out notifications (SMS).
+	GetCorporateContactConfig(context.Context, *emptypb.Empty) (*GetCorporateContactConfigResponse, error)
 	mustEmbedUnimplementedCustomerAppConfigServiceServer()
 }
 
@@ -185,6 +200,9 @@ func (UnimplementedCustomerAppConfigServiceServer) GetCustomerAppConfigByCategor
 }
 func (UnimplementedCustomerAppConfigServiceServer) GetCorporateBookingConfig(context.Context, *GetCorporateBookingConfigRequest) (*GetCorporateBookingConfigResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCorporateBookingConfig not implemented")
+}
+func (UnimplementedCustomerAppConfigServiceServer) GetCorporateContactConfig(context.Context, *emptypb.Empty) (*GetCorporateContactConfigResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCorporateContactConfig not implemented")
 }
 func (UnimplementedCustomerAppConfigServiceServer) mustEmbedUnimplementedCustomerAppConfigServiceServer() {
 }
@@ -244,6 +262,24 @@ func _CustomerAppConfigService_GetCorporateBookingConfig_Handler(srv interface{}
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CustomerAppConfigService_GetCorporateContactConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CustomerAppConfigServiceServer).GetCorporateContactConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CustomerAppConfigService_GetCorporateContactConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CustomerAppConfigServiceServer).GetCorporateContactConfig(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CustomerAppConfigService_ServiceDesc is the grpc.ServiceDesc for CustomerAppConfigService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -258,6 +294,10 @@ var CustomerAppConfigService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCorporateBookingConfig",
 			Handler:    _CustomerAppConfigService_GetCorporateBookingConfig_Handler,
+		},
+		{
+			MethodName: "GetCorporateContactConfig",
+			Handler:    _CustomerAppConfigService_GetCorporateContactConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
