@@ -53,6 +53,17 @@ message UpdateCorporatePaymentMethodServicePolicyResponse {
   UserPaymentMethod method = 1;
 }
 
+// LIFT-2093: update a corporate payment method's staff id (extended_parameters.staff_id).
+message UpdateCorporatePaymentMethodStaffIdRequest {
+  string user_id = 1;
+  string corporate_id = 2;
+  string staff_id = 3;
+}
+
+message UpdateCorporatePaymentMethodStaffIdResponse {
+  UserPaymentMethod method = 1;
+}
+
 message GetCorporatePaymentMethodResponse {
   UserPaymentMethod method = 1;
 }
@@ -352,6 +363,8 @@ service PaymentMethodService {
   // LIFT-1928: change the corporate service policy (group) on a user's corporate
   // payment method — the authoritative store for the assignment.
   rpc UpdateCorporatePaymentMethodServicePolicy(UpdateCorporatePaymentMethodServicePolicyRequest) returns (UpdateCorporatePaymentMethodServicePolicyResponse);
+  // LIFT-2093: update a corporate payment method's staff id.
+  rpc UpdateCorporatePaymentMethodStaffId(UpdateCorporatePaymentMethodStaffIdRequest) returns (UpdateCorporatePaymentMethodStaffIdResponse);
 }
 
 service PaymentService {

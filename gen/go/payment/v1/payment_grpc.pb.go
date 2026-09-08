@@ -33,6 +33,7 @@ const (
 	PaymentMethodService_GetPaymentMethodByName_FullMethodName                    = "/lift.payment.v1.PaymentMethodService/GetPaymentMethodByName"
 	PaymentMethodService_CreateCorporateUserPaymentMethod_FullMethodName          = "/lift.payment.v1.PaymentMethodService/CreateCorporateUserPaymentMethod"
 	PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_FullMethodName = "/lift.payment.v1.PaymentMethodService/UpdateCorporatePaymentMethodServicePolicy"
+	PaymentMethodService_UpdateCorporatePaymentMethodStaffId_FullMethodName       = "/lift.payment.v1.PaymentMethodService/UpdateCorporatePaymentMethodStaffId"
 )
 
 // PaymentMethodServiceClient is the client API for PaymentMethodService service.
@@ -55,6 +56,8 @@ type PaymentMethodServiceClient interface {
 	// LIFT-1928: change the corporate service policy (group) on a user's corporate
 	// payment method — the authoritative store for the assignment.
 	UpdateCorporatePaymentMethodServicePolicy(ctx context.Context, in *UpdateCorporatePaymentMethodServicePolicyRequest, opts ...grpc.CallOption) (*UpdateCorporatePaymentMethodServicePolicyResponse, error)
+	// LIFT-2093: update a corporate payment method's staff id.
+	UpdateCorporatePaymentMethodStaffId(ctx context.Context, in *UpdateCorporatePaymentMethodStaffIdRequest, opts ...grpc.CallOption) (*UpdateCorporatePaymentMethodStaffIdResponse, error)
 }
 
 type paymentMethodServiceClient struct {
@@ -205,6 +208,16 @@ func (c *paymentMethodServiceClient) UpdateCorporatePaymentMethodServicePolicy(c
 	return out, nil
 }
 
+func (c *paymentMethodServiceClient) UpdateCorporatePaymentMethodStaffId(ctx context.Context, in *UpdateCorporatePaymentMethodStaffIdRequest, opts ...grpc.CallOption) (*UpdateCorporatePaymentMethodStaffIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateCorporatePaymentMethodStaffIdResponse)
+	err := c.cc.Invoke(ctx, PaymentMethodService_UpdateCorporatePaymentMethodStaffId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PaymentMethodServiceServer is the server API for PaymentMethodService service.
 // All implementations must embed UnimplementedPaymentMethodServiceServer
 // for forward compatibility.
@@ -225,6 +238,8 @@ type PaymentMethodServiceServer interface {
 	// LIFT-1928: change the corporate service policy (group) on a user's corporate
 	// payment method — the authoritative store for the assignment.
 	UpdateCorporatePaymentMethodServicePolicy(context.Context, *UpdateCorporatePaymentMethodServicePolicyRequest) (*UpdateCorporatePaymentMethodServicePolicyResponse, error)
+	// LIFT-2093: update a corporate payment method's staff id.
+	UpdateCorporatePaymentMethodStaffId(context.Context, *UpdateCorporatePaymentMethodStaffIdRequest) (*UpdateCorporatePaymentMethodStaffIdResponse, error)
 	mustEmbedUnimplementedPaymentMethodServiceServer()
 }
 
@@ -276,6 +291,9 @@ func (UnimplementedPaymentMethodServiceServer) CreateCorporateUserPaymentMethod(
 }
 func (UnimplementedPaymentMethodServiceServer) UpdateCorporatePaymentMethodServicePolicy(context.Context, *UpdateCorporatePaymentMethodServicePolicyRequest) (*UpdateCorporatePaymentMethodServicePolicyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateCorporatePaymentMethodServicePolicy not implemented")
+}
+func (UnimplementedPaymentMethodServiceServer) UpdateCorporatePaymentMethodStaffId(context.Context, *UpdateCorporatePaymentMethodStaffIdRequest) (*UpdateCorporatePaymentMethodStaffIdResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateCorporatePaymentMethodStaffId not implemented")
 }
 func (UnimplementedPaymentMethodServiceServer) mustEmbedUnimplementedPaymentMethodServiceServer() {}
 func (UnimplementedPaymentMethodServiceServer) testEmbeddedByValue()                              {}
@@ -550,6 +568,24 @@ func _PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_Handler(srv
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PaymentMethodService_UpdateCorporatePaymentMethodStaffId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCorporatePaymentMethodStaffIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentMethodServiceServer).UpdateCorporatePaymentMethodStaffId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentMethodService_UpdateCorporatePaymentMethodStaffId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentMethodServiceServer).UpdateCorporatePaymentMethodStaffId(ctx, req.(*UpdateCorporatePaymentMethodStaffIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PaymentMethodService_ServiceDesc is the grpc.ServiceDesc for PaymentMethodService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -612,6 +648,10 @@ var PaymentMethodService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateCorporatePaymentMethodServicePolicy",
 			Handler:    _PaymentMethodService_UpdateCorporatePaymentMethodServicePolicy_Handler,
+		},
+		{
+			MethodName: "UpdateCorporatePaymentMethodStaffId",
+			Handler:    _PaymentMethodService_UpdateCorporatePaymentMethodStaffId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
