@@ -16,6 +16,12 @@ message ListCorporateUsersByCorporateIdRequest {
   optional string phone_number = 7; // Optional: contact / phone substring filter
   optional string gender = 8; // Optional: male | female | other
   optional string staff_id = 9; // Optional: company / staff id substring
+  // LIFT-2052: the column the System users table is ordered by — system_id,
+  // name, email, phone_number, gender, staff_id, role or status. Absent or
+  // unknown keeps newest first. The list is paged in the database, so the
+  // order has to be applied there.
+  optional string sort_by = 10;
+  bool sort_desc = 11; // with sort_by: Z to A
 }
 
 message UserCorporate {

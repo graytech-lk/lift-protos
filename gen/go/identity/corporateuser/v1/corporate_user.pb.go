@@ -33,8 +33,14 @@ type ListCorporateUsersByCorporateIdRequest struct {
 	PhoneNumber    *string                `protobuf:"bytes,7,opt,name=phone_number,json=phoneNumber,proto3,oneof" json:"phone_number,omitempty"` // Optional: contact / phone substring filter
 	Gender         *string                `protobuf:"bytes,8,opt,name=gender,proto3,oneof" json:"gender,omitempty"`                              // Optional: male | female | other
 	StaffId        *string                `protobuf:"bytes,9,opt,name=staff_id,json=staffId,proto3,oneof" json:"staff_id,omitempty"`             // Optional: company / staff id substring
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// LIFT-2052: the column the System users table is ordered by — system_id,
+	// name, email, phone_number, gender, staff_id, role or status. Absent or
+	// unknown keeps newest first. The list is paged in the database, so the
+	// order has to be applied there.
+	SortBy        *string `protobuf:"bytes,10,opt,name=sort_by,json=sortBy,proto3,oneof" json:"sort_by,omitempty"`
+	SortDesc      bool    `protobuf:"varint,11,opt,name=sort_desc,json=sortDesc,proto3" json:"sort_desc,omitempty"` // with sort_by: Z to A
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListCorporateUsersByCorporateIdRequest) Reset() {
@@ -128,6 +134,20 @@ func (x *ListCorporateUsersByCorporateIdRequest) GetStaffId() string {
 		return *x.StaffId
 	}
 	return ""
+}
+
+func (x *ListCorporateUsersByCorporateIdRequest) GetSortBy() string {
+	if x != nil && x.SortBy != nil {
+		return *x.SortBy
+	}
+	return ""
+}
+
+func (x *ListCorporateUsersByCorporateIdRequest) GetSortDesc() bool {
+	if x != nil {
+		return x.SortDesc
+	}
+	return false
 }
 
 type UserCorporate struct {
@@ -479,7 +499,7 @@ var File_identity_corporateuser_v1_corporate_user_proto protoreflect.FileDescrip
 
 const file_identity_corporateuser_v1_corporate_user_proto_rawDesc = "" +
 	"\n" +
-	".identity/corporateuser/v1/corporate_user.proto\x12\x1elift.identity.corporateuser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x98\x03\n" +
+	".identity/corporateuser/v1/corporate_user.proto\x12\x1elift.identity.corporateuser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdf\x03\n" +
 	"&ListCorporateUsersByCorporateIdRequest\x12!\n" +
 	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x12\"\n" +
 	"\ruser_sub_type\x18\x02 \x01(\tR\vuserSubType\x12\x1f\n" +
@@ -490,12 +510,17 @@ const file_identity_corporateuser_v1_corporate_user_proto_rawDesc = "" +
 	"\x06search\x18\x06 \x01(\tH\x01R\x06search\x88\x01\x01\x12&\n" +
 	"\fphone_number\x18\a \x01(\tH\x02R\vphoneNumber\x88\x01\x01\x12\x1b\n" +
 	"\x06gender\x18\b \x01(\tH\x03R\x06gender\x88\x01\x01\x12\x1e\n" +
-	"\bstaff_id\x18\t \x01(\tH\x04R\astaffId\x88\x01\x01B\t\n" +
+	"\bstaff_id\x18\t \x01(\tH\x04R\astaffId\x88\x01\x01\x12\x1c\n" +
+	"\asort_by\x18\n" +
+	" \x01(\tH\x05R\x06sortBy\x88\x01\x01\x12\x1b\n" +
+	"\tsort_desc\x18\v \x01(\bR\bsortDescB\t\n" +
 	"\a_statusB\t\n" +
 	"\a_searchB\x0f\n" +
 	"\r_phone_numberB\t\n" +
 	"\a_genderB\v\n" +
-	"\t_staff_id\"\xd9\x05\n" +
+	"\t_staff_idB\n" +
+	"\n" +
+	"\b_sort_by\"\xd9\x05\n" +
 	"\rUserCorporate\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fcorporate_id\x18\x02 \x01(\tR\vcorporateId\x12!\n" +
