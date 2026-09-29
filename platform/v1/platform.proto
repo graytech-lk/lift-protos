@@ -319,3 +319,25 @@ service OtpConfigService {
 service SecurityConfigService {
   rpc GetSecurityConfig(GetSecurityConfigRequest) returns (SecurityConfigResponse);
 }
+
+// Admin panel RBAC (admin_menus / admin_menu_actions / admin_role_permissions).
+// Lets other services enforce the same role grants the admin panel shows, so
+// a permission changed in Role Permissions applies server-side too.
+message GetRoleMenuActionsRequest {
+  string role_key = 1;  // JWT user_group, e.g. call_center_agent
+  string menu_key = 2;  // admin_menus.unique_key, e.g. sos_incidents
+}
+
+message GetRoleMenuActionsResponse {
+  // Action names granted to the role on the menu (e.g. VIEW, HANDLE).
+  // super_admin gets every action of the menu.
+  repeated string actions = 1;
+  // False when the menu is switched off in Menu Management. Grants are still
+  // returned; the caller decides what an inactive menu means.
+  bool menu_active = 2;
+}
+
+service AdminRbacService {
+  // NOT_FOUND when no menu has menu_key.
+  rpc GetRoleMenuActions(GetRoleMenuActionsRequest) returns (GetRoleMenuActionsResponse);
+}
