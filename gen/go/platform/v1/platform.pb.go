@@ -2592,6 +2592,117 @@ func (x *SecurityConfigResponse) GetConfig() *structpb.Struct {
 	return nil
 }
 
+// Admin panel RBAC (admin_menus / admin_menu_actions / admin_role_permissions).
+// Lets other services enforce the same role grants the admin panel shows, so
+// a permission changed in Role Permissions applies server-side too.
+type GetRoleMenuActionsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoleKey       string                 `protobuf:"bytes,1,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"` // JWT user_group, e.g. call_center_agent
+	MenuKey       string                 `protobuf:"bytes,2,opt,name=menu_key,json=menuKey,proto3" json:"menu_key,omitempty"` // admin_menus.unique_key, e.g. sos_incidents
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRoleMenuActionsRequest) Reset() {
+	*x = GetRoleMenuActionsRequest{}
+	mi := &file_platform_v1_platform_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRoleMenuActionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRoleMenuActionsRequest) ProtoMessage() {}
+
+func (x *GetRoleMenuActionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRoleMenuActionsRequest.ProtoReflect.Descriptor instead.
+func (*GetRoleMenuActionsRequest) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *GetRoleMenuActionsRequest) GetRoleKey() string {
+	if x != nil {
+		return x.RoleKey
+	}
+	return ""
+}
+
+func (x *GetRoleMenuActionsRequest) GetMenuKey() string {
+	if x != nil {
+		return x.MenuKey
+	}
+	return ""
+}
+
+type GetRoleMenuActionsResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Action names granted to the role on the menu (e.g. VIEW, HANDLE).
+	// super_admin gets every action of the menu.
+	Actions []string `protobuf:"bytes,1,rep,name=actions,proto3" json:"actions,omitempty"`
+	// False when the menu is switched off in Menu Management. Grants are still
+	// returned; the caller decides what an inactive menu means.
+	MenuActive    bool `protobuf:"varint,2,opt,name=menu_active,json=menuActive,proto3" json:"menu_active,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRoleMenuActionsResponse) Reset() {
+	*x = GetRoleMenuActionsResponse{}
+	mi := &file_platform_v1_platform_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRoleMenuActionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRoleMenuActionsResponse) ProtoMessage() {}
+
+func (x *GetRoleMenuActionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_v1_platform_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRoleMenuActionsResponse.ProtoReflect.Descriptor instead.
+func (*GetRoleMenuActionsResponse) Descriptor() ([]byte, []int) {
+	return file_platform_v1_platform_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *GetRoleMenuActionsResponse) GetActions() []string {
+	if x != nil {
+		return x.Actions
+	}
+	return nil
+}
+
+func (x *GetRoleMenuActionsResponse) GetMenuActive() bool {
+	if x != nil {
+		return x.MenuActive
+	}
+	return false
+}
+
 var File_platform_v1_platform_proto protoreflect.FileDescriptor
 
 const file_platform_v1_platform_proto_rawDesc = "" +
@@ -2785,7 +2896,14 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x1eadmin_lockout_duration_minutes\x18\x02 \x01(\x05R\x1badminLockoutDurationMinutes\x12@\n" +
 	"\x1clockout_notification_enabled\x18\x03 \x01(\bR\x1alockoutNotificationEnabled\"I\n" +
 	"\x16SecurityConfigResponse\x12/\n" +
-	"\x06config\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06config2\xa0\x01\n" +
+	"\x06config\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06config\"Q\n" +
+	"\x19GetRoleMenuActionsRequest\x12\x19\n" +
+	"\brole_key\x18\x01 \x01(\tR\aroleKey\x12\x19\n" +
+	"\bmenu_key\x18\x02 \x01(\tR\amenuKey\"W\n" +
+	"\x1aGetRoleMenuActionsResponse\x12\x18\n" +
+	"\aactions\x18\x01 \x03(\tR\aactions\x12\x1f\n" +
+	"\vmenu_active\x18\x02 \x01(\bR\n" +
+	"menuActive2\xa0\x01\n" +
 	"\x14ConfigurationService\x12\x87\x01\n" +
 	"\x1aGetConfigurationByCategory\x123.lift.platform.v1.GetConfigurationByCategoryRequest\x1a4.lift.platform.v1.GetConfigurationByCategoryResponse2\xa1\x03\n" +
 	"\x18CustomerAppConfigService\x12\x93\x01\n" +
@@ -2812,7 +2930,9 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\x10OtpConfigService\x12c\n" +
 	"\x0eGetOtpSettings\x12'.lift.platform.v1.GetOtpSettingsRequest\x1a(.lift.platform.v1.GetOtpSettingsResponse2\x82\x01\n" +
 	"\x15SecurityConfigService\x12i\n" +
-	"\x11GetSecurityConfig\x12*.lift.platform.v1.GetSecurityConfigRequest\x1a(.lift.platform.v1.SecurityConfigResponseBBZ@github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1b\x06proto3"
+	"\x11GetSecurityConfig\x12*.lift.platform.v1.GetSecurityConfigRequest\x1a(.lift.platform.v1.SecurityConfigResponse2\x83\x01\n" +
+	"\x10AdminRbacService\x12o\n" +
+	"\x12GetRoleMenuActions\x12+.lift.platform.v1.GetRoleMenuActionsRequest\x1a,.lift.platform.v1.GetRoleMenuActionsResponseBBZ@github.com/graytech-lk/lift-protos/gen/go/platform/v1;platformv1b\x06proto3"
 
 var (
 	file_platform_v1_platform_proto_rawDescOnce sync.Once
@@ -2826,7 +2946,7 @@ func file_platform_v1_platform_proto_rawDescGZIP() []byte {
 	return file_platform_v1_platform_proto_rawDescData
 }
 
-var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 46)
+var file_platform_v1_platform_proto_msgTypes = make([]protoimpl.MessageInfo, 48)
 var file_platform_v1_platform_proto_goTypes = []any{
 	(*GetConfigurationByCategoryRequest)(nil),      // 0: lift.platform.v1.GetConfigurationByCategoryRequest
 	(*Configuration)(nil),                          // 1: lift.platform.v1.Configuration
@@ -2874,11 +2994,13 @@ var file_platform_v1_platform_proto_goTypes = []any{
 	(*SessionSettings)(nil),                        // 43: lift.platform.v1.SessionSettings
 	(*AdminSecuritySettings)(nil),                  // 44: lift.platform.v1.AdminSecuritySettings
 	(*SecurityConfigResponse)(nil),                 // 45: lift.platform.v1.SecurityConfigResponse
-	(*structpb.Struct)(nil),                        // 46: google.protobuf.Struct
-	(*emptypb.Empty)(nil),                          // 47: google.protobuf.Empty
+	(*GetRoleMenuActionsRequest)(nil),              // 46: lift.platform.v1.GetRoleMenuActionsRequest
+	(*GetRoleMenuActionsResponse)(nil),             // 47: lift.platform.v1.GetRoleMenuActionsResponse
+	(*structpb.Struct)(nil),                        // 48: google.protobuf.Struct
+	(*emptypb.Empty)(nil),                          // 49: google.protobuf.Empty
 }
 var file_platform_v1_platform_proto_depIdxs = []int32{
-	46, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
+	48, // 0: lift.platform.v1.Configuration.parameters:type_name -> google.protobuf.Struct
 	1,  // 1: lift.platform.v1.GetConfigurationByCategoryResponse.configuration:type_name -> lift.platform.v1.Configuration
 	4,  // 2: lift.platform.v1.ServiceSubCategory.sub_service_parameters:type_name -> lift.platform.v1.ServiceSubParameters
 	6,  // 3: lift.platform.v1.ListVehicleTypesResponse.vehicle_types:type_name -> lift.platform.v1.VehicleType
@@ -2892,19 +3014,19 @@ var file_platform_v1_platform_proto_depIdxs = []int32{
 	5,  // 11: lift.platform.v1.GetAllServiceSubCategoriesResponse.content:type_name -> lift.platform.v1.ServiceSubCategory
 	19, // 12: lift.platform.v1.GetAllServiceSubCategoriesResponse.pagination:type_name -> lift.platform.v1.Pagination
 	24, // 13: lift.platform.v1.GetTaxAmountsResponse.tax_amounts:type_name -> lift.platform.v1.TaxAmounts
-	46, // 14: lift.platform.v1.CustomerAppConfig.properties:type_name -> google.protobuf.Struct
+	48, // 14: lift.platform.v1.CustomerAppConfig.properties:type_name -> google.protobuf.Struct
 	26, // 15: lift.platform.v1.GetCustomerAppConfigByCategoryResponse.config:type_name -> lift.platform.v1.CustomerAppConfig
-	46, // 16: lift.platform.v1.CorporateBookingConfig.properties:type_name -> google.protobuf.Struct
+	48, // 16: lift.platform.v1.CorporateBookingConfig.properties:type_name -> google.protobuf.Struct
 	30, // 17: lift.platform.v1.GetCorporateBookingConfigResponse.config:type_name -> lift.platform.v1.CorporateBookingConfig
 	33, // 18: lift.platform.v1.GetSmsGatewayConfigResponse.config:type_name -> lift.platform.v1.SmsGatewayConfig
 	36, // 19: lift.platform.v1.GetEmailGatewayConfigResponse.config:type_name -> lift.platform.v1.EmailGatewayConfig
 	40, // 20: lift.platform.v1.GetOtpSettingsResponse.settings:type_name -> lift.platform.v1.OtpSettings
-	46, // 21: lift.platform.v1.SecurityConfigResponse.config:type_name -> google.protobuf.Struct
+	48, // 21: lift.platform.v1.SecurityConfigResponse.config:type_name -> google.protobuf.Struct
 	0,  // 22: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:input_type -> lift.platform.v1.GetConfigurationByCategoryRequest
 	27, // 23: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:input_type -> lift.platform.v1.GetCustomerAppConfigByCategoryRequest
 	29, // 24: lift.platform.v1.CustomerAppConfigService.GetCorporateBookingConfig:input_type -> lift.platform.v1.GetCorporateBookingConfigRequest
-	47, // 25: lift.platform.v1.CustomerAppConfigService.GetCorporateContactConfig:input_type -> google.protobuf.Empty
-	47, // 26: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
+	49, // 25: lift.platform.v1.CustomerAppConfigService.GetCorporateContactConfig:input_type -> google.protobuf.Empty
+	49, // 26: lift.platform.v1.TaxConfigService.GetTaxAmounts:input_type -> google.protobuf.Empty
 	20, // 27: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:input_type -> lift.platform.v1.GetAllServiceCategoriesRequest
 	3,  // 28: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:input_type -> lift.platform.v1.GetServiceSubCategoryRequest
 	22, // 29: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:input_type -> lift.platform.v1.GetAllServiceSubCategoriesRequest
@@ -2917,25 +3039,27 @@ var file_platform_v1_platform_proto_depIdxs = []int32{
 	37, // 36: lift.platform.v1.EmailGatewayConfigService.GetEmailGatewayConfig:input_type -> lift.platform.v1.GetEmailGatewayConfigRequest
 	39, // 37: lift.platform.v1.OtpConfigService.GetOtpSettings:input_type -> lift.platform.v1.GetOtpSettingsRequest
 	42, // 38: lift.platform.v1.SecurityConfigService.GetSecurityConfig:input_type -> lift.platform.v1.GetSecurityConfigRequest
-	2,  // 39: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
-	28, // 40: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:output_type -> lift.platform.v1.GetCustomerAppConfigByCategoryResponse
-	31, // 41: lift.platform.v1.CustomerAppConfigService.GetCorporateBookingConfig:output_type -> lift.platform.v1.GetCorporateBookingConfigResponse
-	32, // 42: lift.platform.v1.CustomerAppConfigService.GetCorporateContactConfig:output_type -> lift.platform.v1.GetCorporateContactConfigResponse
-	25, // 43: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
-	21, // 44: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
-	17, // 45: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
-	23, // 46: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
-	8,  // 47: lift.platform.v1.VehicleTypeService.ListVehicleTypes:output_type -> lift.platform.v1.ListVehicleTypesResponse
-	10, // 48: lift.platform.v1.VehicleTypeService.GetVehicleType:output_type -> lift.platform.v1.GetVehicleTypeResponse
-	12, // 49: lift.platform.v1.VehicleTypeService.CreateVehicleType:output_type -> lift.platform.v1.CreateVehicleTypeResponse
-	14, // 50: lift.platform.v1.VehicleTypeService.UpdateVehicleType:output_type -> lift.platform.v1.UpdateVehicleTypeResponse
-	16, // 51: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:output_type -> lift.platform.v1.SetVehicleTypeStatusResponse
-	35, // 52: lift.platform.v1.SmsGatewayConfigService.GetSmsGatewayConfig:output_type -> lift.platform.v1.GetSmsGatewayConfigResponse
-	38, // 53: lift.platform.v1.EmailGatewayConfigService.GetEmailGatewayConfig:output_type -> lift.platform.v1.GetEmailGatewayConfigResponse
-	41, // 54: lift.platform.v1.OtpConfigService.GetOtpSettings:output_type -> lift.platform.v1.GetOtpSettingsResponse
-	45, // 55: lift.platform.v1.SecurityConfigService.GetSecurityConfig:output_type -> lift.platform.v1.SecurityConfigResponse
-	39, // [39:56] is the sub-list for method output_type
-	22, // [22:39] is the sub-list for method input_type
+	46, // 39: lift.platform.v1.AdminRbacService.GetRoleMenuActions:input_type -> lift.platform.v1.GetRoleMenuActionsRequest
+	2,  // 40: lift.platform.v1.ConfigurationService.GetConfigurationByCategory:output_type -> lift.platform.v1.GetConfigurationByCategoryResponse
+	28, // 41: lift.platform.v1.CustomerAppConfigService.GetCustomerAppConfigByCategory:output_type -> lift.platform.v1.GetCustomerAppConfigByCategoryResponse
+	31, // 42: lift.platform.v1.CustomerAppConfigService.GetCorporateBookingConfig:output_type -> lift.platform.v1.GetCorporateBookingConfigResponse
+	32, // 43: lift.platform.v1.CustomerAppConfigService.GetCorporateContactConfig:output_type -> lift.platform.v1.GetCorporateContactConfigResponse
+	25, // 44: lift.platform.v1.TaxConfigService.GetTaxAmounts:output_type -> lift.platform.v1.GetTaxAmountsResponse
+	21, // 45: lift.platform.v1.ServiceCategoryService.GetAllServiceCategories:output_type -> lift.platform.v1.GetAllServiceCategoriesResponse
+	17, // 46: lift.platform.v1.ServiceSubCategoryService.GetServiceSubCategory:output_type -> lift.platform.v1.GetServiceSubCategoryResponse
+	23, // 47: lift.platform.v1.ServiceSubCategoryService.GetAllServiceSubCategories:output_type -> lift.platform.v1.GetAllServiceSubCategoriesResponse
+	8,  // 48: lift.platform.v1.VehicleTypeService.ListVehicleTypes:output_type -> lift.platform.v1.ListVehicleTypesResponse
+	10, // 49: lift.platform.v1.VehicleTypeService.GetVehicleType:output_type -> lift.platform.v1.GetVehicleTypeResponse
+	12, // 50: lift.platform.v1.VehicleTypeService.CreateVehicleType:output_type -> lift.platform.v1.CreateVehicleTypeResponse
+	14, // 51: lift.platform.v1.VehicleTypeService.UpdateVehicleType:output_type -> lift.platform.v1.UpdateVehicleTypeResponse
+	16, // 52: lift.platform.v1.VehicleTypeService.SetVehicleTypeStatus:output_type -> lift.platform.v1.SetVehicleTypeStatusResponse
+	35, // 53: lift.platform.v1.SmsGatewayConfigService.GetSmsGatewayConfig:output_type -> lift.platform.v1.GetSmsGatewayConfigResponse
+	38, // 54: lift.platform.v1.EmailGatewayConfigService.GetEmailGatewayConfig:output_type -> lift.platform.v1.GetEmailGatewayConfigResponse
+	41, // 55: lift.platform.v1.OtpConfigService.GetOtpSettings:output_type -> lift.platform.v1.GetOtpSettingsResponse
+	45, // 56: lift.platform.v1.SecurityConfigService.GetSecurityConfig:output_type -> lift.platform.v1.SecurityConfigResponse
+	47, // 57: lift.platform.v1.AdminRbacService.GetRoleMenuActions:output_type -> lift.platform.v1.GetRoleMenuActionsResponse
+	40, // [40:58] is the sub-list for method output_type
+	22, // [22:40] is the sub-list for method input_type
 	22, // [22:22] is the sub-list for extension type_name
 	22, // [22:22] is the sub-list for extension extendee
 	0,  // [0:22] is the sub-list for field type_name
@@ -2953,9 +3077,9 @@ func file_platform_v1_platform_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_v1_platform_proto_rawDesc), len(file_platform_v1_platform_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   46,
+			NumMessages:   48,
 			NumExtensions: 0,
-			NumServices:   10,
+			NumServices:   11,
 		},
 		GoTypes:           file_platform_v1_platform_proto_goTypes,
 		DependencyIndexes: file_platform_v1_platform_proto_depIdxs,
