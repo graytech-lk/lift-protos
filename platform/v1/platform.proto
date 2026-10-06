@@ -35,6 +35,10 @@ message ServiceSubParameters {
   double company_rev_share = 8;
   double app_charge = 9;
   double passenger_insurance = 10;
+  // Kilometres covered by minimum_charge (the base fare); distance_charge is
+  // billed per km beyond this. Optional so callers can tell "not set" (an
+  // older platform-service) from an explicit 0, and fall back to 1 km.
+  optional double base_distance = 11;
 }
 
 message ServiceSubCategory {
