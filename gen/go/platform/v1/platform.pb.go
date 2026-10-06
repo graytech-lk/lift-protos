@@ -219,8 +219,12 @@ type ServiceSubParameters struct {
 	CompanyRevShare    float64                `protobuf:"fixed64,8,opt,name=company_rev_share,json=companyRevShare,proto3" json:"company_rev_share,omitempty"`
 	AppCharge          float64                `protobuf:"fixed64,9,opt,name=app_charge,json=appCharge,proto3" json:"app_charge,omitempty"`
 	PassengerInsurance float64                `protobuf:"fixed64,10,opt,name=passenger_insurance,json=passengerInsurance,proto3" json:"passenger_insurance,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// Kilometres covered by minimum_charge (the base fare); distance_charge is
+	// billed per km beyond this. Optional so callers can tell "not set" (an
+	// older platform-service) from an explicit 0, and fall back to 1 km.
+	BaseDistance  *float64 `protobuf:"fixed64,11,opt,name=base_distance,json=baseDistance,proto3,oneof" json:"base_distance,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ServiceSubParameters) Reset() {
@@ -319,6 +323,13 @@ func (x *ServiceSubParameters) GetAppCharge() float64 {
 func (x *ServiceSubParameters) GetPassengerInsurance() float64 {
 	if x != nil {
 		return x.PassengerInsurance
+	}
+	return 0
+}
+
+func (x *ServiceSubParameters) GetBaseDistance() float64 {
+	if x != nil && x.BaseDistance != nil {
+		return *x.BaseDistance
 	}
 	return 0
 }
@@ -2718,7 +2729,7 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\"GetConfigurationByCategoryResponse\x12E\n" +
 	"\rconfiguration\x18\x01 \x01(\v2\x1f.lift.platform.v1.ConfigurationR\rconfiguration\"U\n" +
 	"\x1cGetServiceSubCategoryRequest\x125\n" +
-	"\x17service_sub_category_id\x18\x01 \x01(\tR\x14serviceSubCategoryId\"\xa6\x03\n" +
+	"\x17service_sub_category_id\x18\x01 \x01(\tR\x14serviceSubCategoryId\"\xe2\x03\n" +
 	"\x14ServiceSubParameters\x12'\n" +
 	"\x0fdistance_charge\x18\x01 \x01(\x01R\x0edistanceCharge\x12%\n" +
 	"\x0ewaiting_charge\x18\x02 \x01(\x01R\rwaitingCharge\x12!\n" +
@@ -2732,7 +2743,9 @@ const file_platform_v1_platform_proto_rawDesc = "" +
 	"\n" +
 	"app_charge\x18\t \x01(\x01R\tappCharge\x12/\n" +
 	"\x13passenger_insurance\x18\n" +
-	" \x01(\x01R\x12passengerInsurance\"\xca\x05\n" +
+	" \x01(\x01R\x12passengerInsurance\x12(\n" +
+	"\rbase_distance\x18\v \x01(\x01H\x00R\fbaseDistance\x88\x01\x01B\x10\n" +
+	"\x0e_base_distance\"\xca\x05\n" +
 	"\x12ServiceSubCategory\x125\n" +
 	"\x17sub_service_category_id\x18\x01 \x01(\tR\x14subServiceCategoryId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x129\n" +
@@ -3070,6 +3083,7 @@ func file_platform_v1_platform_proto_init() {
 	if File_platform_v1_platform_proto != nil {
 		return
 	}
+	file_platform_v1_platform_proto_msgTypes[4].OneofWrappers = []any{}
 	file_platform_v1_platform_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
