@@ -75,9 +75,91 @@ message ApplyCorporateChargeResponse {
   CorporateAccount account = 1;
 }
 
+// ── LIFT-2107: credit holds ─────────────────────────────────────────────
+//
+// A corporate trip holds credit when it is booked (its fare estimate plus a
+// configured buffer), is charged its final fare from that hold when it ends,
+// and releases the hold if it never happens. A company can only book while
+// used + held + the new hold fits within its credit limit plus any active
+// temporary credit relief.
+
+// CorporateCreditPosition is a company's credit at one moment.
+message CorporateCreditPosition {
+  double credit_limit = 1;
+  // Charged in the current billing period.
+  double used = 2;
+  // Held for trips booked but not yet charged.
+  double held = 3;
+  // Active temporary credit relief; 0 when none is active.
+  double relief = 4;
+  // credit_limit + relief - used - held, never below 0.
+  double available = 5;
+  // How far used + held is past credit_limit + relief; 0 when within.
+  double over_limit = 6;
+}
+
+message HoldCorporateCreditRequest {
+  string corporate_id = 1;
+  // The trip the hold is for. A trip has one hold: calling again with a new
+  // estimate resizes it.
+  string service_request_id = 2;
+  // The server's fare estimate. The hold adds the configured buffer to it.
+  double estimated_fare = 3;
+}
+
+message HoldCorporateCreditResponse {
+  // False when the hold doesn't fit the company's credit, or the account
+  // can't book; nothing is held then.
+  bool allowed = 1;
+  // Why it was refused: "insufficient_credit" or "account_inactive".
+  // Empty when allowed.
+  string reason = 2;
+  // What is held, or would be held, for this trip.
+  double hold_amount = 3;
+  // The company's credit after this call.
+  CorporateCreditPosition position = 4;
+  // "off", "shadow" or "on". Off holds nothing. Shadow holds but never
+  // refuses: allowed is true and would_refuse says what "on" would do.
+  string enforcement = 5;
+  bool would_refuse = 6;
+}
+
+message ReleaseCorporateCreditHoldRequest {
+  string service_request_id = 1;
+  // Why: e.g. "cancelled", "fall_out", "payment_method_changed", "cleanup".
+  string reason = 2;
+}
+
+message ReleaseCorporateCreditHoldResponse {
+  // False when the trip had no open hold (none, or already charged or
+  // released).
+  bool released = 1;
+  double amount = 2;
+}
+
+message ChargeCorporateTripRequest {
+  string corporate_id = 1;
+  string service_request_id = 2;
+  // The trip's final fare (must be > 0). Charged in full even past the
+  // company's credit; any hold is closed.
+  double amount = 3;
+  string description = 4;
+}
+
+message ChargeCorporateTripResponse {
+  // True when the trip had already been charged; nothing changed.
+  bool already_charged = 1;
+  double charged = 2;
+  CorporateCreditPosition position = 3;
+}
+
 service CorporateAccountService {
   rpc GetCorporateAccountById(GetCorporateAccountByIdRequest) returns (GetCorporateAccountByIdResponse);
+  // Deprecated: use ChargeCorporateTrip, which can't charge a trip twice.
   rpc ApplyCorporateCharge(ApplyCorporateChargeRequest) returns (ApplyCorporateChargeResponse);
+  rpc HoldCorporateCredit(HoldCorporateCreditRequest) returns (HoldCorporateCreditResponse);
+  rpc ReleaseCorporateCreditHold(ReleaseCorporateCreditHoldRequest) returns (ReleaseCorporateCreditHoldResponse);
+  rpc ChargeCorporateTrip(ChargeCorporateTripRequest) returns (ChargeCorporateTripResponse);
 }
 
 

@@ -642,6 +642,489 @@ func (x *ApplyCorporateChargeResponse) GetAccount() *CorporateAccount {
 	return nil
 }
 
+// CorporateCreditPosition is a company's credit at one moment.
+type CorporateCreditPosition struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	CreditLimit float64                `protobuf:"fixed64,1,opt,name=credit_limit,json=creditLimit,proto3" json:"credit_limit,omitempty"`
+	// Charged in the current billing period.
+	Used float64 `protobuf:"fixed64,2,opt,name=used,proto3" json:"used,omitempty"`
+	// Held for trips booked but not yet charged.
+	Held float64 `protobuf:"fixed64,3,opt,name=held,proto3" json:"held,omitempty"`
+	// Active temporary credit relief; 0 when none is active.
+	Relief float64 `protobuf:"fixed64,4,opt,name=relief,proto3" json:"relief,omitempty"`
+	// credit_limit + relief - used - held, never below 0.
+	Available float64 `protobuf:"fixed64,5,opt,name=available,proto3" json:"available,omitempty"`
+	// How far used + held is past credit_limit + relief; 0 when within.
+	OverLimit     float64 `protobuf:"fixed64,6,opt,name=over_limit,json=overLimit,proto3" json:"over_limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CorporateCreditPosition) Reset() {
+	*x = CorporateCreditPosition{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CorporateCreditPosition) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CorporateCreditPosition) ProtoMessage() {}
+
+func (x *CorporateCreditPosition) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CorporateCreditPosition.ProtoReflect.Descriptor instead.
+func (*CorporateCreditPosition) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CorporateCreditPosition) GetCreditLimit() float64 {
+	if x != nil {
+		return x.CreditLimit
+	}
+	return 0
+}
+
+func (x *CorporateCreditPosition) GetUsed() float64 {
+	if x != nil {
+		return x.Used
+	}
+	return 0
+}
+
+func (x *CorporateCreditPosition) GetHeld() float64 {
+	if x != nil {
+		return x.Held
+	}
+	return 0
+}
+
+func (x *CorporateCreditPosition) GetRelief() float64 {
+	if x != nil {
+		return x.Relief
+	}
+	return 0
+}
+
+func (x *CorporateCreditPosition) GetAvailable() float64 {
+	if x != nil {
+		return x.Available
+	}
+	return 0
+}
+
+func (x *CorporateCreditPosition) GetOverLimit() float64 {
+	if x != nil {
+		return x.OverLimit
+	}
+	return 0
+}
+
+type HoldCorporateCreditRequest struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	CorporateId string                 `protobuf:"bytes,1,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
+	// The trip the hold is for. A trip has one hold: calling again with a new
+	// estimate resizes it.
+	ServiceRequestId string `protobuf:"bytes,2,opt,name=service_request_id,json=serviceRequestId,proto3" json:"service_request_id,omitempty"`
+	// The server's fare estimate. The hold adds the configured buffer to it.
+	EstimatedFare float64 `protobuf:"fixed64,3,opt,name=estimated_fare,json=estimatedFare,proto3" json:"estimated_fare,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HoldCorporateCreditRequest) Reset() {
+	*x = HoldCorporateCreditRequest{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HoldCorporateCreditRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HoldCorporateCreditRequest) ProtoMessage() {}
+
+func (x *HoldCorporateCreditRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HoldCorporateCreditRequest.ProtoReflect.Descriptor instead.
+func (*HoldCorporateCreditRequest) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *HoldCorporateCreditRequest) GetCorporateId() string {
+	if x != nil {
+		return x.CorporateId
+	}
+	return ""
+}
+
+func (x *HoldCorporateCreditRequest) GetServiceRequestId() string {
+	if x != nil {
+		return x.ServiceRequestId
+	}
+	return ""
+}
+
+func (x *HoldCorporateCreditRequest) GetEstimatedFare() float64 {
+	if x != nil {
+		return x.EstimatedFare
+	}
+	return 0
+}
+
+type HoldCorporateCreditResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// False when the hold doesn't fit the company's credit, or the account
+	// can't book; nothing is held then.
+	Allowed bool `protobuf:"varint,1,opt,name=allowed,proto3" json:"allowed,omitempty"`
+	// Why it was refused: "insufficient_credit" or "account_inactive".
+	// Empty when allowed.
+	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	// What is held, or would be held, for this trip.
+	HoldAmount float64 `protobuf:"fixed64,3,opt,name=hold_amount,json=holdAmount,proto3" json:"hold_amount,omitempty"`
+	// The company's credit after this call.
+	Position *CorporateCreditPosition `protobuf:"bytes,4,opt,name=position,proto3" json:"position,omitempty"`
+	// "off", "shadow" or "on". Off holds nothing. Shadow holds but never
+	// refuses: allowed is true and would_refuse says what "on" would do.
+	Enforcement   string `protobuf:"bytes,5,opt,name=enforcement,proto3" json:"enforcement,omitempty"`
+	WouldRefuse   bool   `protobuf:"varint,6,opt,name=would_refuse,json=wouldRefuse,proto3" json:"would_refuse,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HoldCorporateCreditResponse) Reset() {
+	*x = HoldCorporateCreditResponse{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HoldCorporateCreditResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HoldCorporateCreditResponse) ProtoMessage() {}
+
+func (x *HoldCorporateCreditResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HoldCorporateCreditResponse.ProtoReflect.Descriptor instead.
+func (*HoldCorporateCreditResponse) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *HoldCorporateCreditResponse) GetAllowed() bool {
+	if x != nil {
+		return x.Allowed
+	}
+	return false
+}
+
+func (x *HoldCorporateCreditResponse) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *HoldCorporateCreditResponse) GetHoldAmount() float64 {
+	if x != nil {
+		return x.HoldAmount
+	}
+	return 0
+}
+
+func (x *HoldCorporateCreditResponse) GetPosition() *CorporateCreditPosition {
+	if x != nil {
+		return x.Position
+	}
+	return nil
+}
+
+func (x *HoldCorporateCreditResponse) GetEnforcement() string {
+	if x != nil {
+		return x.Enforcement
+	}
+	return ""
+}
+
+func (x *HoldCorporateCreditResponse) GetWouldRefuse() bool {
+	if x != nil {
+		return x.WouldRefuse
+	}
+	return false
+}
+
+type ReleaseCorporateCreditHoldRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	ServiceRequestId string                 `protobuf:"bytes,1,opt,name=service_request_id,json=serviceRequestId,proto3" json:"service_request_id,omitempty"`
+	// Why: e.g. "cancelled", "fall_out", "payment_method_changed", "cleanup".
+	Reason        string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReleaseCorporateCreditHoldRequest) Reset() {
+	*x = ReleaseCorporateCreditHoldRequest{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReleaseCorporateCreditHoldRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReleaseCorporateCreditHoldRequest) ProtoMessage() {}
+
+func (x *ReleaseCorporateCreditHoldRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReleaseCorporateCreditHoldRequest.ProtoReflect.Descriptor instead.
+func (*ReleaseCorporateCreditHoldRequest) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ReleaseCorporateCreditHoldRequest) GetServiceRequestId() string {
+	if x != nil {
+		return x.ServiceRequestId
+	}
+	return ""
+}
+
+func (x *ReleaseCorporateCreditHoldRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type ReleaseCorporateCreditHoldResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// False when the trip had no open hold (none, or already charged or
+	// released).
+	Released      bool    `protobuf:"varint,1,opt,name=released,proto3" json:"released,omitempty"`
+	Amount        float64 `protobuf:"fixed64,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReleaseCorporateCreditHoldResponse) Reset() {
+	*x = ReleaseCorporateCreditHoldResponse{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReleaseCorporateCreditHoldResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReleaseCorporateCreditHoldResponse) ProtoMessage() {}
+
+func (x *ReleaseCorporateCreditHoldResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReleaseCorporateCreditHoldResponse.ProtoReflect.Descriptor instead.
+func (*ReleaseCorporateCreditHoldResponse) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ReleaseCorporateCreditHoldResponse) GetReleased() bool {
+	if x != nil {
+		return x.Released
+	}
+	return false
+}
+
+func (x *ReleaseCorporateCreditHoldResponse) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+type ChargeCorporateTripRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	CorporateId      string                 `protobuf:"bytes,1,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
+	ServiceRequestId string                 `protobuf:"bytes,2,opt,name=service_request_id,json=serviceRequestId,proto3" json:"service_request_id,omitempty"`
+	// The trip's final fare (must be > 0). Charged in full even past the
+	// company's credit; any hold is closed.
+	Amount        float64 `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	Description   string  `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChargeCorporateTripRequest) Reset() {
+	*x = ChargeCorporateTripRequest{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChargeCorporateTripRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChargeCorporateTripRequest) ProtoMessage() {}
+
+func (x *ChargeCorporateTripRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChargeCorporateTripRequest.ProtoReflect.Descriptor instead.
+func (*ChargeCorporateTripRequest) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ChargeCorporateTripRequest) GetCorporateId() string {
+	if x != nil {
+		return x.CorporateId
+	}
+	return ""
+}
+
+func (x *ChargeCorporateTripRequest) GetServiceRequestId() string {
+	if x != nil {
+		return x.ServiceRequestId
+	}
+	return ""
+}
+
+func (x *ChargeCorporateTripRequest) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *ChargeCorporateTripRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type ChargeCorporateTripResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// True when the trip had already been charged; nothing changed.
+	AlreadyCharged bool                     `protobuf:"varint,1,opt,name=already_charged,json=alreadyCharged,proto3" json:"already_charged,omitempty"`
+	Charged        float64                  `protobuf:"fixed64,2,opt,name=charged,proto3" json:"charged,omitempty"`
+	Position       *CorporateCreditPosition `protobuf:"bytes,3,opt,name=position,proto3" json:"position,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ChargeCorporateTripResponse) Reset() {
+	*x = ChargeCorporateTripResponse{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChargeCorporateTripResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChargeCorporateTripResponse) ProtoMessage() {}
+
+func (x *ChargeCorporateTripResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChargeCorporateTripResponse.ProtoReflect.Descriptor instead.
+func (*ChargeCorporateTripResponse) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ChargeCorporateTripResponse) GetAlreadyCharged() bool {
+	if x != nil {
+		return x.AlreadyCharged
+	}
+	return false
+}
+
+func (x *ChargeCorporateTripResponse) GetCharged() float64 {
+	if x != nil {
+		return x.Charged
+	}
+	return 0
+}
+
+func (x *ChargeCorporateTripResponse) GetPosition() *CorporateCreditPosition {
+	if x != nil {
+		return x.Position
+	}
+	return nil
+}
+
 var File_corporate_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_corporate_account_v1_account_proto_rawDesc = "" +
@@ -703,10 +1186,48 @@ const file_corporate_account_v1_account_proto_rawDesc = "" +
 	"\freference_id\x18\x03 \x01(\tR\vreferenceId\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\"e\n" +
 	"\x1cApplyCorporateChargeResponse\x12E\n" +
-	"\aaccount\x18\x01 \x01(\v2+.lift.corporate.account.v1.CorporateAccountR\aaccount2\xb6\x02\n" +
+	"\aaccount\x18\x01 \x01(\v2+.lift.corporate.account.v1.CorporateAccountR\aaccount\"\xb9\x01\n" +
+	"\x17CorporateCreditPosition\x12!\n" +
+	"\fcredit_limit\x18\x01 \x01(\x01R\vcreditLimit\x12\x12\n" +
+	"\x04used\x18\x02 \x01(\x01R\x04used\x12\x12\n" +
+	"\x04held\x18\x03 \x01(\x01R\x04held\x12\x16\n" +
+	"\x06relief\x18\x04 \x01(\x01R\x06relief\x12\x1c\n" +
+	"\tavailable\x18\x05 \x01(\x01R\tavailable\x12\x1d\n" +
+	"\n" +
+	"over_limit\x18\x06 \x01(\x01R\toverLimit\"\x94\x01\n" +
+	"\x1aHoldCorporateCreditRequest\x12!\n" +
+	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x12,\n" +
+	"\x12service_request_id\x18\x02 \x01(\tR\x10serviceRequestId\x12%\n" +
+	"\x0eestimated_fare\x18\x03 \x01(\x01R\restimatedFare\"\x85\x02\n" +
+	"\x1bHoldCorporateCreditResponse\x12\x18\n" +
+	"\aallowed\x18\x01 \x01(\bR\aallowed\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x1f\n" +
+	"\vhold_amount\x18\x03 \x01(\x01R\n" +
+	"holdAmount\x12N\n" +
+	"\bposition\x18\x04 \x01(\v22.lift.corporate.account.v1.CorporateCreditPositionR\bposition\x12 \n" +
+	"\venforcement\x18\x05 \x01(\tR\venforcement\x12!\n" +
+	"\fwould_refuse\x18\x06 \x01(\bR\vwouldRefuse\"i\n" +
+	"!ReleaseCorporateCreditHoldRequest\x12,\n" +
+	"\x12service_request_id\x18\x01 \x01(\tR\x10serviceRequestId\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"X\n" +
+	"\"ReleaseCorporateCreditHoldResponse\x12\x1a\n" +
+	"\breleased\x18\x01 \x01(\bR\breleased\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\x01R\x06amount\"\xa7\x01\n" +
+	"\x1aChargeCorporateTripRequest\x12!\n" +
+	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x12,\n" +
+	"\x12service_request_id\x18\x02 \x01(\tR\x10serviceRequestId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"\xb0\x01\n" +
+	"\x1bChargeCorporateTripResponse\x12'\n" +
+	"\x0falready_charged\x18\x01 \x01(\bR\x0ealreadyCharged\x12\x18\n" +
+	"\acharged\x18\x02 \x01(\x01R\acharged\x12N\n" +
+	"\bposition\x18\x03 \x01(\v22.lift.corporate.account.v1.CorporateCreditPositionR\bposition2\xe0\x05\n" +
 	"\x17CorporateAccountService\x12\x90\x01\n" +
 	"\x17GetCorporateAccountById\x129.lift.corporate.account.v1.GetCorporateAccountByIdRequest\x1a:.lift.corporate.account.v1.GetCorporateAccountByIdResponse\x12\x87\x01\n" +
-	"\x14ApplyCorporateCharge\x126.lift.corporate.account.v1.ApplyCorporateChargeRequest\x1a7.lift.corporate.account.v1.ApplyCorporateChargeResponseBSZQgithub.com/graytech-lk/lift-protos/gen/go/corporate/account/v1;corporateaccountv1b\x06proto3"
+	"\x14ApplyCorporateCharge\x126.lift.corporate.account.v1.ApplyCorporateChargeRequest\x1a7.lift.corporate.account.v1.ApplyCorporateChargeResponse\x12\x84\x01\n" +
+	"\x13HoldCorporateCredit\x125.lift.corporate.account.v1.HoldCorporateCreditRequest\x1a6.lift.corporate.account.v1.HoldCorporateCreditResponse\x12\x99\x01\n" +
+	"\x1aReleaseCorporateCreditHold\x12<.lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest\x1a=.lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse\x12\x84\x01\n" +
+	"\x13ChargeCorporateTrip\x125.lift.corporate.account.v1.ChargeCorporateTripRequest\x1a6.lift.corporate.account.v1.ChargeCorporateTripResponseBSZQgithub.com/graytech-lk/lift-protos/gen/go/corporate/account/v1;corporateaccountv1b\x06proto3"
 
 var (
 	file_corporate_account_v1_account_proto_rawDescOnce sync.Once
@@ -720,35 +1241,50 @@ func file_corporate_account_v1_account_proto_rawDescGZIP() []byte {
 	return file_corporate_account_v1_account_proto_rawDescData
 }
 
-var file_corporate_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_corporate_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_corporate_account_v1_account_proto_goTypes = []any{
-	(*GetCorporateAccountByIdRequest)(nil),  // 0: lift.corporate.account.v1.GetCorporateAccountByIdRequest
-	(*CorporateAccountDetails)(nil),         // 1: lift.corporate.account.v1.CorporateAccountDetails
-	(*CorporateBankDetails)(nil),            // 2: lift.corporate.account.v1.CorporateBankDetails
-	(*CorporateTheme)(nil),                  // 3: lift.corporate.account.v1.CorporateTheme
-	(*CorporateAccount)(nil),                // 4: lift.corporate.account.v1.CorporateAccount
-	(*GetCorporateAccountByIdResponse)(nil), // 5: lift.corporate.account.v1.GetCorporateAccountByIdResponse
-	(*ApplyCorporateChargeRequest)(nil),     // 6: lift.corporate.account.v1.ApplyCorporateChargeRequest
-	(*ApplyCorporateChargeResponse)(nil),    // 7: lift.corporate.account.v1.ApplyCorporateChargeResponse
-	(*timestamppb.Timestamp)(nil),           // 8: google.protobuf.Timestamp
+	(*GetCorporateAccountByIdRequest)(nil),     // 0: lift.corporate.account.v1.GetCorporateAccountByIdRequest
+	(*CorporateAccountDetails)(nil),            // 1: lift.corporate.account.v1.CorporateAccountDetails
+	(*CorporateBankDetails)(nil),               // 2: lift.corporate.account.v1.CorporateBankDetails
+	(*CorporateTheme)(nil),                     // 3: lift.corporate.account.v1.CorporateTheme
+	(*CorporateAccount)(nil),                   // 4: lift.corporate.account.v1.CorporateAccount
+	(*GetCorporateAccountByIdResponse)(nil),    // 5: lift.corporate.account.v1.GetCorporateAccountByIdResponse
+	(*ApplyCorporateChargeRequest)(nil),        // 6: lift.corporate.account.v1.ApplyCorporateChargeRequest
+	(*ApplyCorporateChargeResponse)(nil),       // 7: lift.corporate.account.v1.ApplyCorporateChargeResponse
+	(*CorporateCreditPosition)(nil),            // 8: lift.corporate.account.v1.CorporateCreditPosition
+	(*HoldCorporateCreditRequest)(nil),         // 9: lift.corporate.account.v1.HoldCorporateCreditRequest
+	(*HoldCorporateCreditResponse)(nil),        // 10: lift.corporate.account.v1.HoldCorporateCreditResponse
+	(*ReleaseCorporateCreditHoldRequest)(nil),  // 11: lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
+	(*ReleaseCorporateCreditHoldResponse)(nil), // 12: lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
+	(*ChargeCorporateTripRequest)(nil),         // 13: lift.corporate.account.v1.ChargeCorporateTripRequest
+	(*ChargeCorporateTripResponse)(nil),        // 14: lift.corporate.account.v1.ChargeCorporateTripResponse
+	(*timestamppb.Timestamp)(nil),              // 15: google.protobuf.Timestamp
 }
 var file_corporate_account_v1_account_proto_depIdxs = []int32{
-	8, // 0: lift.corporate.account.v1.CorporateAccount.created_time:type_name -> google.protobuf.Timestamp
-	8, // 1: lift.corporate.account.v1.CorporateAccount.updated_time:type_name -> google.protobuf.Timestamp
-	1, // 2: lift.corporate.account.v1.CorporateAccount.details:type_name -> lift.corporate.account.v1.CorporateAccountDetails
-	2, // 3: lift.corporate.account.v1.CorporateAccount.bank_details:type_name -> lift.corporate.account.v1.CorporateBankDetails
-	3, // 4: lift.corporate.account.v1.CorporateAccount.color_theme:type_name -> lift.corporate.account.v1.CorporateTheme
-	4, // 5: lift.corporate.account.v1.GetCorporateAccountByIdResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
-	4, // 6: lift.corporate.account.v1.ApplyCorporateChargeResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
-	0, // 7: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:input_type -> lift.corporate.account.v1.GetCorporateAccountByIdRequest
-	6, // 8: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:input_type -> lift.corporate.account.v1.ApplyCorporateChargeRequest
-	5, // 9: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:output_type -> lift.corporate.account.v1.GetCorporateAccountByIdResponse
-	7, // 10: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:output_type -> lift.corporate.account.v1.ApplyCorporateChargeResponse
-	9, // [9:11] is the sub-list for method output_type
-	7, // [7:9] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	15, // 0: lift.corporate.account.v1.CorporateAccount.created_time:type_name -> google.protobuf.Timestamp
+	15, // 1: lift.corporate.account.v1.CorporateAccount.updated_time:type_name -> google.protobuf.Timestamp
+	1,  // 2: lift.corporate.account.v1.CorporateAccount.details:type_name -> lift.corporate.account.v1.CorporateAccountDetails
+	2,  // 3: lift.corporate.account.v1.CorporateAccount.bank_details:type_name -> lift.corporate.account.v1.CorporateBankDetails
+	3,  // 4: lift.corporate.account.v1.CorporateAccount.color_theme:type_name -> lift.corporate.account.v1.CorporateTheme
+	4,  // 5: lift.corporate.account.v1.GetCorporateAccountByIdResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
+	4,  // 6: lift.corporate.account.v1.ApplyCorporateChargeResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
+	8,  // 7: lift.corporate.account.v1.HoldCorporateCreditResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
+	8,  // 8: lift.corporate.account.v1.ChargeCorporateTripResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
+	0,  // 9: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:input_type -> lift.corporate.account.v1.GetCorporateAccountByIdRequest
+	6,  // 10: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:input_type -> lift.corporate.account.v1.ApplyCorporateChargeRequest
+	9,  // 11: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:input_type -> lift.corporate.account.v1.HoldCorporateCreditRequest
+	11, // 12: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:input_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
+	13, // 13: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:input_type -> lift.corporate.account.v1.ChargeCorporateTripRequest
+	5,  // 14: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:output_type -> lift.corporate.account.v1.GetCorporateAccountByIdResponse
+	7,  // 15: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:output_type -> lift.corporate.account.v1.ApplyCorporateChargeResponse
+	10, // 16: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:output_type -> lift.corporate.account.v1.HoldCorporateCreditResponse
+	12, // 17: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:output_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
+	14, // 18: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:output_type -> lift.corporate.account.v1.ChargeCorporateTripResponse
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_corporate_account_v1_account_proto_init() }
@@ -762,7 +1298,7 @@ func file_corporate_account_v1_account_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_corporate_account_v1_account_proto_rawDesc), len(file_corporate_account_v1_account_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -19,8 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CorporateAccountService_GetCorporateAccountById_FullMethodName = "/lift.corporate.account.v1.CorporateAccountService/GetCorporateAccountById"
-	CorporateAccountService_ApplyCorporateCharge_FullMethodName    = "/lift.corporate.account.v1.CorporateAccountService/ApplyCorporateCharge"
+	CorporateAccountService_GetCorporateAccountById_FullMethodName    = "/lift.corporate.account.v1.CorporateAccountService/GetCorporateAccountById"
+	CorporateAccountService_ApplyCorporateCharge_FullMethodName       = "/lift.corporate.account.v1.CorporateAccountService/ApplyCorporateCharge"
+	CorporateAccountService_HoldCorporateCredit_FullMethodName        = "/lift.corporate.account.v1.CorporateAccountService/HoldCorporateCredit"
+	CorporateAccountService_ReleaseCorporateCreditHold_FullMethodName = "/lift.corporate.account.v1.CorporateAccountService/ReleaseCorporateCreditHold"
+	CorporateAccountService_ChargeCorporateTrip_FullMethodName        = "/lift.corporate.account.v1.CorporateAccountService/ChargeCorporateTrip"
 )
 
 // CorporateAccountServiceClient is the client API for CorporateAccountService service.
@@ -28,7 +31,11 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CorporateAccountServiceClient interface {
 	GetCorporateAccountById(ctx context.Context, in *GetCorporateAccountByIdRequest, opts ...grpc.CallOption) (*GetCorporateAccountByIdResponse, error)
+	// Deprecated: use ChargeCorporateTrip, which can't charge a trip twice.
 	ApplyCorporateCharge(ctx context.Context, in *ApplyCorporateChargeRequest, opts ...grpc.CallOption) (*ApplyCorporateChargeResponse, error)
+	HoldCorporateCredit(ctx context.Context, in *HoldCorporateCreditRequest, opts ...grpc.CallOption) (*HoldCorporateCreditResponse, error)
+	ReleaseCorporateCreditHold(ctx context.Context, in *ReleaseCorporateCreditHoldRequest, opts ...grpc.CallOption) (*ReleaseCorporateCreditHoldResponse, error)
+	ChargeCorporateTrip(ctx context.Context, in *ChargeCorporateTripRequest, opts ...grpc.CallOption) (*ChargeCorporateTripResponse, error)
 }
 
 type corporateAccountServiceClient struct {
@@ -59,12 +66,46 @@ func (c *corporateAccountServiceClient) ApplyCorporateCharge(ctx context.Context
 	return out, nil
 }
 
+func (c *corporateAccountServiceClient) HoldCorporateCredit(ctx context.Context, in *HoldCorporateCreditRequest, opts ...grpc.CallOption) (*HoldCorporateCreditResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HoldCorporateCreditResponse)
+	err := c.cc.Invoke(ctx, CorporateAccountService_HoldCorporateCredit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *corporateAccountServiceClient) ReleaseCorporateCreditHold(ctx context.Context, in *ReleaseCorporateCreditHoldRequest, opts ...grpc.CallOption) (*ReleaseCorporateCreditHoldResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReleaseCorporateCreditHoldResponse)
+	err := c.cc.Invoke(ctx, CorporateAccountService_ReleaseCorporateCreditHold_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *corporateAccountServiceClient) ChargeCorporateTrip(ctx context.Context, in *ChargeCorporateTripRequest, opts ...grpc.CallOption) (*ChargeCorporateTripResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ChargeCorporateTripResponse)
+	err := c.cc.Invoke(ctx, CorporateAccountService_ChargeCorporateTrip_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CorporateAccountServiceServer is the server API for CorporateAccountService service.
 // All implementations must embed UnimplementedCorporateAccountServiceServer
 // for forward compatibility.
 type CorporateAccountServiceServer interface {
 	GetCorporateAccountById(context.Context, *GetCorporateAccountByIdRequest) (*GetCorporateAccountByIdResponse, error)
+	// Deprecated: use ChargeCorporateTrip, which can't charge a trip twice.
 	ApplyCorporateCharge(context.Context, *ApplyCorporateChargeRequest) (*ApplyCorporateChargeResponse, error)
+	HoldCorporateCredit(context.Context, *HoldCorporateCreditRequest) (*HoldCorporateCreditResponse, error)
+	ReleaseCorporateCreditHold(context.Context, *ReleaseCorporateCreditHoldRequest) (*ReleaseCorporateCreditHoldResponse, error)
+	ChargeCorporateTrip(context.Context, *ChargeCorporateTripRequest) (*ChargeCorporateTripResponse, error)
 	mustEmbedUnimplementedCorporateAccountServiceServer()
 }
 
@@ -80,6 +121,15 @@ func (UnimplementedCorporateAccountServiceServer) GetCorporateAccountById(contex
 }
 func (UnimplementedCorporateAccountServiceServer) ApplyCorporateCharge(context.Context, *ApplyCorporateChargeRequest) (*ApplyCorporateChargeResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ApplyCorporateCharge not implemented")
+}
+func (UnimplementedCorporateAccountServiceServer) HoldCorporateCredit(context.Context, *HoldCorporateCreditRequest) (*HoldCorporateCreditResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method HoldCorporateCredit not implemented")
+}
+func (UnimplementedCorporateAccountServiceServer) ReleaseCorporateCreditHold(context.Context, *ReleaseCorporateCreditHoldRequest) (*ReleaseCorporateCreditHoldResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReleaseCorporateCreditHold not implemented")
+}
+func (UnimplementedCorporateAccountServiceServer) ChargeCorporateTrip(context.Context, *ChargeCorporateTripRequest) (*ChargeCorporateTripResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ChargeCorporateTrip not implemented")
 }
 func (UnimplementedCorporateAccountServiceServer) mustEmbedUnimplementedCorporateAccountServiceServer() {
 }
@@ -139,6 +189,60 @@ func _CorporateAccountService_ApplyCorporateCharge_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CorporateAccountService_HoldCorporateCredit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HoldCorporateCreditRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorporateAccountServiceServer).HoldCorporateCredit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorporateAccountService_HoldCorporateCredit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorporateAccountServiceServer).HoldCorporateCredit(ctx, req.(*HoldCorporateCreditRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CorporateAccountService_ReleaseCorporateCreditHold_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReleaseCorporateCreditHoldRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorporateAccountServiceServer).ReleaseCorporateCreditHold(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorporateAccountService_ReleaseCorporateCreditHold_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorporateAccountServiceServer).ReleaseCorporateCreditHold(ctx, req.(*ReleaseCorporateCreditHoldRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CorporateAccountService_ChargeCorporateTrip_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChargeCorporateTripRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorporateAccountServiceServer).ChargeCorporateTrip(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorporateAccountService_ChargeCorporateTrip_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorporateAccountServiceServer).ChargeCorporateTrip(ctx, req.(*ChargeCorporateTripRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CorporateAccountService_ServiceDesc is the grpc.ServiceDesc for CorporateAccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,6 +257,18 @@ var CorporateAccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ApplyCorporateCharge",
 			Handler:    _CorporateAccountService_ApplyCorporateCharge_Handler,
+		},
+		{
+			MethodName: "HoldCorporateCredit",
+			Handler:    _CorporateAccountService_HoldCorporateCredit_Handler,
+		},
+		{
+			MethodName: "ReleaseCorporateCreditHold",
+			Handler:    _CorporateAccountService_ReleaseCorporateCreditHold_Handler,
+		},
+		{
+			MethodName: "ChargeCorporateTrip",
+			Handler:    _CorporateAccountService_ChargeCorporateTrip_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
