@@ -64,6 +64,19 @@ message UpdateCorporatePaymentMethodStaffIdResponse {
   UserPaymentMethod method = 1;
 }
 
+// LIFT-2251: update a corporate payment method's job designation
+// (extended_parameters.job_designation). Each company keeps its own
+// designation for a person on that company's card; empty clears it.
+message UpdateCorporatePaymentMethodJobDesignationRequest {
+  string user_id = 1;
+  string corporate_id = 2;
+  string job_designation = 3;
+}
+
+message UpdateCorporatePaymentMethodJobDesignationResponse {
+  UserPaymentMethod method = 1;
+}
+
 message GetCorporatePaymentMethodResponse {
   UserPaymentMethod method = 1;
 }
@@ -365,6 +378,8 @@ service PaymentMethodService {
   rpc UpdateCorporatePaymentMethodServicePolicy(UpdateCorporatePaymentMethodServicePolicyRequest) returns (UpdateCorporatePaymentMethodServicePolicyResponse);
   // LIFT-2093: update a corporate payment method's staff id.
   rpc UpdateCorporatePaymentMethodStaffId(UpdateCorporatePaymentMethodStaffIdRequest) returns (UpdateCorporatePaymentMethodStaffIdResponse);
+  // LIFT-2251: update a corporate payment method's job designation.
+  rpc UpdateCorporatePaymentMethodJobDesignation(UpdateCorporatePaymentMethodJobDesignationRequest) returns (UpdateCorporatePaymentMethodJobDesignationResponse);
 }
 
 service PaymentService {
