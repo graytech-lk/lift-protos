@@ -579,8 +579,9 @@ type GetAllVehiclesRequest struct {
 	PageNumber     int32                  `protobuf:"varint,1,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
 	ResultsPerPage int32                  `protobuf:"varint,2,opt,name=results_per_page,json=resultsPerPage,proto3" json:"results_per_page,omitempty"`
 	ResultParams   []string               `protobuf:"bytes,3,rep,name=result_params,json=resultParams,proto3" json:"result_params,omitempty"`
-	Status         []string               `protobuf:"bytes,4,rep,name=status,proto3" json:"status,omitempty"`     // Filter by status types (e.g., "online", "offline")
-	Assigned       string                 `protobuf:"bytes,5,opt,name=assigned,proto3" json:"assigned,omitempty"` // Filter by driver assignment: "true", "false", or empty for all
+	Status         []string               `protobuf:"bytes,4,rep,name=status,proto3" json:"status,omitempty"`                                    // Filter by status types (e.g., "online", "offline")
+	Assigned       string                 `protobuf:"bytes,5,opt,name=assigned,proto3" json:"assigned,omitempty"`                                // Filter by driver assignment: "true", "false", or empty for all
+	VehicleNumber  string                 `protobuf:"bytes,6,opt,name=vehicle_number,json=vehicleNumber,proto3" json:"vehicle_number,omitempty"` // Filter by vehicle number, exact match on the stored (normalised) value
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -646,6 +647,13 @@ func (x *GetAllVehiclesRequest) GetStatus() []string {
 func (x *GetAllVehiclesRequest) GetAssigned() string {
 	if x != nil {
 		return x.Assigned
+	}
+	return ""
+}
+
+func (x *GetAllVehiclesRequest) GetVehicleNumber() string {
+	if x != nil {
+		return x.VehicleNumber
 	}
 	return ""
 }
@@ -859,14 +867,15 @@ const file_platform_vehicle_v1_vehicle_proto_rawDesc = "" +
 	"\x14UpdateVehicleRequest\x12;\n" +
 	"\avehicle\x18\x01 \x01(\v2!.lift.platform.vehicle.v1.VehicleR\avehicle\"T\n" +
 	"\x15UpdateVehicleResponse\x12;\n" +
-	"\avehicle\x18\x01 \x01(\v2!.lift.platform.vehicle.v1.VehicleR\avehicle\"\xbb\x01\n" +
+	"\avehicle\x18\x01 \x01(\v2!.lift.platform.vehicle.v1.VehicleR\avehicle\"\xe2\x01\n" +
 	"\x15GetAllVehiclesRequest\x12\x1f\n" +
 	"\vpage_number\x18\x01 \x01(\x05R\n" +
 	"pageNumber\x12(\n" +
 	"\x10results_per_page\x18\x02 \x01(\x05R\x0eresultsPerPage\x12#\n" +
 	"\rresult_params\x18\x03 \x03(\tR\fresultParams\x12\x16\n" +
 	"\x06status\x18\x04 \x03(\tR\x06status\x12\x1a\n" +
-	"\bassigned\x18\x05 \x01(\tR\bassigned\"\x9b\x01\n" +
+	"\bassigned\x18\x05 \x01(\tR\bassigned\x12%\n" +
+	"\x0evehicle_number\x18\x06 \x01(\tR\rvehicleNumber\"\x9b\x01\n" +
 	"\x16GetAllVehiclesResponse\x12;\n" +
 	"\acontent\x18\x01 \x03(\v2!.lift.platform.vehicle.v1.VehicleR\acontent\x12D\n" +
 	"\n" +

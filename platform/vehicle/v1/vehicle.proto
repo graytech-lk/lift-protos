@@ -79,6 +79,7 @@ message GetAllVehiclesRequest {
   repeated string result_params = 3;
   repeated string status = 4;           // Filter by status types (e.g., "online", "offline")
   string assigned = 5;                  // Filter by driver assignment: "true", "false", or empty for all
+  string vehicle_number = 6;            // Filter by vehicle number, exact match on the stored (normalised) value
 }
 
 // GetAllVehiclesResponse is the response containing a list of vehicles
