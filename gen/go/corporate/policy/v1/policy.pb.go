@@ -642,6 +642,139 @@ func (x *ValidateServiceRequestWithPolicyResponse) GetReason() string {
 	return ""
 }
 
+// Why ValidateServiceRequestWithPolicy refused the request. Attached as a
+// gRPC status detail on the PermissionDenied error, so a caller that doesn't
+// read details still gets the legacy reason text in the status message, and
+// one that does can tell the customer the actual limit (BUG-08 phase 2).
+type PolicyDenial struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Stable reason the apps branch on: policy_service_category,
+	// policy_sub_category, policy_day_of_week, policy_date_of_month,
+	// policy_time_window, policy_start_location, policy_end_location,
+	// policy_trip_cost, policy_trip_distance, policy_daily_distance,
+	// policy_weekly_distance, policy_monthly_distance, policy_daily_spend,
+	// policy_weekly_spend, policy_monthly_spend, policy_daily_trips,
+	// policy_monthly_trips.
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+	// Legacy reason text, e.g. "restricted trip distance limit exceeded".
+	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	// Distance limit (km) and this trip's estimate, for the distance codes.
+	LimitKm     float64 `protobuf:"fixed64,3,opt,name=limit_km,json=limitKm,proto3" json:"limit_km,omitempty"`
+	EstimatedKm float64 `protobuf:"fixed64,4,opt,name=estimated_km,json=estimatedKm,proto3" json:"estimated_km,omitempty"`
+	// Days the policy allows (Mon..Sun), for policy_day_of_week.
+	AllowedDays []string `protobuf:"bytes,5,rep,name=allowed_days,json=allowedDays,proto3" json:"allowed_days,omitempty"`
+	// Booking window as HH:MM in Sri Lanka time, for policy_time_window.
+	StartTime string `protobuf:"bytes,6,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime   string `protobuf:"bytes,7,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	// Sub-categories the policy allows, for policy_sub_category.
+	AllowedSubCategoryIds []string `protobuf:"bytes,8,rep,name=allowed_sub_category_ids,json=allowedSubCategoryIds,proto3" json:"allowed_sub_category_ids,omitempty"`
+	// Spend limit and trip-count limit, for the cost / trip-count codes.
+	LimitCost     float64 `protobuf:"fixed64,9,opt,name=limit_cost,json=limitCost,proto3" json:"limit_cost,omitempty"`
+	LimitTrips    int32   `protobuf:"varint,10,opt,name=limit_trips,json=limitTrips,proto3" json:"limit_trips,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PolicyDenial) Reset() {
+	*x = PolicyDenial{}
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PolicyDenial) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PolicyDenial) ProtoMessage() {}
+
+func (x *PolicyDenial) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PolicyDenial.ProtoReflect.Descriptor instead.
+func (*PolicyDenial) Descriptor() ([]byte, []int) {
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *PolicyDenial) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *PolicyDenial) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *PolicyDenial) GetLimitKm() float64 {
+	if x != nil {
+		return x.LimitKm
+	}
+	return 0
+}
+
+func (x *PolicyDenial) GetEstimatedKm() float64 {
+	if x != nil {
+		return x.EstimatedKm
+	}
+	return 0
+}
+
+func (x *PolicyDenial) GetAllowedDays() []string {
+	if x != nil {
+		return x.AllowedDays
+	}
+	return nil
+}
+
+func (x *PolicyDenial) GetStartTime() string {
+	if x != nil {
+		return x.StartTime
+	}
+	return ""
+}
+
+func (x *PolicyDenial) GetEndTime() string {
+	if x != nil {
+		return x.EndTime
+	}
+	return ""
+}
+
+func (x *PolicyDenial) GetAllowedSubCategoryIds() []string {
+	if x != nil {
+		return x.AllowedSubCategoryIds
+	}
+	return nil
+}
+
+func (x *PolicyDenial) GetLimitCost() float64 {
+	if x != nil {
+		return x.LimitCost
+	}
+	return 0
+}
+
+func (x *PolicyDenial) GetLimitTrips() int32 {
+	if x != nil {
+		return x.LimitTrips
+	}
+	return 0
+}
+
 // Catalog option for US-017 category limitations (backed by platform DB / gRPC).
 type ServiceSubCategoryOption struct {
 	state                  protoimpl.MessageState `protogen:"open.v1"`
@@ -654,7 +787,7 @@ type ServiceSubCategoryOption struct {
 
 func (x *ServiceSubCategoryOption) Reset() {
 	*x = ServiceSubCategoryOption{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[8]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -666,7 +799,7 @@ func (x *ServiceSubCategoryOption) String() string {
 func (*ServiceSubCategoryOption) ProtoMessage() {}
 
 func (x *ServiceSubCategoryOption) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[8]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -679,7 +812,7 @@ func (x *ServiceSubCategoryOption) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceSubCategoryOption.ProtoReflect.Descriptor instead.
 func (*ServiceSubCategoryOption) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{8}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ServiceSubCategoryOption) GetServiceSubCategoryId() string {
@@ -713,7 +846,7 @@ type ListServiceSubCategoriesRequest struct {
 
 func (x *ListServiceSubCategoriesRequest) Reset() {
 	*x = ListServiceSubCategoriesRequest{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[9]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -725,7 +858,7 @@ func (x *ListServiceSubCategoriesRequest) String() string {
 func (*ListServiceSubCategoriesRequest) ProtoMessage() {}
 
 func (x *ListServiceSubCategoriesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[9]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -738,7 +871,7 @@ func (x *ListServiceSubCategoriesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListServiceSubCategoriesRequest.ProtoReflect.Descriptor instead.
 func (*ListServiceSubCategoriesRequest) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{9}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ListServiceSubCategoriesRequest) GetCorporateId() string {
@@ -757,7 +890,7 @@ type ListServiceSubCategoriesResponse struct {
 
 func (x *ListServiceSubCategoriesResponse) Reset() {
 	*x = ListServiceSubCategoriesResponse{}
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[10]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -769,7 +902,7 @@ func (x *ListServiceSubCategoriesResponse) String() string {
 func (*ListServiceSubCategoriesResponse) ProtoMessage() {}
 
 func (x *ListServiceSubCategoriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_policy_v1_policy_proto_msgTypes[10]
+	mi := &file_corporate_policy_v1_policy_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -782,7 +915,7 @@ func (x *ListServiceSubCategoriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListServiceSubCategoriesResponse.ProtoReflect.Descriptor instead.
 func (*ListServiceSubCategoriesResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{10}
+	return file_corporate_policy_v1_policy_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ListServiceSubCategoriesResponse) GetItems() []*ServiceSubCategoryOption {
@@ -851,7 +984,22 @@ const file_corporate_policy_v1_policy_proto_rawDesc = "" +
 	"\fcorporate_id\x18\f \x01(\tR\vcorporateId\"\\\n" +
 	"(ValidateServiceRequestWithPolicyResponse\x12\x18\n" +
 	"\aallowed\x18\x01 \x01(\bR\aallowed\x12\x16\n" +
-	"\x06reason\x18\x02 \x01(\tR\x06reason\"\xbc\x01\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"\xce\x02\n" +
+	"\fPolicyDenial\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\tR\x04code\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x19\n" +
+	"\blimit_km\x18\x03 \x01(\x01R\alimitKm\x12!\n" +
+	"\festimated_km\x18\x04 \x01(\x01R\vestimatedKm\x12!\n" +
+	"\fallowed_days\x18\x05 \x03(\tR\vallowedDays\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x06 \x01(\tR\tstartTime\x12\x19\n" +
+	"\bend_time\x18\a \x01(\tR\aendTime\x127\n" +
+	"\x18allowed_sub_category_ids\x18\b \x03(\tR\x15allowedSubCategoryIds\x12\x1d\n" +
+	"\n" +
+	"limit_cost\x18\t \x01(\x01R\tlimitCost\x12\x1f\n" +
+	"\vlimit_trips\x18\n" +
+	" \x01(\x05R\n" +
+	"limitTrips\"\xbc\x01\n" +
 	"\x18ServiceSubCategoryOption\x125\n" +
 	"\x17service_sub_category_id\x18\x01 \x01(\tR\x14serviceSubCategoryId\x12.\n" +
 	"\x13service_category_id\x18\x02 \x01(\tR\x11serviceCategoryId\x129\n" +
@@ -877,7 +1025,7 @@ func file_corporate_policy_v1_policy_proto_rawDescGZIP() []byte {
 	return file_corporate_policy_v1_policy_proto_rawDescData
 }
 
-var file_corporate_policy_v1_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_corporate_policy_v1_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_corporate_policy_v1_policy_proto_goTypes = []any{
 	(*GetCorporatePolicyByIdRequest)(nil),            // 0: lift.corporate.policy.v1.GetCorporatePolicyByIdRequest
 	(*CorporatePolicySubLimitation)(nil),             // 1: lift.corporate.policy.v1.CorporatePolicySubLimitation
@@ -887,11 +1035,12 @@ var file_corporate_policy_v1_policy_proto_goTypes = []any{
 	(*GetCorporatePolicyByIdResponse)(nil),           // 5: lift.corporate.policy.v1.GetCorporatePolicyByIdResponse
 	(*ValidateServiceRequestWithPolicyRequest)(nil),  // 6: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest
 	(*ValidateServiceRequestWithPolicyResponse)(nil), // 7: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyResponse
-	(*ServiceSubCategoryOption)(nil),                 // 8: lift.corporate.policy.v1.ServiceSubCategoryOption
-	(*ListServiceSubCategoriesRequest)(nil),          // 9: lift.corporate.policy.v1.ListServiceSubCategoriesRequest
-	(*ListServiceSubCategoriesResponse)(nil),         // 10: lift.corporate.policy.v1.ListServiceSubCategoriesResponse
-	nil,                                              // 11: lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
-	(*timestamppb.Timestamp)(nil),                    // 12: google.protobuf.Timestamp
+	(*PolicyDenial)(nil),                             // 8: lift.corporate.policy.v1.PolicyDenial
+	(*ServiceSubCategoryOption)(nil),                 // 9: lift.corporate.policy.v1.ServiceSubCategoryOption
+	(*ListServiceSubCategoriesRequest)(nil),          // 10: lift.corporate.policy.v1.ListServiceSubCategoriesRequest
+	(*ListServiceSubCategoriesResponse)(nil),         // 11: lift.corporate.policy.v1.ListServiceSubCategoriesResponse
+	nil,                                              // 12: lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
+	(*timestamppb.Timestamp)(nil),                    // 13: google.protobuf.Timestamp
 }
 var file_corporate_policy_v1_policy_proto_depIdxs = []int32{
 	1,  // 0: lift.corporate.policy.v1.CorporatePolicyLimitation.distance_limitation:type_name -> lift.corporate.policy.v1.CorporatePolicySubLimitation
@@ -899,21 +1048,21 @@ var file_corporate_policy_v1_policy_proto_depIdxs = []int32{
 	1,  // 2: lift.corporate.policy.v1.CorporatePolicyLimitation.service_count_limitation:type_name -> lift.corporate.policy.v1.CorporatePolicySubLimitation
 	2,  // 3: lift.corporate.policy.v1.CorporatePolicyLimitation.start_locations_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
 	2,  // 4: lift.corporate.policy.v1.CorporatePolicyLimitation.end_locations_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
-	12, // 5: lift.corporate.policy.v1.CorporatePolicy.created_time:type_name -> google.protobuf.Timestamp
-	12, // 6: lift.corporate.policy.v1.CorporatePolicy.updated_time:type_name -> google.protobuf.Timestamp
-	11, // 7: lift.corporate.policy.v1.CorporatePolicy.limitations:type_name -> lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
+	13, // 5: lift.corporate.policy.v1.CorporatePolicy.created_time:type_name -> google.protobuf.Timestamp
+	13, // 6: lift.corporate.policy.v1.CorporatePolicy.updated_time:type_name -> google.protobuf.Timestamp
+	12, // 7: lift.corporate.policy.v1.CorporatePolicy.limitations:type_name -> lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry
 	4,  // 8: lift.corporate.policy.v1.GetCorporatePolicyByIdResponse.policy:type_name -> lift.corporate.policy.v1.CorporatePolicy
-	12, // 9: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.request_time:type_name -> google.protobuf.Timestamp
+	13, // 9: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.request_time:type_name -> google.protobuf.Timestamp
 	2,  // 10: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.start_location_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
 	2,  // 11: lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest.destination_locations_v2:type_name -> lift.corporate.policy.v1.PolicyLocation
-	8,  // 12: lift.corporate.policy.v1.ListServiceSubCategoriesResponse.items:type_name -> lift.corporate.policy.v1.ServiceSubCategoryOption
+	9,  // 12: lift.corporate.policy.v1.ListServiceSubCategoriesResponse.items:type_name -> lift.corporate.policy.v1.ServiceSubCategoryOption
 	3,  // 13: lift.corporate.policy.v1.CorporatePolicy.LimitationsEntry.value:type_name -> lift.corporate.policy.v1.CorporatePolicyLimitation
 	0,  // 14: lift.corporate.policy.v1.CorporatePolicyService.GetCorporatePolicyById:input_type -> lift.corporate.policy.v1.GetCorporatePolicyByIdRequest
 	6,  // 15: lift.corporate.policy.v1.CorporatePolicyService.ValidateServiceRequestWithPolicy:input_type -> lift.corporate.policy.v1.ValidateServiceRequestWithPolicyRequest
-	9,  // 16: lift.corporate.policy.v1.CorporatePolicyService.ListServiceSubCategories:input_type -> lift.corporate.policy.v1.ListServiceSubCategoriesRequest
+	10, // 16: lift.corporate.policy.v1.CorporatePolicyService.ListServiceSubCategories:input_type -> lift.corporate.policy.v1.ListServiceSubCategoriesRequest
 	5,  // 17: lift.corporate.policy.v1.CorporatePolicyService.GetCorporatePolicyById:output_type -> lift.corporate.policy.v1.GetCorporatePolicyByIdResponse
 	7,  // 18: lift.corporate.policy.v1.CorporatePolicyService.ValidateServiceRequestWithPolicy:output_type -> lift.corporate.policy.v1.ValidateServiceRequestWithPolicyResponse
-	10, // 19: lift.corporate.policy.v1.CorporatePolicyService.ListServiceSubCategories:output_type -> lift.corporate.policy.v1.ListServiceSubCategoriesResponse
+	11, // 19: lift.corporate.policy.v1.CorporatePolicyService.ListServiceSubCategories:output_type -> lift.corporate.policy.v1.ListServiceSubCategoriesResponse
 	17, // [17:20] is the sub-list for method output_type
 	14, // [14:17] is the sub-list for method input_type
 	14, // [14:14] is the sub-list for extension type_name
@@ -932,7 +1081,7 @@ func file_corporate_policy_v1_policy_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_corporate_policy_v1_policy_proto_rawDesc), len(file_corporate_policy_v1_policy_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
