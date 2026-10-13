@@ -75,6 +75,36 @@ message ValidateServiceRequestWithPolicyResponse {
   string reason = 2;
 }
 
+// Why ValidateServiceRequestWithPolicy refused the request. Attached as a
+// gRPC status detail on the PermissionDenied error, so a caller that doesn't
+// read details still gets the legacy reason text in the status message, and
+// one that does can tell the customer the actual limit (BUG-08 phase 2).
+message PolicyDenial {
+  // Stable reason the apps branch on: policy_service_category,
+  // policy_sub_category, policy_day_of_week, policy_date_of_month,
+  // policy_time_window, policy_start_location, policy_end_location,
+  // policy_trip_cost, policy_trip_distance, policy_daily_distance,
+  // policy_weekly_distance, policy_monthly_distance, policy_daily_spend,
+  // policy_weekly_spend, policy_monthly_spend, policy_daily_trips,
+  // policy_monthly_trips.
+  string code = 1;
+  // Legacy reason text, e.g. "restricted trip distance limit exceeded".
+  string reason = 2;
+  // Distance limit (km) and this trip's estimate, for the distance codes.
+  double limit_km = 3;
+  double estimated_km = 4;
+  // Days the policy allows (Mon..Sun), for policy_day_of_week.
+  repeated string allowed_days = 5;
+  // Booking window as HH:MM in Sri Lanka time, for policy_time_window.
+  string start_time = 6;
+  string end_time = 7;
+  // Sub-categories the policy allows, for policy_sub_category.
+  repeated string allowed_sub_category_ids = 8;
+  // Spend limit and trip-count limit, for the cost / trip-count codes.
+  double limit_cost = 9;
+  int32 limit_trips = 10;
+}
+
 // Catalog option for US-017 category limitations (backed by platform DB / gRPC).
 message ServiceSubCategoryOption {
   string service_sub_category_id = 1;
