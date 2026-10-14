@@ -1125,6 +1125,237 @@ func (x *ChargeCorporateTripResponse) GetPosition() *CorporateCreditPosition {
 	return nil
 }
 
+// Invoice totals per corporate account for the Revenue Dashboard (FR-33,
+// FR-45). Invoiced and paid count the invoices whose billing period starts
+// in [period_start, period_end); outstanding, overdue, oldest_due_date and
+// open_invoices are the account's position as of as_of (now when unset),
+// over every approved or partly paid invoice. Amounts are LKR to the cent.
+type ListCorporateInvoiceTotalsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Empty: every account that has an invoice.
+	CorporateIds  []string               `protobuf:"bytes,1,rep,name=corporate_ids,json=corporateIds,proto3" json:"corporate_ids,omitempty"`
+	PeriodStart   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"`
+	PeriodEnd     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`
+	AsOf          *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=as_of,json=asOf,proto3" json:"as_of,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCorporateInvoiceTotalsRequest) Reset() {
+	*x = ListCorporateInvoiceTotalsRequest{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCorporateInvoiceTotalsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCorporateInvoiceTotalsRequest) ProtoMessage() {}
+
+func (x *ListCorporateInvoiceTotalsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCorporateInvoiceTotalsRequest.ProtoReflect.Descriptor instead.
+func (*ListCorporateInvoiceTotalsRequest) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ListCorporateInvoiceTotalsRequest) GetCorporateIds() []string {
+	if x != nil {
+		return x.CorporateIds
+	}
+	return nil
+}
+
+func (x *ListCorporateInvoiceTotalsRequest) GetPeriodStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.PeriodStart
+	}
+	return nil
+}
+
+func (x *ListCorporateInvoiceTotalsRequest) GetPeriodEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.PeriodEnd
+	}
+	return nil
+}
+
+func (x *ListCorporateInvoiceTotalsRequest) GetAsOf() *timestamppb.Timestamp {
+	if x != nil {
+		return x.AsOf
+	}
+	return nil
+}
+
+type CorporateInvoiceTotals struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	CorporateId string                 `protobuf:"bytes,1,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
+	// Payable amount of the period's approved, partly paid and paid invoices.
+	Invoiced      float64 `protobuf:"fixed64,2,opt,name=invoiced,proto3" json:"invoiced,omitempty"`
+	InvoicedCount int32   `protobuf:"varint,3,opt,name=invoiced_count,json=invoicedCount,proto3" json:"invoiced_count,omitempty"`
+	// Of invoiced, what has been paid.
+	Paid float64 `protobuf:"fixed64,4,opt,name=paid,proto3" json:"paid,omitempty"`
+	// Owed as of as_of, on every open invoice whatever its period.
+	Outstanding  float64 `protobuf:"fixed64,5,opt,name=outstanding,proto3" json:"outstanding,omitempty"`
+	OpenInvoices int32   `protobuf:"varint,6,opt,name=open_invoices,json=openInvoices,proto3" json:"open_invoices,omitempty"`
+	// Of outstanding, what was due before as_of.
+	Overdue      float64 `protobuf:"fixed64,7,opt,name=overdue,proto3" json:"overdue,omitempty"`
+	OverdueCount int32   `protobuf:"varint,8,opt,name=overdue_count,json=overdueCount,proto3" json:"overdue_count,omitempty"`
+	// Unset when nothing is open.
+	OldestDueDate *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=oldest_due_date,json=oldestDueDate,proto3" json:"oldest_due_date,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CorporateInvoiceTotals) Reset() {
+	*x = CorporateInvoiceTotals{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CorporateInvoiceTotals) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CorporateInvoiceTotals) ProtoMessage() {}
+
+func (x *CorporateInvoiceTotals) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CorporateInvoiceTotals.ProtoReflect.Descriptor instead.
+func (*CorporateInvoiceTotals) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *CorporateInvoiceTotals) GetCorporateId() string {
+	if x != nil {
+		return x.CorporateId
+	}
+	return ""
+}
+
+func (x *CorporateInvoiceTotals) GetInvoiced() float64 {
+	if x != nil {
+		return x.Invoiced
+	}
+	return 0
+}
+
+func (x *CorporateInvoiceTotals) GetInvoicedCount() int32 {
+	if x != nil {
+		return x.InvoicedCount
+	}
+	return 0
+}
+
+func (x *CorporateInvoiceTotals) GetPaid() float64 {
+	if x != nil {
+		return x.Paid
+	}
+	return 0
+}
+
+func (x *CorporateInvoiceTotals) GetOutstanding() float64 {
+	if x != nil {
+		return x.Outstanding
+	}
+	return 0
+}
+
+func (x *CorporateInvoiceTotals) GetOpenInvoices() int32 {
+	if x != nil {
+		return x.OpenInvoices
+	}
+	return 0
+}
+
+func (x *CorporateInvoiceTotals) GetOverdue() float64 {
+	if x != nil {
+		return x.Overdue
+	}
+	return 0
+}
+
+func (x *CorporateInvoiceTotals) GetOverdueCount() int32 {
+	if x != nil {
+		return x.OverdueCount
+	}
+	return 0
+}
+
+func (x *CorporateInvoiceTotals) GetOldestDueDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.OldestDueDate
+	}
+	return nil
+}
+
+type ListCorporateInvoiceTotalsResponse struct {
+	state         protoimpl.MessageState    `protogen:"open.v1"`
+	Totals        []*CorporateInvoiceTotals `protobuf:"bytes,1,rep,name=totals,proto3" json:"totals,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCorporateInvoiceTotalsResponse) Reset() {
+	*x = ListCorporateInvoiceTotalsResponse{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCorporateInvoiceTotalsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCorporateInvoiceTotalsResponse) ProtoMessage() {}
+
+func (x *ListCorporateInvoiceTotalsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCorporateInvoiceTotalsResponse.ProtoReflect.Descriptor instead.
+func (*ListCorporateInvoiceTotalsResponse) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ListCorporateInvoiceTotalsResponse) GetTotals() []*CorporateInvoiceTotals {
+	if x != nil {
+		return x.Totals
+	}
+	return nil
+}
+
 var File_corporate_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_corporate_account_v1_account_proto_rawDesc = "" +
@@ -1221,13 +1452,32 @@ const file_corporate_account_v1_account_proto_rawDesc = "" +
 	"\x1bChargeCorporateTripResponse\x12'\n" +
 	"\x0falready_charged\x18\x01 \x01(\bR\x0ealreadyCharged\x12\x18\n" +
 	"\acharged\x18\x02 \x01(\x01R\acharged\x12N\n" +
-	"\bposition\x18\x03 \x01(\v22.lift.corporate.account.v1.CorporateCreditPositionR\bposition2\xe0\x05\n" +
+	"\bposition\x18\x03 \x01(\v22.lift.corporate.account.v1.CorporateCreditPositionR\bposition\"\xf3\x01\n" +
+	"!ListCorporateInvoiceTotalsRequest\x12#\n" +
+	"\rcorporate_ids\x18\x01 \x03(\tR\fcorporateIds\x12=\n" +
+	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vperiodStart\x129\n" +
+	"\n" +
+	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tperiodEnd\x12/\n" +
+	"\x05as_of\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x04asOf\"\xdc\x02\n" +
+	"\x16CorporateInvoiceTotals\x12!\n" +
+	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x12\x1a\n" +
+	"\binvoiced\x18\x02 \x01(\x01R\binvoiced\x12%\n" +
+	"\x0einvoiced_count\x18\x03 \x01(\x05R\rinvoicedCount\x12\x12\n" +
+	"\x04paid\x18\x04 \x01(\x01R\x04paid\x12 \n" +
+	"\voutstanding\x18\x05 \x01(\x01R\voutstanding\x12#\n" +
+	"\ropen_invoices\x18\x06 \x01(\x05R\fopenInvoices\x12\x18\n" +
+	"\aoverdue\x18\a \x01(\x01R\aoverdue\x12#\n" +
+	"\roverdue_count\x18\b \x01(\x05R\foverdueCount\x12B\n" +
+	"\x0foldest_due_date\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\roldestDueDate\"o\n" +
+	"\"ListCorporateInvoiceTotalsResponse\x12I\n" +
+	"\x06totals\x18\x01 \x03(\v21.lift.corporate.account.v1.CorporateInvoiceTotalsR\x06totals2\xfc\x06\n" +
 	"\x17CorporateAccountService\x12\x90\x01\n" +
 	"\x17GetCorporateAccountById\x129.lift.corporate.account.v1.GetCorporateAccountByIdRequest\x1a:.lift.corporate.account.v1.GetCorporateAccountByIdResponse\x12\x87\x01\n" +
 	"\x14ApplyCorporateCharge\x126.lift.corporate.account.v1.ApplyCorporateChargeRequest\x1a7.lift.corporate.account.v1.ApplyCorporateChargeResponse\x12\x84\x01\n" +
 	"\x13HoldCorporateCredit\x125.lift.corporate.account.v1.HoldCorporateCreditRequest\x1a6.lift.corporate.account.v1.HoldCorporateCreditResponse\x12\x99\x01\n" +
 	"\x1aReleaseCorporateCreditHold\x12<.lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest\x1a=.lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse\x12\x84\x01\n" +
-	"\x13ChargeCorporateTrip\x125.lift.corporate.account.v1.ChargeCorporateTripRequest\x1a6.lift.corporate.account.v1.ChargeCorporateTripResponseBSZQgithub.com/graytech-lk/lift-protos/gen/go/corporate/account/v1;corporateaccountv1b\x06proto3"
+	"\x13ChargeCorporateTrip\x125.lift.corporate.account.v1.ChargeCorporateTripRequest\x1a6.lift.corporate.account.v1.ChargeCorporateTripResponse\x12\x99\x01\n" +
+	"\x1aListCorporateInvoiceTotals\x12<.lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest\x1a=.lift.corporate.account.v1.ListCorporateInvoiceTotalsResponseBSZQgithub.com/graytech-lk/lift-protos/gen/go/corporate/account/v1;corporateaccountv1b\x06proto3"
 
 var (
 	file_corporate_account_v1_account_proto_rawDescOnce sync.Once
@@ -1241,7 +1491,7 @@ func file_corporate_account_v1_account_proto_rawDescGZIP() []byte {
 	return file_corporate_account_v1_account_proto_rawDescData
 }
 
-var file_corporate_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_corporate_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_corporate_account_v1_account_proto_goTypes = []any{
 	(*GetCorporateAccountByIdRequest)(nil),     // 0: lift.corporate.account.v1.GetCorporateAccountByIdRequest
 	(*CorporateAccountDetails)(nil),            // 1: lift.corporate.account.v1.CorporateAccountDetails
@@ -1258,11 +1508,14 @@ var file_corporate_account_v1_account_proto_goTypes = []any{
 	(*ReleaseCorporateCreditHoldResponse)(nil), // 12: lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
 	(*ChargeCorporateTripRequest)(nil),         // 13: lift.corporate.account.v1.ChargeCorporateTripRequest
 	(*ChargeCorporateTripResponse)(nil),        // 14: lift.corporate.account.v1.ChargeCorporateTripResponse
-	(*timestamppb.Timestamp)(nil),              // 15: google.protobuf.Timestamp
+	(*ListCorporateInvoiceTotalsRequest)(nil),  // 15: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest
+	(*CorporateInvoiceTotals)(nil),             // 16: lift.corporate.account.v1.CorporateInvoiceTotals
+	(*ListCorporateInvoiceTotalsResponse)(nil), // 17: lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse
+	(*timestamppb.Timestamp)(nil),              // 18: google.protobuf.Timestamp
 }
 var file_corporate_account_v1_account_proto_depIdxs = []int32{
-	15, // 0: lift.corporate.account.v1.CorporateAccount.created_time:type_name -> google.protobuf.Timestamp
-	15, // 1: lift.corporate.account.v1.CorporateAccount.updated_time:type_name -> google.protobuf.Timestamp
+	18, // 0: lift.corporate.account.v1.CorporateAccount.created_time:type_name -> google.protobuf.Timestamp
+	18, // 1: lift.corporate.account.v1.CorporateAccount.updated_time:type_name -> google.protobuf.Timestamp
 	1,  // 2: lift.corporate.account.v1.CorporateAccount.details:type_name -> lift.corporate.account.v1.CorporateAccountDetails
 	2,  // 3: lift.corporate.account.v1.CorporateAccount.bank_details:type_name -> lift.corporate.account.v1.CorporateBankDetails
 	3,  // 4: lift.corporate.account.v1.CorporateAccount.color_theme:type_name -> lift.corporate.account.v1.CorporateTheme
@@ -1270,21 +1523,28 @@ var file_corporate_account_v1_account_proto_depIdxs = []int32{
 	4,  // 6: lift.corporate.account.v1.ApplyCorporateChargeResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
 	8,  // 7: lift.corporate.account.v1.HoldCorporateCreditResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
 	8,  // 8: lift.corporate.account.v1.ChargeCorporateTripResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
-	0,  // 9: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:input_type -> lift.corporate.account.v1.GetCorporateAccountByIdRequest
-	6,  // 10: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:input_type -> lift.corporate.account.v1.ApplyCorporateChargeRequest
-	9,  // 11: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:input_type -> lift.corporate.account.v1.HoldCorporateCreditRequest
-	11, // 12: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:input_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
-	13, // 13: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:input_type -> lift.corporate.account.v1.ChargeCorporateTripRequest
-	5,  // 14: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:output_type -> lift.corporate.account.v1.GetCorporateAccountByIdResponse
-	7,  // 15: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:output_type -> lift.corporate.account.v1.ApplyCorporateChargeResponse
-	10, // 16: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:output_type -> lift.corporate.account.v1.HoldCorporateCreditResponse
-	12, // 17: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:output_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
-	14, // 18: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:output_type -> lift.corporate.account.v1.ChargeCorporateTripResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	18, // 9: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.period_start:type_name -> google.protobuf.Timestamp
+	18, // 10: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.period_end:type_name -> google.protobuf.Timestamp
+	18, // 11: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.as_of:type_name -> google.protobuf.Timestamp
+	18, // 12: lift.corporate.account.v1.CorporateInvoiceTotals.oldest_due_date:type_name -> google.protobuf.Timestamp
+	16, // 13: lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse.totals:type_name -> lift.corporate.account.v1.CorporateInvoiceTotals
+	0,  // 14: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:input_type -> lift.corporate.account.v1.GetCorporateAccountByIdRequest
+	6,  // 15: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:input_type -> lift.corporate.account.v1.ApplyCorporateChargeRequest
+	9,  // 16: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:input_type -> lift.corporate.account.v1.HoldCorporateCreditRequest
+	11, // 17: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:input_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
+	13, // 18: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:input_type -> lift.corporate.account.v1.ChargeCorporateTripRequest
+	15, // 19: lift.corporate.account.v1.CorporateAccountService.ListCorporateInvoiceTotals:input_type -> lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest
+	5,  // 20: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:output_type -> lift.corporate.account.v1.GetCorporateAccountByIdResponse
+	7,  // 21: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:output_type -> lift.corporate.account.v1.ApplyCorporateChargeResponse
+	10, // 22: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:output_type -> lift.corporate.account.v1.HoldCorporateCreditResponse
+	12, // 23: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:output_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
+	14, // 24: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:output_type -> lift.corporate.account.v1.ChargeCorporateTripResponse
+	17, // 25: lift.corporate.account.v1.CorporateAccountService.ListCorporateInvoiceTotals:output_type -> lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse
+	20, // [20:26] is the sub-list for method output_type
+	14, // [14:20] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_corporate_account_v1_account_proto_init() }
@@ -1298,7 +1558,7 @@ func file_corporate_account_v1_account_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_corporate_account_v1_account_proto_rawDesc), len(file_corporate_account_v1_account_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

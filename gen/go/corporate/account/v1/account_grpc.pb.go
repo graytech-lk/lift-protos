@@ -24,6 +24,7 @@ const (
 	CorporateAccountService_HoldCorporateCredit_FullMethodName        = "/lift.corporate.account.v1.CorporateAccountService/HoldCorporateCredit"
 	CorporateAccountService_ReleaseCorporateCreditHold_FullMethodName = "/lift.corporate.account.v1.CorporateAccountService/ReleaseCorporateCreditHold"
 	CorporateAccountService_ChargeCorporateTrip_FullMethodName        = "/lift.corporate.account.v1.CorporateAccountService/ChargeCorporateTrip"
+	CorporateAccountService_ListCorporateInvoiceTotals_FullMethodName = "/lift.corporate.account.v1.CorporateAccountService/ListCorporateInvoiceTotals"
 )
 
 // CorporateAccountServiceClient is the client API for CorporateAccountService service.
@@ -36,6 +37,7 @@ type CorporateAccountServiceClient interface {
 	HoldCorporateCredit(ctx context.Context, in *HoldCorporateCreditRequest, opts ...grpc.CallOption) (*HoldCorporateCreditResponse, error)
 	ReleaseCorporateCreditHold(ctx context.Context, in *ReleaseCorporateCreditHoldRequest, opts ...grpc.CallOption) (*ReleaseCorporateCreditHoldResponse, error)
 	ChargeCorporateTrip(ctx context.Context, in *ChargeCorporateTripRequest, opts ...grpc.CallOption) (*ChargeCorporateTripResponse, error)
+	ListCorporateInvoiceTotals(ctx context.Context, in *ListCorporateInvoiceTotalsRequest, opts ...grpc.CallOption) (*ListCorporateInvoiceTotalsResponse, error)
 }
 
 type corporateAccountServiceClient struct {
@@ -96,6 +98,16 @@ func (c *corporateAccountServiceClient) ChargeCorporateTrip(ctx context.Context,
 	return out, nil
 }
 
+func (c *corporateAccountServiceClient) ListCorporateInvoiceTotals(ctx context.Context, in *ListCorporateInvoiceTotalsRequest, opts ...grpc.CallOption) (*ListCorporateInvoiceTotalsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCorporateInvoiceTotalsResponse)
+	err := c.cc.Invoke(ctx, CorporateAccountService_ListCorporateInvoiceTotals_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CorporateAccountServiceServer is the server API for CorporateAccountService service.
 // All implementations must embed UnimplementedCorporateAccountServiceServer
 // for forward compatibility.
@@ -106,6 +118,7 @@ type CorporateAccountServiceServer interface {
 	HoldCorporateCredit(context.Context, *HoldCorporateCreditRequest) (*HoldCorporateCreditResponse, error)
 	ReleaseCorporateCreditHold(context.Context, *ReleaseCorporateCreditHoldRequest) (*ReleaseCorporateCreditHoldResponse, error)
 	ChargeCorporateTrip(context.Context, *ChargeCorporateTripRequest) (*ChargeCorporateTripResponse, error)
+	ListCorporateInvoiceTotals(context.Context, *ListCorporateInvoiceTotalsRequest) (*ListCorporateInvoiceTotalsResponse, error)
 	mustEmbedUnimplementedCorporateAccountServiceServer()
 }
 
@@ -130,6 +143,9 @@ func (UnimplementedCorporateAccountServiceServer) ReleaseCorporateCreditHold(con
 }
 func (UnimplementedCorporateAccountServiceServer) ChargeCorporateTrip(context.Context, *ChargeCorporateTripRequest) (*ChargeCorporateTripResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ChargeCorporateTrip not implemented")
+}
+func (UnimplementedCorporateAccountServiceServer) ListCorporateInvoiceTotals(context.Context, *ListCorporateInvoiceTotalsRequest) (*ListCorporateInvoiceTotalsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCorporateInvoiceTotals not implemented")
 }
 func (UnimplementedCorporateAccountServiceServer) mustEmbedUnimplementedCorporateAccountServiceServer() {
 }
@@ -243,6 +259,24 @@ func _CorporateAccountService_ChargeCorporateTrip_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CorporateAccountService_ListCorporateInvoiceTotals_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCorporateInvoiceTotalsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorporateAccountServiceServer).ListCorporateInvoiceTotals(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorporateAccountService_ListCorporateInvoiceTotals_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorporateAccountServiceServer).ListCorporateInvoiceTotals(ctx, req.(*ListCorporateInvoiceTotalsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CorporateAccountService_ServiceDesc is the grpc.ServiceDesc for CorporateAccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -269,6 +303,10 @@ var CorporateAccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ChargeCorporateTrip",
 			Handler:    _CorporateAccountService_ChargeCorporateTrip_Handler,
+		},
+		{
+			MethodName: "ListCorporateInvoiceTotals",
+			Handler:    _CorporateAccountService_ListCorporateInvoiceTotals_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

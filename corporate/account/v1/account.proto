@@ -153,6 +153,40 @@ message ChargeCorporateTripResponse {
   CorporateCreditPosition position = 3;
 }
 
+// Invoice totals per corporate account for the Revenue Dashboard (FR-33,
+// FR-45). Invoiced and paid count the invoices whose billing period starts
+// in [period_start, period_end); outstanding, overdue, oldest_due_date and
+// open_invoices are the account's position as of as_of (now when unset),
+// over every approved or partly paid invoice. Amounts are LKR to the cent.
+message ListCorporateInvoiceTotalsRequest {
+  // Empty: every account that has an invoice.
+  repeated string corporate_ids = 1;
+  google.protobuf.Timestamp period_start = 2;
+  google.protobuf.Timestamp period_end = 3;
+  google.protobuf.Timestamp as_of = 4;
+}
+
+message CorporateInvoiceTotals {
+  string corporate_id = 1;
+  // Payable amount of the period's approved, partly paid and paid invoices.
+  double invoiced = 2;
+  int32 invoiced_count = 3;
+  // Of invoiced, what has been paid.
+  double paid = 4;
+  // Owed as of as_of, on every open invoice whatever its period.
+  double outstanding = 5;
+  int32 open_invoices = 6;
+  // Of outstanding, what was due before as_of.
+  double overdue = 7;
+  int32 overdue_count = 8;
+  // Unset when nothing is open.
+  google.protobuf.Timestamp oldest_due_date = 9;
+}
+
+message ListCorporateInvoiceTotalsResponse {
+  repeated CorporateInvoiceTotals totals = 1;
+}
+
 service CorporateAccountService {
   rpc GetCorporateAccountById(GetCorporateAccountByIdRequest) returns (GetCorporateAccountByIdResponse);
   // Deprecated: use ChargeCorporateTrip, which can't charge a trip twice.
@@ -160,6 +194,7 @@ service CorporateAccountService {
   rpc HoldCorporateCredit(HoldCorporateCreditRequest) returns (HoldCorporateCreditResponse);
   rpc ReleaseCorporateCreditHold(ReleaseCorporateCreditHoldRequest) returns (ReleaseCorporateCreditHoldResponse);
   rpc ChargeCorporateTrip(ChargeCorporateTripRequest) returns (ChargeCorporateTripResponse);
+  rpc ListCorporateInvoiceTotals(ListCorporateInvoiceTotalsRequest) returns (ListCorporateInvoiceTotalsResponse);
 }
 
 
