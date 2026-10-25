@@ -9,6 +9,7 @@ package userv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -283,11 +284,102 @@ func (x *UpdateUserResponse) GetUser() *UserRecord {
 	return nil
 }
 
+// Stamps a customer's last_active_time from their realtime socket (connect,
+// throttled heartbeat, disconnect). Presence-only: it never touches the
+// profile or updated_time, and the value only ever moves forward.
+type TouchCustomerLastActiveRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CustomerId    string                 `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	ActiveAt      *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TouchCustomerLastActiveRequest) Reset() {
+	*x = TouchCustomerLastActiveRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TouchCustomerLastActiveRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TouchCustomerLastActiveRequest) ProtoMessage() {}
+
+func (x *TouchCustomerLastActiveRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TouchCustomerLastActiveRequest.ProtoReflect.Descriptor instead.
+func (*TouchCustomerLastActiveRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *TouchCustomerLastActiveRequest) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *TouchCustomerLastActiveRequest) GetActiveAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ActiveAt
+	}
+	return nil
+}
+
+type TouchCustomerLastActiveResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TouchCustomerLastActiveResponse) Reset() {
+	*x = TouchCustomerLastActiveResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TouchCustomerLastActiveResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TouchCustomerLastActiveResponse) ProtoMessage() {}
+
+func (x *TouchCustomerLastActiveResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TouchCustomerLastActiveResponse.ProtoReflect.Descriptor instead.
+func (*TouchCustomerLastActiveResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{6}
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/v1/user.proto\x12\flift.user.v1\"J\n" +
+	"\x12user/v1/user.proto\x12\flift.user.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"J\n" +
 	"\x12GetUserByIdRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tuser_type\x18\x02 \x01(\tR\buserType\"\\\n" +
@@ -303,11 +395,17 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\tuser_type\x18\x02 \x01(\tR\buserType\x12!\n" +
 	"\fpayload_json\x18\x03 \x01(\tR\vpayloadJson\"B\n" +
 	"\x12UpdateUserResponse\x12,\n" +
-	"\x04user\x18\x01 \x01(\v2\x18.lift.user.v1.UserRecordR\x04user2\xb2\x01\n" +
+	"\x04user\x18\x01 \x01(\v2\x18.lift.user.v1.UserRecordR\x04user\"z\n" +
+	"\x1eTouchCustomerLastActiveRequest\x12\x1f\n" +
+	"\vcustomer_id\x18\x01 \x01(\tR\n" +
+	"customerId\x127\n" +
+	"\tactive_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\bactiveAt\"!\n" +
+	"\x1fTouchCustomerLastActiveResponse2\xaa\x02\n" +
 	"\vUserService\x12R\n" +
 	"\vGetUserById\x12 .lift.user.v1.GetUserByIdRequest\x1a!.lift.user.v1.GetUserByIdResponse\x12O\n" +
 	"\n" +
-	"UpdateUser\x12\x1f.lift.user.v1.UpdateUserRequest\x1a .lift.user.v1.UpdateUserResponseB:Z8github.com/graytech-lk/lift-protos/gen/go/user/v1;userv1b\x06proto3"
+	"UpdateUser\x12\x1f.lift.user.v1.UpdateUserRequest\x1a .lift.user.v1.UpdateUserResponse\x12v\n" +
+	"\x17TouchCustomerLastActive\x12,.lift.user.v1.TouchCustomerLastActiveRequest\x1a-.lift.user.v1.TouchCustomerLastActiveResponseB:Z8github.com/graytech-lk/lift-protos/gen/go/user/v1;userv1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once
@@ -321,26 +419,32 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_user_v1_user_proto_rawDescData
 }
 
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_user_v1_user_proto_goTypes = []any{
-	(*GetUserByIdRequest)(nil),  // 0: lift.user.v1.GetUserByIdRequest
-	(*UserRecord)(nil),          // 1: lift.user.v1.UserRecord
-	(*GetUserByIdResponse)(nil), // 2: lift.user.v1.GetUserByIdResponse
-	(*UpdateUserRequest)(nil),   // 3: lift.user.v1.UpdateUserRequest
-	(*UpdateUserResponse)(nil),  // 4: lift.user.v1.UpdateUserResponse
+	(*GetUserByIdRequest)(nil),              // 0: lift.user.v1.GetUserByIdRequest
+	(*UserRecord)(nil),                      // 1: lift.user.v1.UserRecord
+	(*GetUserByIdResponse)(nil),             // 2: lift.user.v1.GetUserByIdResponse
+	(*UpdateUserRequest)(nil),               // 3: lift.user.v1.UpdateUserRequest
+	(*UpdateUserResponse)(nil),              // 4: lift.user.v1.UpdateUserResponse
+	(*TouchCustomerLastActiveRequest)(nil),  // 5: lift.user.v1.TouchCustomerLastActiveRequest
+	(*TouchCustomerLastActiveResponse)(nil), // 6: lift.user.v1.TouchCustomerLastActiveResponse
+	(*timestamppb.Timestamp)(nil),           // 7: google.protobuf.Timestamp
 }
 var file_user_v1_user_proto_depIdxs = []int32{
 	1, // 0: lift.user.v1.GetUserByIdResponse.user:type_name -> lift.user.v1.UserRecord
 	1, // 1: lift.user.v1.UpdateUserResponse.user:type_name -> lift.user.v1.UserRecord
-	0, // 2: lift.user.v1.UserService.GetUserById:input_type -> lift.user.v1.GetUserByIdRequest
-	3, // 3: lift.user.v1.UserService.UpdateUser:input_type -> lift.user.v1.UpdateUserRequest
-	2, // 4: lift.user.v1.UserService.GetUserById:output_type -> lift.user.v1.GetUserByIdResponse
-	4, // 5: lift.user.v1.UserService.UpdateUser:output_type -> lift.user.v1.UpdateUserResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	7, // 2: lift.user.v1.TouchCustomerLastActiveRequest.active_at:type_name -> google.protobuf.Timestamp
+	0, // 3: lift.user.v1.UserService.GetUserById:input_type -> lift.user.v1.GetUserByIdRequest
+	3, // 4: lift.user.v1.UserService.UpdateUser:input_type -> lift.user.v1.UpdateUserRequest
+	5, // 5: lift.user.v1.UserService.TouchCustomerLastActive:input_type -> lift.user.v1.TouchCustomerLastActiveRequest
+	2, // 6: lift.user.v1.UserService.GetUserById:output_type -> lift.user.v1.GetUserByIdResponse
+	4, // 7: lift.user.v1.UserService.UpdateUser:output_type -> lift.user.v1.UpdateUserResponse
+	6, // 8: lift.user.v1.UserService.TouchCustomerLastActive:output_type -> lift.user.v1.TouchCustomerLastActiveResponse
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_user_v1_user_proto_init() }
@@ -354,7 +458,7 @@ func file_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

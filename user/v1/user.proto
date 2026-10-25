@@ -7,6 +7,8 @@ package lift.user.v1;
 //   github.com/graytech-lk/lift-protos/gen/go/user/v1
 option go_package = "github.com/graytech-lk/lift-protos/gen/go/user/v1;userv1";
 
+import "google/protobuf/timestamp.proto";
+
 message GetUserByIdRequest {
   string user_id = 1;
   string user_type = 2;
@@ -34,9 +36,20 @@ message UpdateUserResponse {
   UserRecord user = 1;
 }
 
+// Stamps a customer's last_active_time from their realtime socket (connect,
+// throttled heartbeat, disconnect). Presence-only: it never touches the
+// profile or updated_time, and the value only ever moves forward.
+message TouchCustomerLastActiveRequest {
+  string customer_id = 1;
+  google.protobuf.Timestamp active_at = 2;
+}
+
+message TouchCustomerLastActiveResponse {}
+
 service UserService {
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc TouchCustomerLastActive(TouchCustomerLastActiveRequest) returns (TouchCustomerLastActiveResponse);
 }
 
 
