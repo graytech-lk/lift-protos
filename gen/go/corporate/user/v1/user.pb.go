@@ -243,6 +243,112 @@ func (x *GetCorporateUserByIdResponse) GetUser() *CorporateUser {
 	return nil
 }
 
+// LIFT-2379: what a Corporate Panel login may do, for the services that don't
+// hold the company's roles. user_group is the token's user_group.
+type GetCorporateUserPermissionsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CorporateId   string                 `protobuf:"bytes,1,opt,name=corporate_id,json=corporateId,proto3" json:"corporate_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserGroup     string                 `protobuf:"bytes,3,opt,name=user_group,json=userGroup,proto3" json:"user_group,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCorporateUserPermissionsRequest) Reset() {
+	*x = GetCorporateUserPermissionsRequest{}
+	mi := &file_corporate_user_v1_user_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCorporateUserPermissionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCorporateUserPermissionsRequest) ProtoMessage() {}
+
+func (x *GetCorporateUserPermissionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_user_v1_user_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCorporateUserPermissionsRequest.ProtoReflect.Descriptor instead.
+func (*GetCorporateUserPermissionsRequest) Descriptor() ([]byte, []int) {
+	return file_corporate_user_v1_user_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetCorporateUserPermissionsRequest) GetCorporateId() string {
+	if x != nil {
+		return x.CorporateId
+	}
+	return ""
+}
+
+func (x *GetCorporateUserPermissionsRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetCorporateUserPermissionsRequest) GetUserGroup() string {
+	if x != nil {
+		return x.UserGroup
+	}
+	return ""
+}
+
+type GetCorporateUserPermissionsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Permissions   []string               `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCorporateUserPermissionsResponse) Reset() {
+	*x = GetCorporateUserPermissionsResponse{}
+	mi := &file_corporate_user_v1_user_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCorporateUserPermissionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCorporateUserPermissionsResponse) ProtoMessage() {}
+
+func (x *GetCorporateUserPermissionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_user_v1_user_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCorporateUserPermissionsResponse.ProtoReflect.Descriptor instead.
+func (*GetCorporateUserPermissionsResponse) Descriptor() ([]byte, []int) {
+	return file_corporate_user_v1_user_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetCorporateUserPermissionsResponse) GetPermissions() []string {
+	if x != nil {
+		return x.Permissions
+	}
+	return nil
+}
+
 var File_corporate_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_corporate_user_v1_user_proto_rawDesc = "" +
@@ -266,9 +372,17 @@ const file_corporate_user_v1_user_proto_rawDesc = "" +
 	"\x06status\x18\v \x01(\tR\x06status\x12<\n" +
 	"\x1acorporate_reference_number\x18\f \x01(\tR\x18corporateReferenceNumber\"Y\n" +
 	"\x1cGetCorporateUserByIdResponse\x129\n" +
-	"\x04user\x18\x01 \x01(\v2%.lift.corporate.user.v1.CorporateUserR\x04user2\x9a\x01\n" +
+	"\x04user\x18\x01 \x01(\v2%.lift.corporate.user.v1.CorporateUserR\x04user\"\x7f\n" +
+	"\"GetCorporateUserPermissionsRequest\x12!\n" +
+	"\fcorporate_id\x18\x01 \x01(\tR\vcorporateId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1d\n" +
+	"\n" +
+	"user_group\x18\x03 \x01(\tR\tuserGroup\"G\n" +
+	"#GetCorporateUserPermissionsResponse\x12 \n" +
+	"\vpermissions\x18\x01 \x03(\tR\vpermissions2\xb3\x02\n" +
 	"\x14CorporateUserService\x12\x81\x01\n" +
-	"\x14GetCorporateUserById\x123.lift.corporate.user.v1.GetCorporateUserByIdRequest\x1a4.lift.corporate.user.v1.GetCorporateUserByIdResponseBMZKgithub.com/graytech-lk/lift-protos/gen/go/corporate/user/v1;corporateuserv1b\x06proto3"
+	"\x14GetCorporateUserById\x123.lift.corporate.user.v1.GetCorporateUserByIdRequest\x1a4.lift.corporate.user.v1.GetCorporateUserByIdResponse\x12\x96\x01\n" +
+	"\x1bGetCorporateUserPermissions\x12:.lift.corporate.user.v1.GetCorporateUserPermissionsRequest\x1a;.lift.corporate.user.v1.GetCorporateUserPermissionsResponseBMZKgithub.com/graytech-lk/lift-protos/gen/go/corporate/user/v1;corporateuserv1b\x06proto3"
 
 var (
 	file_corporate_user_v1_user_proto_rawDescOnce sync.Once
@@ -282,21 +396,25 @@ func file_corporate_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_corporate_user_v1_user_proto_rawDescData
 }
 
-var file_corporate_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_corporate_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_corporate_user_v1_user_proto_goTypes = []any{
-	(*GetCorporateUserByIdRequest)(nil),  // 0: lift.corporate.user.v1.GetCorporateUserByIdRequest
-	(*CorporateUser)(nil),                // 1: lift.corporate.user.v1.CorporateUser
-	(*GetCorporateUserByIdResponse)(nil), // 2: lift.corporate.user.v1.GetCorporateUserByIdResponse
-	(*timestamppb.Timestamp)(nil),        // 3: google.protobuf.Timestamp
+	(*GetCorporateUserByIdRequest)(nil),         // 0: lift.corporate.user.v1.GetCorporateUserByIdRequest
+	(*CorporateUser)(nil),                       // 1: lift.corporate.user.v1.CorporateUser
+	(*GetCorporateUserByIdResponse)(nil),        // 2: lift.corporate.user.v1.GetCorporateUserByIdResponse
+	(*GetCorporateUserPermissionsRequest)(nil),  // 3: lift.corporate.user.v1.GetCorporateUserPermissionsRequest
+	(*GetCorporateUserPermissionsResponse)(nil), // 4: lift.corporate.user.v1.GetCorporateUserPermissionsResponse
+	(*timestamppb.Timestamp)(nil),               // 5: google.protobuf.Timestamp
 }
 var file_corporate_user_v1_user_proto_depIdxs = []int32{
-	3, // 0: lift.corporate.user.v1.CorporateUser.created_time:type_name -> google.protobuf.Timestamp
-	3, // 1: lift.corporate.user.v1.CorporateUser.updated_time:type_name -> google.protobuf.Timestamp
+	5, // 0: lift.corporate.user.v1.CorporateUser.created_time:type_name -> google.protobuf.Timestamp
+	5, // 1: lift.corporate.user.v1.CorporateUser.updated_time:type_name -> google.protobuf.Timestamp
 	1, // 2: lift.corporate.user.v1.GetCorporateUserByIdResponse.user:type_name -> lift.corporate.user.v1.CorporateUser
 	0, // 3: lift.corporate.user.v1.CorporateUserService.GetCorporateUserById:input_type -> lift.corporate.user.v1.GetCorporateUserByIdRequest
-	2, // 4: lift.corporate.user.v1.CorporateUserService.GetCorporateUserById:output_type -> lift.corporate.user.v1.GetCorporateUserByIdResponse
-	4, // [4:5] is the sub-list for method output_type
-	3, // [3:4] is the sub-list for method input_type
+	3, // 4: lift.corporate.user.v1.CorporateUserService.GetCorporateUserPermissions:input_type -> lift.corporate.user.v1.GetCorporateUserPermissionsRequest
+	2, // 5: lift.corporate.user.v1.CorporateUserService.GetCorporateUserById:output_type -> lift.corporate.user.v1.GetCorporateUserByIdResponse
+	4, // 6: lift.corporate.user.v1.CorporateUserService.GetCorporateUserPermissions:output_type -> lift.corporate.user.v1.GetCorporateUserPermissionsResponse
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
 	3, // [3:3] is the sub-list for extension extendee
 	0, // [0:3] is the sub-list for field type_name
@@ -313,7 +431,7 @@ func file_corporate_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_corporate_user_v1_user_proto_rawDesc), len(file_corporate_user_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

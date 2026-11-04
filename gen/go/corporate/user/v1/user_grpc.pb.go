@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CorporateUserService_GetCorporateUserById_FullMethodName = "/lift.corporate.user.v1.CorporateUserService/GetCorporateUserById"
+	CorporateUserService_GetCorporateUserById_FullMethodName        = "/lift.corporate.user.v1.CorporateUserService/GetCorporateUserById"
+	CorporateUserService_GetCorporateUserPermissions_FullMethodName = "/lift.corporate.user.v1.CorporateUserService/GetCorporateUserPermissions"
 )
 
 // CorporateUserServiceClient is the client API for CorporateUserService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CorporateUserServiceClient interface {
 	GetCorporateUserById(ctx context.Context, in *GetCorporateUserByIdRequest, opts ...grpc.CallOption) (*GetCorporateUserByIdResponse, error)
+	GetCorporateUserPermissions(ctx context.Context, in *GetCorporateUserPermissionsRequest, opts ...grpc.CallOption) (*GetCorporateUserPermissionsResponse, error)
 }
 
 type corporateUserServiceClient struct {
@@ -47,11 +49,22 @@ func (c *corporateUserServiceClient) GetCorporateUserById(ctx context.Context, i
 	return out, nil
 }
 
+func (c *corporateUserServiceClient) GetCorporateUserPermissions(ctx context.Context, in *GetCorporateUserPermissionsRequest, opts ...grpc.CallOption) (*GetCorporateUserPermissionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCorporateUserPermissionsResponse)
+	err := c.cc.Invoke(ctx, CorporateUserService_GetCorporateUserPermissions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CorporateUserServiceServer is the server API for CorporateUserService service.
 // All implementations must embed UnimplementedCorporateUserServiceServer
 // for forward compatibility.
 type CorporateUserServiceServer interface {
 	GetCorporateUserById(context.Context, *GetCorporateUserByIdRequest) (*GetCorporateUserByIdResponse, error)
+	GetCorporateUserPermissions(context.Context, *GetCorporateUserPermissionsRequest) (*GetCorporateUserPermissionsResponse, error)
 	mustEmbedUnimplementedCorporateUserServiceServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedCorporateUserServiceServer struct{}
 
 func (UnimplementedCorporateUserServiceServer) GetCorporateUserById(context.Context, *GetCorporateUserByIdRequest) (*GetCorporateUserByIdResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCorporateUserById not implemented")
+}
+func (UnimplementedCorporateUserServiceServer) GetCorporateUserPermissions(context.Context, *GetCorporateUserPermissionsRequest) (*GetCorporateUserPermissionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCorporateUserPermissions not implemented")
 }
 func (UnimplementedCorporateUserServiceServer) mustEmbedUnimplementedCorporateUserServiceServer() {}
 func (UnimplementedCorporateUserServiceServer) testEmbeddedByValue()                              {}
@@ -104,6 +120,24 @@ func _CorporateUserService_GetCorporateUserById_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CorporateUserService_GetCorporateUserPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCorporateUserPermissionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorporateUserServiceServer).GetCorporateUserPermissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorporateUserService_GetCorporateUserPermissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorporateUserServiceServer).GetCorporateUserPermissions(ctx, req.(*GetCorporateUserPermissionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CorporateUserService_ServiceDesc is the grpc.ServiceDesc for CorporateUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var CorporateUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCorporateUserById",
 			Handler:    _CorporateUserService_GetCorporateUserById_Handler,
+		},
+		{
+			MethodName: "GetCorporateUserPermissions",
+			Handler:    _CorporateUserService_GetCorporateUserPermissions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

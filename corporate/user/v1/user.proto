@@ -30,8 +30,21 @@ message GetCorporateUserByIdResponse {
   CorporateUser user = 1;
 }
 
+// LIFT-2379: what a Corporate Panel login may do, for the services that don't
+// hold the company's roles. user_group is the token's user_group.
+message GetCorporateUserPermissionsRequest {
+  string corporate_id = 1;
+  string user_id = 2;
+  string user_group = 3;
+}
+
+message GetCorporateUserPermissionsResponse {
+  repeated string permissions = 1;
+}
+
 service CorporateUserService {
   rpc GetCorporateUserById(GetCorporateUserByIdRequest) returns (GetCorporateUserByIdResponse);
+  rpc GetCorporateUserPermissions(GetCorporateUserPermissionsRequest) returns (GetCorporateUserPermissionsResponse);
 }
 
 
