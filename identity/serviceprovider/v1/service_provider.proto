@@ -97,6 +97,12 @@ message UserServiceProvider {
   google.protobuf.Timestamp last_active_hire_end_time = 27;
   map<string, ServiceProviderRequestDetails> service_request_details = 28;
   map<string, ServiceProviderRequestDetails> fleet_service_request_details = 29;
+  // A fleet owner's fleet is LIFT's own; false is a third party fleet.
+  bool own_fleet = 30;
+  // The company's share of this fleet's trips, as a fraction like
+  // company_rev_share, by sub-category id. A sub-category that isn't here uses
+  // the default for the fleet's type.
+  map<string, double> fleet_company_shares = 31;
 }
 
 message GetServiceProviderByIdResponse {
@@ -134,12 +140,24 @@ message UpdateCreditDepositResponse {
   double credit_deposit_amount = 1;  // resulting balance after the update
 }
 
+message UpdateCreditAmountRequest {
+  string user_id = 1;
+  double delta = 2;  // amount applied to the service provider's credit_amount
+}
+
+message UpdateCreditAmountResponse {
+  double credit_amount = 1;  // resulting balance after the update
+}
+
 service ServiceProviderService {
   rpc GetServiceProviderById(GetServiceProviderByIdRequest) returns (GetServiceProviderByIdResponse);
   rpc GetServiceProviderByPhoneNumber(GetServiceProviderByPhoneNumberRequest) returns (GetServiceProviderByPhoneNumberResponse);
   rpc ListServiceProviders(ListServiceProvidersRequest) returns (ListServiceProvidersResponse);
   rpc UpdateServiceProvider(UpdateServiceProviderRequest) returns (UpdateServiceProviderResponse);
   rpc UpdateCreditDeposit(UpdateCreditDepositRequest) returns (UpdateCreditDepositResponse);
+  // Moves credit_amount atomically, for the fleet owner who several drivers'
+  // trips can charge at once.
+  rpc UpdateCreditAmount(UpdateCreditAmountRequest) returns (UpdateCreditAmountResponse);
 }
 
 

@@ -613,8 +613,14 @@ type UserServiceProvider struct {
 	LastActiveHireEndTime      *timestamppb.Timestamp                    `protobuf:"bytes,27,opt,name=last_active_hire_end_time,json=lastActiveHireEndTime,proto3" json:"last_active_hire_end_time,omitempty"`
 	ServiceRequestDetails      map[string]*ServiceProviderRequestDetails `protobuf:"bytes,28,rep,name=service_request_details,json=serviceRequestDetails,proto3" json:"service_request_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	FleetServiceRequestDetails map[string]*ServiceProviderRequestDetails `protobuf:"bytes,29,rep,name=fleet_service_request_details,json=fleetServiceRequestDetails,proto3" json:"fleet_service_request_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields              protoimpl.UnknownFields
-	sizeCache                  protoimpl.SizeCache
+	// A fleet owner's fleet is LIFT's own; false is a third party fleet.
+	OwnFleet bool `protobuf:"varint,30,opt,name=own_fleet,json=ownFleet,proto3" json:"own_fleet,omitempty"`
+	// The company's share of this fleet's trips, as a fraction like
+	// company_rev_share, by sub-category id. A sub-category that isn't here uses
+	// the default for the fleet's type.
+	FleetCompanyShares map[string]float64 `protobuf:"bytes,31,rep,name=fleet_company_shares,json=fleetCompanyShares,proto3" json:"fleet_company_shares,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"fixed64,2,opt,name=value"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *UserServiceProvider) Reset() {
@@ -846,6 +852,20 @@ func (x *UserServiceProvider) GetServiceRequestDetails() map[string]*ServiceProv
 func (x *UserServiceProvider) GetFleetServiceRequestDetails() map[string]*ServiceProviderRequestDetails {
 	if x != nil {
 		return x.FleetServiceRequestDetails
+	}
+	return nil
+}
+
+func (x *UserServiceProvider) GetOwnFleet() bool {
+	if x != nil {
+		return x.OwnFleet
+	}
+	return false
+}
+
+func (x *UserServiceProvider) GetFleetCompanyShares() map[string]float64 {
+	if x != nil {
+		return x.FleetCompanyShares
 	}
 	return nil
 }
@@ -1226,6 +1246,102 @@ func (x *UpdateCreditDepositResponse) GetCreditDepositAmount() float64 {
 	return 0
 }
 
+type UpdateCreditAmountRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Delta         float64                `protobuf:"fixed64,2,opt,name=delta,proto3" json:"delta,omitempty"` // amount applied to the service provider's credit_amount
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateCreditAmountRequest) Reset() {
+	*x = UpdateCreditAmountRequest{}
+	mi := &file_identity_serviceprovider_v1_service_provider_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCreditAmountRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCreditAmountRequest) ProtoMessage() {}
+
+func (x *UpdateCreditAmountRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_serviceprovider_v1_service_provider_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCreditAmountRequest.ProtoReflect.Descriptor instead.
+func (*UpdateCreditAmountRequest) Descriptor() ([]byte, []int) {
+	return file_identity_serviceprovider_v1_service_provider_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *UpdateCreditAmountRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *UpdateCreditAmountRequest) GetDelta() float64 {
+	if x != nil {
+		return x.Delta
+	}
+	return 0
+}
+
+type UpdateCreditAmountResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CreditAmount  float64                `protobuf:"fixed64,1,opt,name=credit_amount,json=creditAmount,proto3" json:"credit_amount,omitempty"` // resulting balance after the update
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateCreditAmountResponse) Reset() {
+	*x = UpdateCreditAmountResponse{}
+	mi := &file_identity_serviceprovider_v1_service_provider_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCreditAmountResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCreditAmountResponse) ProtoMessage() {}
+
+func (x *UpdateCreditAmountResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_identity_serviceprovider_v1_service_provider_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCreditAmountResponse.ProtoReflect.Descriptor instead.
+func (*UpdateCreditAmountResponse) Descriptor() ([]byte, []int) {
+	return file_identity_serviceprovider_v1_service_provider_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *UpdateCreditAmountResponse) GetCreditAmount() float64 {
+	if x != nil {
+		return x.CreditAmount
+	}
+	return 0
+}
+
 var File_identity_serviceprovider_v1_service_provider_proto protoreflect.FileDescriptor
 
 const file_identity_serviceprovider_v1_service_provider_proto_rawDesc = "" +
@@ -1285,7 +1401,7 @@ const file_identity_serviceprovider_v1_service_provider_proto_rawDesc = "" +
 	"\x17earnings_previous_month\x18\x12 \x01(\x01R\x15earningsPreviousMonth\x122\n" +
 	"\x15distance_previous_day\x18\x13 \x01(\x01R\x13distancePreviousDay\x124\n" +
 	"\x16distance_previous_week\x18\x14 \x01(\x01R\x14distancePreviousWeek\x126\n" +
-	"\x17distance_previous_month\x18\x15 \x01(\x01R\x15distancePreviousMonth\"\xd8\r\n" +
+	"\x17distance_previous_month\x18\x15 \x01(\x01R\x15distancePreviousMonth\"\xbd\x0f\n" +
 	"\x13UserServiceProvider\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x13\n" +
 	"\x05sp_id\x18\x02 \x01(\tR\x04spId\x12!\n" +
@@ -1320,13 +1436,18 @@ const file_identity_serviceprovider_v1_service_provider_proto_rawDesc = "" +
 	"\fupdated_time\x18\x1a \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedTime\x12T\n" +
 	"\x19last_active_hire_end_time\x18\x1b \x01(\v2\x1a.google.protobuf.TimestampR\x15lastActiveHireEndTime\x12\x88\x01\n" +
 	"\x17service_request_details\x18\x1c \x03(\v2P.lift.identity.serviceprovider.v1.UserServiceProvider.ServiceRequestDetailsEntryR\x15serviceRequestDetails\x12\x98\x01\n" +
-	"\x1dfleet_service_request_details\x18\x1d \x03(\v2U.lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntryR\x1afleetServiceRequestDetails\x1a\x89\x01\n" +
+	"\x1dfleet_service_request_details\x18\x1d \x03(\v2U.lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntryR\x1afleetServiceRequestDetails\x12\x1b\n" +
+	"\town_fleet\x18\x1e \x01(\bR\bownFleet\x12\x7f\n" +
+	"\x14fleet_company_shares\x18\x1f \x03(\v2M.lift.identity.serviceprovider.v1.UserServiceProvider.FleetCompanySharesEntryR\x12fleetCompanyShares\x1a\x89\x01\n" +
 	"\x1aServiceRequestDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12U\n" +
 	"\x05value\x18\x02 \x01(\v2?.lift.identity.serviceprovider.v1.ServiceProviderRequestDetailsR\x05value:\x028\x01\x1a\x8e\x01\n" +
 	"\x1fFleetServiceRequestDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12U\n" +
-	"\x05value\x18\x02 \x01(\v2?.lift.identity.serviceprovider.v1.ServiceProviderRequestDetailsR\x05value:\x028\x01\"\x82\x01\n" +
+	"\x05value\x18\x02 \x01(\v2?.lift.identity.serviceprovider.v1.ServiceProviderRequestDetailsR\x05value:\x028\x01\x1aE\n" +
+	"\x17FleetCompanySharesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x01R\x05value:\x028\x01\"\x82\x01\n" +
 	"\x1eGetServiceProviderByIdResponse\x12`\n" +
 	"\x10service_provider\x18\x01 \x01(\v25.lift.identity.serviceprovider.v1.UserServiceProviderR\x0fserviceProvider\"\x8b\x01\n" +
 	"'GetServiceProviderByPhoneNumberResponse\x12`\n" +
@@ -1345,13 +1466,19 @@ const file_identity_serviceprovider_v1_service_provider_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
 	"\x05delta\x18\x02 \x01(\x01R\x05delta\"Q\n" +
 	"\x1bUpdateCreditDepositResponse\x122\n" +
-	"\x15credit_deposit_amount\x18\x01 \x01(\x01R\x13creditDepositAmount2\xb7\x06\n" +
+	"\x15credit_deposit_amount\x18\x01 \x01(\x01R\x13creditDepositAmount\"J\n" +
+	"\x19UpdateCreditAmountRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
+	"\x05delta\x18\x02 \x01(\x01R\x05delta\"A\n" +
+	"\x1aUpdateCreditAmountResponse\x12#\n" +
+	"\rcredit_amount\x18\x01 \x01(\x01R\fcreditAmount2\xc9\a\n" +
 	"\x16ServiceProviderService\x12\x9b\x01\n" +
 	"\x16GetServiceProviderById\x12?.lift.identity.serviceprovider.v1.GetServiceProviderByIdRequest\x1a@.lift.identity.serviceprovider.v1.GetServiceProviderByIdResponse\x12\xb6\x01\n" +
 	"\x1fGetServiceProviderByPhoneNumber\x12H.lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberRequest\x1aI.lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberResponse\x12\x95\x01\n" +
 	"\x14ListServiceProviders\x12=.lift.identity.serviceprovider.v1.ListServiceProvidersRequest\x1a>.lift.identity.serviceprovider.v1.ListServiceProvidersResponse\x12\x98\x01\n" +
 	"\x15UpdateServiceProvider\x12>.lift.identity.serviceprovider.v1.UpdateServiceProviderRequest\x1a?.lift.identity.serviceprovider.v1.UpdateServiceProviderResponse\x12\x92\x01\n" +
-	"\x13UpdateCreditDeposit\x12<.lift.identity.serviceprovider.v1.UpdateCreditDepositRequest\x1a=.lift.identity.serviceprovider.v1.UpdateCreditDepositResponseBYZWgithub.com/graytech-lk/lift-protos/gen/go/identity/serviceprovider/v1;serviceproviderv1b\x06proto3"
+	"\x13UpdateCreditDeposit\x12<.lift.identity.serviceprovider.v1.UpdateCreditDepositRequest\x1a=.lift.identity.serviceprovider.v1.UpdateCreditDepositResponse\x12\x8f\x01\n" +
+	"\x12UpdateCreditAmount\x12;.lift.identity.serviceprovider.v1.UpdateCreditAmountRequest\x1a<.lift.identity.serviceprovider.v1.UpdateCreditAmountResponseBYZWgithub.com/graytech-lk/lift-protos/gen/go/identity/serviceprovider/v1;serviceproviderv1b\x06proto3"
 
 var (
 	file_identity_serviceprovider_v1_service_provider_proto_rawDescOnce sync.Once
@@ -1365,7 +1492,7 @@ func file_identity_serviceprovider_v1_service_provider_proto_rawDescGZIP() []byt
 	return file_identity_serviceprovider_v1_service_provider_proto_rawDescData
 }
 
-var file_identity_serviceprovider_v1_service_provider_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_identity_serviceprovider_v1_service_provider_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_identity_serviceprovider_v1_service_provider_proto_goTypes = []any{
 	(*GetServiceProviderByIdRequest)(nil),           // 0: lift.identity.serviceprovider.v1.GetServiceProviderByIdRequest
 	(*GetServiceProviderByPhoneNumberRequest)(nil),  // 1: lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberRequest
@@ -1382,42 +1509,48 @@ var file_identity_serviceprovider_v1_service_provider_proto_goTypes = []any{
 	(*UpdateServiceProviderResponse)(nil),           // 12: lift.identity.serviceprovider.v1.UpdateServiceProviderResponse
 	(*UpdateCreditDepositRequest)(nil),              // 13: lift.identity.serviceprovider.v1.UpdateCreditDepositRequest
 	(*UpdateCreditDepositResponse)(nil),             // 14: lift.identity.serviceprovider.v1.UpdateCreditDepositResponse
-	nil,                                             // 15: lift.identity.serviceprovider.v1.UserServiceProvider.ServiceRequestDetailsEntry
-	nil,                                             // 16: lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntry
-	(*timestamppb.Timestamp)(nil),                   // 17: google.protobuf.Timestamp
+	(*UpdateCreditAmountRequest)(nil),               // 15: lift.identity.serviceprovider.v1.UpdateCreditAmountRequest
+	(*UpdateCreditAmountResponse)(nil),              // 16: lift.identity.serviceprovider.v1.UpdateCreditAmountResponse
+	nil,                                             // 17: lift.identity.serviceprovider.v1.UserServiceProvider.ServiceRequestDetailsEntry
+	nil,                                             // 18: lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntry
+	nil,                                             // 19: lift.identity.serviceprovider.v1.UserServiceProvider.FleetCompanySharesEntry
+	(*timestamppb.Timestamp)(nil),                   // 20: google.protobuf.Timestamp
 }
 var file_identity_serviceprovider_v1_service_provider_proto_depIdxs = []int32{
-	17, // 0: lift.identity.serviceprovider.v1.ServiceProviderRequestDetails.last_updated:type_name -> google.protobuf.Timestamp
-	17, // 1: lift.identity.serviceprovider.v1.ServiceProviderRequestDetails.last_update_locked:type_name -> google.protobuf.Timestamp
+	20, // 0: lift.identity.serviceprovider.v1.ServiceProviderRequestDetails.last_updated:type_name -> google.protobuf.Timestamp
+	20, // 1: lift.identity.serviceprovider.v1.ServiceProviderRequestDetails.last_update_locked:type_name -> google.protobuf.Timestamp
 	2,  // 2: lift.identity.serviceprovider.v1.UserServiceProvider.drivers_license:type_name -> lift.identity.serviceprovider.v1.DriversLicense
 	3,  // 3: lift.identity.serviceprovider.v1.UserServiceProvider.documents:type_name -> lift.identity.serviceprovider.v1.ServiceProviderDocuments
 	4,  // 4: lift.identity.serviceprovider.v1.UserServiceProvider.payment_parameters:type_name -> lift.identity.serviceprovider.v1.ServiceProviderPaymentParams
-	17, // 5: lift.identity.serviceprovider.v1.UserServiceProvider.created_time:type_name -> google.protobuf.Timestamp
-	17, // 6: lift.identity.serviceprovider.v1.UserServiceProvider.updated_time:type_name -> google.protobuf.Timestamp
-	17, // 7: lift.identity.serviceprovider.v1.UserServiceProvider.last_active_hire_end_time:type_name -> google.protobuf.Timestamp
-	15, // 8: lift.identity.serviceprovider.v1.UserServiceProvider.service_request_details:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider.ServiceRequestDetailsEntry
-	16, // 9: lift.identity.serviceprovider.v1.UserServiceProvider.fleet_service_request_details:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntry
-	6,  // 10: lift.identity.serviceprovider.v1.GetServiceProviderByIdResponse.service_provider:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
-	6,  // 11: lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberResponse.service_provider:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
-	6,  // 12: lift.identity.serviceprovider.v1.ListServiceProvidersResponse.service_providers:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
-	6,  // 13: lift.identity.serviceprovider.v1.UpdateServiceProviderResponse.service_provider:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
-	5,  // 14: lift.identity.serviceprovider.v1.UserServiceProvider.ServiceRequestDetailsEntry.value:type_name -> lift.identity.serviceprovider.v1.ServiceProviderRequestDetails
-	5,  // 15: lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntry.value:type_name -> lift.identity.serviceprovider.v1.ServiceProviderRequestDetails
-	0,  // 16: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderById:input_type -> lift.identity.serviceprovider.v1.GetServiceProviderByIdRequest
-	1,  // 17: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderByPhoneNumber:input_type -> lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberRequest
-	9,  // 18: lift.identity.serviceprovider.v1.ServiceProviderService.ListServiceProviders:input_type -> lift.identity.serviceprovider.v1.ListServiceProvidersRequest
-	11, // 19: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateServiceProvider:input_type -> lift.identity.serviceprovider.v1.UpdateServiceProviderRequest
-	13, // 20: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateCreditDeposit:input_type -> lift.identity.serviceprovider.v1.UpdateCreditDepositRequest
-	7,  // 21: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderById:output_type -> lift.identity.serviceprovider.v1.GetServiceProviderByIdResponse
-	8,  // 22: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderByPhoneNumber:output_type -> lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberResponse
-	10, // 23: lift.identity.serviceprovider.v1.ServiceProviderService.ListServiceProviders:output_type -> lift.identity.serviceprovider.v1.ListServiceProvidersResponse
-	12, // 24: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateServiceProvider:output_type -> lift.identity.serviceprovider.v1.UpdateServiceProviderResponse
-	14, // 25: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateCreditDeposit:output_type -> lift.identity.serviceprovider.v1.UpdateCreditDepositResponse
-	21, // [21:26] is the sub-list for method output_type
-	16, // [16:21] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	20, // 5: lift.identity.serviceprovider.v1.UserServiceProvider.created_time:type_name -> google.protobuf.Timestamp
+	20, // 6: lift.identity.serviceprovider.v1.UserServiceProvider.updated_time:type_name -> google.protobuf.Timestamp
+	20, // 7: lift.identity.serviceprovider.v1.UserServiceProvider.last_active_hire_end_time:type_name -> google.protobuf.Timestamp
+	17, // 8: lift.identity.serviceprovider.v1.UserServiceProvider.service_request_details:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider.ServiceRequestDetailsEntry
+	18, // 9: lift.identity.serviceprovider.v1.UserServiceProvider.fleet_service_request_details:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntry
+	19, // 10: lift.identity.serviceprovider.v1.UserServiceProvider.fleet_company_shares:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider.FleetCompanySharesEntry
+	6,  // 11: lift.identity.serviceprovider.v1.GetServiceProviderByIdResponse.service_provider:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
+	6,  // 12: lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberResponse.service_provider:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
+	6,  // 13: lift.identity.serviceprovider.v1.ListServiceProvidersResponse.service_providers:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
+	6,  // 14: lift.identity.serviceprovider.v1.UpdateServiceProviderResponse.service_provider:type_name -> lift.identity.serviceprovider.v1.UserServiceProvider
+	5,  // 15: lift.identity.serviceprovider.v1.UserServiceProvider.ServiceRequestDetailsEntry.value:type_name -> lift.identity.serviceprovider.v1.ServiceProviderRequestDetails
+	5,  // 16: lift.identity.serviceprovider.v1.UserServiceProvider.FleetServiceRequestDetailsEntry.value:type_name -> lift.identity.serviceprovider.v1.ServiceProviderRequestDetails
+	0,  // 17: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderById:input_type -> lift.identity.serviceprovider.v1.GetServiceProviderByIdRequest
+	1,  // 18: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderByPhoneNumber:input_type -> lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberRequest
+	9,  // 19: lift.identity.serviceprovider.v1.ServiceProviderService.ListServiceProviders:input_type -> lift.identity.serviceprovider.v1.ListServiceProvidersRequest
+	11, // 20: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateServiceProvider:input_type -> lift.identity.serviceprovider.v1.UpdateServiceProviderRequest
+	13, // 21: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateCreditDeposit:input_type -> lift.identity.serviceprovider.v1.UpdateCreditDepositRequest
+	15, // 22: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateCreditAmount:input_type -> lift.identity.serviceprovider.v1.UpdateCreditAmountRequest
+	7,  // 23: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderById:output_type -> lift.identity.serviceprovider.v1.GetServiceProviderByIdResponse
+	8,  // 24: lift.identity.serviceprovider.v1.ServiceProviderService.GetServiceProviderByPhoneNumber:output_type -> lift.identity.serviceprovider.v1.GetServiceProviderByPhoneNumberResponse
+	10, // 25: lift.identity.serviceprovider.v1.ServiceProviderService.ListServiceProviders:output_type -> lift.identity.serviceprovider.v1.ListServiceProvidersResponse
+	12, // 26: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateServiceProvider:output_type -> lift.identity.serviceprovider.v1.UpdateServiceProviderResponse
+	14, // 27: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateCreditDeposit:output_type -> lift.identity.serviceprovider.v1.UpdateCreditDepositResponse
+	16, // 28: lift.identity.serviceprovider.v1.ServiceProviderService.UpdateCreditAmount:output_type -> lift.identity.serviceprovider.v1.UpdateCreditAmountResponse
+	23, // [23:29] is the sub-list for method output_type
+	17, // [17:23] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_identity_serviceprovider_v1_service_provider_proto_init() }
@@ -1431,7 +1564,7 @@ func file_identity_serviceprovider_v1_service_provider_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_identity_serviceprovider_v1_service_provider_proto_rawDesc), len(file_identity_serviceprovider_v1_service_provider_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
