@@ -811,6 +811,118 @@ func (x *ListFleetVehiclesResponse) GetVehicles() []*Vehicle {
 	return nil
 }
 
+// DeleteDriverVehiclesRequest names a personal driver whose own vehicles are
+// deleted with them: vehicles with fleet_id = the driver's phone number, or
+// driver_id = the driver's user id.
+type DeleteDriverVehiclesRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Identity user_id of the driver.
+	DriverId string `protobuf:"bytes,1,opt,name=driver_id,json=driverId,proto3" json:"driver_id,omitempty"`
+	// The driver's phone number (a personal driver's vehicles carry it as
+	// fleet_id).
+	FleetId string `protobuf:"bytes,2,opt,name=fleet_id,json=fleetId,proto3" json:"fleet_id,omitempty"`
+	// When true, nothing is deleted: the response lists what would be.
+	DryRun        bool `protobuf:"varint,3,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDriverVehiclesRequest) Reset() {
+	*x = DeleteDriverVehiclesRequest{}
+	mi := &file_platform_vehicle_v1_vehicle_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDriverVehiclesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDriverVehiclesRequest) ProtoMessage() {}
+
+func (x *DeleteDriverVehiclesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_vehicle_v1_vehicle_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDriverVehiclesRequest.ProtoReflect.Descriptor instead.
+func (*DeleteDriverVehiclesRequest) Descriptor() ([]byte, []int) {
+	return file_platform_vehicle_v1_vehicle_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteDriverVehiclesRequest) GetDriverId() string {
+	if x != nil {
+		return x.DriverId
+	}
+	return ""
+}
+
+func (x *DeleteDriverVehiclesRequest) GetFleetId() string {
+	if x != nil {
+		return x.FleetId
+	}
+	return ""
+}
+
+func (x *DeleteDriverVehiclesRequest) GetDryRun() bool {
+	if x != nil {
+		return x.DryRun
+	}
+	return false
+}
+
+type DeleteDriverVehiclesResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The vehicles deleted (or, on a dry run, that would be).
+	Vehicles      []*Vehicle `protobuf:"bytes,1,rep,name=vehicles,proto3" json:"vehicles,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDriverVehiclesResponse) Reset() {
+	*x = DeleteDriverVehiclesResponse{}
+	mi := &file_platform_vehicle_v1_vehicle_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDriverVehiclesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDriverVehiclesResponse) ProtoMessage() {}
+
+func (x *DeleteDriverVehiclesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_vehicle_v1_vehicle_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDriverVehiclesResponse.ProtoReflect.Descriptor instead.
+func (*DeleteDriverVehiclesResponse) Descriptor() ([]byte, []int) {
+	return file_platform_vehicle_v1_vehicle_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteDriverVehiclesResponse) GetVehicles() []*Vehicle {
+	if x != nil {
+		return x.Vehicles
+	}
+	return nil
+}
+
 var File_platform_vehicle_v1_vehicle_proto protoreflect.FileDescriptor
 
 const file_platform_vehicle_v1_vehicle_proto_rawDesc = "" +
@@ -885,13 +997,20 @@ const file_platform_vehicle_v1_vehicle_proto_rawDesc = "" +
 	"\bfleet_id\x18\x01 \x01(\tR\afleetId\x12\x1b\n" +
 	"\tdriver_id\x18\x02 \x01(\tR\bdriverId\"Z\n" +
 	"\x19ListFleetVehiclesResponse\x12=\n" +
-	"\bvehicles\x18\x01 \x03(\v2!.lift.platform.vehicle.v1.VehicleR\bvehicles2\xde\x03\n" +
+	"\bvehicles\x18\x01 \x03(\v2!.lift.platform.vehicle.v1.VehicleR\bvehicles\"n\n" +
+	"\x1bDeleteDriverVehiclesRequest\x12\x1b\n" +
+	"\tdriver_id\x18\x01 \x01(\tR\bdriverId\x12\x19\n" +
+	"\bfleet_id\x18\x02 \x01(\tR\afleetId\x12\x17\n" +
+	"\adry_run\x18\x03 \x01(\bR\x06dryRun\"]\n" +
+	"\x1cDeleteDriverVehiclesResponse\x12=\n" +
+	"\bvehicles\x18\x01 \x03(\v2!.lift.platform.vehicle.v1.VehicleR\bvehicles2\xe6\x04\n" +
 	"\x0eVehicleService\x12g\n" +
 	"\n" +
 	"GetVehicle\x12+.lift.platform.vehicle.v1.GetVehicleRequest\x1a,.lift.platform.vehicle.v1.GetVehicleResponse\x12p\n" +
 	"\rUpdateVehicle\x12..lift.platform.vehicle.v1.UpdateVehicleRequest\x1a/.lift.platform.vehicle.v1.UpdateVehicleResponse\x12s\n" +
 	"\x0eGetAllVehicles\x12/.lift.platform.vehicle.v1.GetAllVehiclesRequest\x1a0.lift.platform.vehicle.v1.GetAllVehiclesResponse\x12|\n" +
-	"\x11ListFleetVehicles\x122.lift.platform.vehicle.v1.ListFleetVehiclesRequest\x1a3.lift.platform.vehicle.v1.ListFleetVehiclesResponseBIZGgithub.com/graytech-lk/lift-protos/gen/go/platform/vehicle/v1;vehiclev1b\x06proto3"
+	"\x11ListFleetVehicles\x122.lift.platform.vehicle.v1.ListFleetVehiclesRequest\x1a3.lift.platform.vehicle.v1.ListFleetVehiclesResponse\x12\x85\x01\n" +
+	"\x14DeleteDriverVehicles\x125.lift.platform.vehicle.v1.DeleteDriverVehiclesRequest\x1a6.lift.platform.vehicle.v1.DeleteDriverVehiclesResponseBIZGgithub.com/graytech-lk/lift-protos/gen/go/platform/vehicle/v1;vehiclev1b\x06proto3"
 
 var (
 	file_platform_vehicle_v1_vehicle_proto_rawDescOnce sync.Once
@@ -905,42 +1024,47 @@ func file_platform_vehicle_v1_vehicle_proto_rawDescGZIP() []byte {
 	return file_platform_vehicle_v1_vehicle_proto_rawDescData
 }
 
-var file_platform_vehicle_v1_vehicle_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_platform_vehicle_v1_vehicle_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_platform_vehicle_v1_vehicle_proto_goTypes = []any{
-	(*Vehicle)(nil),                   // 0: lift.platform.vehicle.v1.Vehicle
-	(*Pagination)(nil),                // 1: lift.platform.vehicle.v1.Pagination
-	(*GetVehicleRequest)(nil),         // 2: lift.platform.vehicle.v1.GetVehicleRequest
-	(*GetVehicleResponse)(nil),        // 3: lift.platform.vehicle.v1.GetVehicleResponse
-	(*UpdateVehicleRequest)(nil),      // 4: lift.platform.vehicle.v1.UpdateVehicleRequest
-	(*UpdateVehicleResponse)(nil),     // 5: lift.platform.vehicle.v1.UpdateVehicleResponse
-	(*GetAllVehiclesRequest)(nil),     // 6: lift.platform.vehicle.v1.GetAllVehiclesRequest
-	(*GetAllVehiclesResponse)(nil),    // 7: lift.platform.vehicle.v1.GetAllVehiclesResponse
-	(*ListFleetVehiclesRequest)(nil),  // 8: lift.platform.vehicle.v1.ListFleetVehiclesRequest
-	(*ListFleetVehiclesResponse)(nil), // 9: lift.platform.vehicle.v1.ListFleetVehiclesResponse
-	(*timestamppb.Timestamp)(nil),     // 10: google.protobuf.Timestamp
+	(*Vehicle)(nil),                      // 0: lift.platform.vehicle.v1.Vehicle
+	(*Pagination)(nil),                   // 1: lift.platform.vehicle.v1.Pagination
+	(*GetVehicleRequest)(nil),            // 2: lift.platform.vehicle.v1.GetVehicleRequest
+	(*GetVehicleResponse)(nil),           // 3: lift.platform.vehicle.v1.GetVehicleResponse
+	(*UpdateVehicleRequest)(nil),         // 4: lift.platform.vehicle.v1.UpdateVehicleRequest
+	(*UpdateVehicleResponse)(nil),        // 5: lift.platform.vehicle.v1.UpdateVehicleResponse
+	(*GetAllVehiclesRequest)(nil),        // 6: lift.platform.vehicle.v1.GetAllVehiclesRequest
+	(*GetAllVehiclesResponse)(nil),       // 7: lift.platform.vehicle.v1.GetAllVehiclesResponse
+	(*ListFleetVehiclesRequest)(nil),     // 8: lift.platform.vehicle.v1.ListFleetVehiclesRequest
+	(*ListFleetVehiclesResponse)(nil),    // 9: lift.platform.vehicle.v1.ListFleetVehiclesResponse
+	(*DeleteDriverVehiclesRequest)(nil),  // 10: lift.platform.vehicle.v1.DeleteDriverVehiclesRequest
+	(*DeleteDriverVehiclesResponse)(nil), // 11: lift.platform.vehicle.v1.DeleteDriverVehiclesResponse
+	(*timestamppb.Timestamp)(nil),        // 12: google.protobuf.Timestamp
 }
 var file_platform_vehicle_v1_vehicle_proto_depIdxs = []int32{
-	10, // 0: lift.platform.vehicle.v1.Vehicle.created_time:type_name -> google.protobuf.Timestamp
-	10, // 1: lift.platform.vehicle.v1.Vehicle.updated_time:type_name -> google.protobuf.Timestamp
+	12, // 0: lift.platform.vehicle.v1.Vehicle.created_time:type_name -> google.protobuf.Timestamp
+	12, // 1: lift.platform.vehicle.v1.Vehicle.updated_time:type_name -> google.protobuf.Timestamp
 	0,  // 2: lift.platform.vehicle.v1.GetVehicleResponse.vehicle:type_name -> lift.platform.vehicle.v1.Vehicle
 	0,  // 3: lift.platform.vehicle.v1.UpdateVehicleRequest.vehicle:type_name -> lift.platform.vehicle.v1.Vehicle
 	0,  // 4: lift.platform.vehicle.v1.UpdateVehicleResponse.vehicle:type_name -> lift.platform.vehicle.v1.Vehicle
 	0,  // 5: lift.platform.vehicle.v1.GetAllVehiclesResponse.content:type_name -> lift.platform.vehicle.v1.Vehicle
 	1,  // 6: lift.platform.vehicle.v1.GetAllVehiclesResponse.pagination:type_name -> lift.platform.vehicle.v1.Pagination
 	0,  // 7: lift.platform.vehicle.v1.ListFleetVehiclesResponse.vehicles:type_name -> lift.platform.vehicle.v1.Vehicle
-	2,  // 8: lift.platform.vehicle.v1.VehicleService.GetVehicle:input_type -> lift.platform.vehicle.v1.GetVehicleRequest
-	4,  // 9: lift.platform.vehicle.v1.VehicleService.UpdateVehicle:input_type -> lift.platform.vehicle.v1.UpdateVehicleRequest
-	6,  // 10: lift.platform.vehicle.v1.VehicleService.GetAllVehicles:input_type -> lift.platform.vehicle.v1.GetAllVehiclesRequest
-	8,  // 11: lift.platform.vehicle.v1.VehicleService.ListFleetVehicles:input_type -> lift.platform.vehicle.v1.ListFleetVehiclesRequest
-	3,  // 12: lift.platform.vehicle.v1.VehicleService.GetVehicle:output_type -> lift.platform.vehicle.v1.GetVehicleResponse
-	5,  // 13: lift.platform.vehicle.v1.VehicleService.UpdateVehicle:output_type -> lift.platform.vehicle.v1.UpdateVehicleResponse
-	7,  // 14: lift.platform.vehicle.v1.VehicleService.GetAllVehicles:output_type -> lift.platform.vehicle.v1.GetAllVehiclesResponse
-	9,  // 15: lift.platform.vehicle.v1.VehicleService.ListFleetVehicles:output_type -> lift.platform.vehicle.v1.ListFleetVehiclesResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	0,  // 8: lift.platform.vehicle.v1.DeleteDriverVehiclesResponse.vehicles:type_name -> lift.platform.vehicle.v1.Vehicle
+	2,  // 9: lift.platform.vehicle.v1.VehicleService.GetVehicle:input_type -> lift.platform.vehicle.v1.GetVehicleRequest
+	4,  // 10: lift.platform.vehicle.v1.VehicleService.UpdateVehicle:input_type -> lift.platform.vehicle.v1.UpdateVehicleRequest
+	6,  // 11: lift.platform.vehicle.v1.VehicleService.GetAllVehicles:input_type -> lift.platform.vehicle.v1.GetAllVehiclesRequest
+	8,  // 12: lift.platform.vehicle.v1.VehicleService.ListFleetVehicles:input_type -> lift.platform.vehicle.v1.ListFleetVehiclesRequest
+	10, // 13: lift.platform.vehicle.v1.VehicleService.DeleteDriverVehicles:input_type -> lift.platform.vehicle.v1.DeleteDriverVehiclesRequest
+	3,  // 14: lift.platform.vehicle.v1.VehicleService.GetVehicle:output_type -> lift.platform.vehicle.v1.GetVehicleResponse
+	5,  // 15: lift.platform.vehicle.v1.VehicleService.UpdateVehicle:output_type -> lift.platform.vehicle.v1.UpdateVehicleResponse
+	7,  // 16: lift.platform.vehicle.v1.VehicleService.GetAllVehicles:output_type -> lift.platform.vehicle.v1.GetAllVehiclesResponse
+	9,  // 17: lift.platform.vehicle.v1.VehicleService.ListFleetVehicles:output_type -> lift.platform.vehicle.v1.ListFleetVehiclesResponse
+	11, // 18: lift.platform.vehicle.v1.VehicleService.DeleteDriverVehicles:output_type -> lift.platform.vehicle.v1.DeleteDriverVehiclesResponse
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_platform_vehicle_v1_vehicle_proto_init() }
@@ -954,7 +1078,7 @@ func file_platform_vehicle_v1_vehicle_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_platform_vehicle_v1_vehicle_proto_rawDesc), len(file_platform_vehicle_v1_vehicle_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

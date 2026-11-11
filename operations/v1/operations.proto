@@ -33,8 +33,27 @@ message ListServiceRequestsResponse {
   repeated string service_requests_json = 1;
 }
 
+message CountServiceProviderRecordsRequest {
+  // Identity user_id of the service provider (driver or fleet owner).
+  string user_id = 1;
+}
+
+// How many operations records refer to a service provider. Used by
+// lift-identity-service before an admin deletes a driver: any count above
+// zero blocks the delete.
+message CountServiceProviderRecordsResponse {
+  // service_requests in any status that name the service provider as the
+  // driver, the requested or excluded driver, the canceller, the fleet owner,
+  // the commission payer or the held-settlement credit payer.
+  int64 service_requests = 1;
+  // sos_incidents the service provider reported or was the trip driver of.
+  int64 sos_incidents = 2;
+}
+
 service ServiceRequestService {
   rpc ListServiceRequests(ListServiceRequestsRequest) returns (ListServiceRequestsResponse);
+  // Counts the records that refer to a service provider (see the response).
+  rpc CountServiceProviderRecords(CountServiceProviderRecordsRequest) returns (CountServiceProviderRecordsResponse);
 }
 
 message RevokeServiceProviderSessionRequest {

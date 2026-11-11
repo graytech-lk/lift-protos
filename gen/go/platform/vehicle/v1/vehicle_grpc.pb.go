@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	VehicleService_GetVehicle_FullMethodName        = "/lift.platform.vehicle.v1.VehicleService/GetVehicle"
-	VehicleService_UpdateVehicle_FullMethodName     = "/lift.platform.vehicle.v1.VehicleService/UpdateVehicle"
-	VehicleService_GetAllVehicles_FullMethodName    = "/lift.platform.vehicle.v1.VehicleService/GetAllVehicles"
-	VehicleService_ListFleetVehicles_FullMethodName = "/lift.platform.vehicle.v1.VehicleService/ListFleetVehicles"
+	VehicleService_GetVehicle_FullMethodName           = "/lift.platform.vehicle.v1.VehicleService/GetVehicle"
+	VehicleService_UpdateVehicle_FullMethodName        = "/lift.platform.vehicle.v1.VehicleService/UpdateVehicle"
+	VehicleService_GetAllVehicles_FullMethodName       = "/lift.platform.vehicle.v1.VehicleService/GetAllVehicles"
+	VehicleService_ListFleetVehicles_FullMethodName    = "/lift.platform.vehicle.v1.VehicleService/ListFleetVehicles"
+	VehicleService_DeleteDriverVehicles_FullMethodName = "/lift.platform.vehicle.v1.VehicleService/DeleteDriverVehicles"
 )
 
 // VehicleServiceClient is the client API for VehicleService service.
@@ -39,6 +40,10 @@ type VehicleServiceClient interface {
 	GetAllVehicles(ctx context.Context, in *GetAllVehiclesRequest, opts ...grpc.CallOption) (*GetAllVehiclesResponse, error)
 	// ListFleetVehicles retrieves vehicles for a fleet owner or fleet driver view.
 	ListFleetVehicles(ctx context.Context, in *ListFleetVehiclesRequest, opts ...grpc.CallOption) (*ListFleetVehiclesResponse, error)
+	// DeleteDriverVehicles deletes a personal driver's own vehicles in one
+	// transaction. FailedPrecondition when one of them is assigned to another
+	// driver; nothing is deleted then.
+	DeleteDriverVehicles(ctx context.Context, in *DeleteDriverVehiclesRequest, opts ...grpc.CallOption) (*DeleteDriverVehiclesResponse, error)
 }
 
 type vehicleServiceClient struct {
@@ -89,6 +94,16 @@ func (c *vehicleServiceClient) ListFleetVehicles(ctx context.Context, in *ListFl
 	return out, nil
 }
 
+func (c *vehicleServiceClient) DeleteDriverVehicles(ctx context.Context, in *DeleteDriverVehiclesRequest, opts ...grpc.CallOption) (*DeleteDriverVehiclesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteDriverVehiclesResponse)
+	err := c.cc.Invoke(ctx, VehicleService_DeleteDriverVehicles_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VehicleServiceServer is the server API for VehicleService service.
 // All implementations must embed UnimplementedVehicleServiceServer
 // for forward compatibility.
@@ -103,6 +118,10 @@ type VehicleServiceServer interface {
 	GetAllVehicles(context.Context, *GetAllVehiclesRequest) (*GetAllVehiclesResponse, error)
 	// ListFleetVehicles retrieves vehicles for a fleet owner or fleet driver view.
 	ListFleetVehicles(context.Context, *ListFleetVehiclesRequest) (*ListFleetVehiclesResponse, error)
+	// DeleteDriverVehicles deletes a personal driver's own vehicles in one
+	// transaction. FailedPrecondition when one of them is assigned to another
+	// driver; nothing is deleted then.
+	DeleteDriverVehicles(context.Context, *DeleteDriverVehiclesRequest) (*DeleteDriverVehiclesResponse, error)
 	mustEmbedUnimplementedVehicleServiceServer()
 }
 
@@ -124,6 +143,9 @@ func (UnimplementedVehicleServiceServer) GetAllVehicles(context.Context, *GetAll
 }
 func (UnimplementedVehicleServiceServer) ListFleetVehicles(context.Context, *ListFleetVehiclesRequest) (*ListFleetVehiclesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListFleetVehicles not implemented")
+}
+func (UnimplementedVehicleServiceServer) DeleteDriverVehicles(context.Context, *DeleteDriverVehiclesRequest) (*DeleteDriverVehiclesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteDriverVehicles not implemented")
 }
 func (UnimplementedVehicleServiceServer) mustEmbedUnimplementedVehicleServiceServer() {}
 func (UnimplementedVehicleServiceServer) testEmbeddedByValue()                        {}
@@ -218,6 +240,24 @@ func _VehicleService_ListFleetVehicles_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VehicleService_DeleteDriverVehicles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDriverVehiclesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VehicleServiceServer).DeleteDriverVehicles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VehicleService_DeleteDriverVehicles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VehicleServiceServer).DeleteDriverVehicles(ctx, req.(*DeleteDriverVehiclesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VehicleService_ServiceDesc is the grpc.ServiceDesc for VehicleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -240,6 +280,10 @@ var VehicleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListFleetVehicles",
 			Handler:    _VehicleService_ListFleetVehicles_Handler,
+		},
+		{
+			MethodName: "DeleteDriverVehicles",
+			Handler:    _VehicleService_DeleteDriverVehicles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

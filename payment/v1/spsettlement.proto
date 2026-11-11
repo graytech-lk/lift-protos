@@ -37,10 +37,29 @@ message CreateSettlementEventResponse {
   SPSettlementEvent event = 1;
 }
 
+message CountServiceProviderRecordsRequest {
+  // Identity user_id of the service provider.
+  string user_id = 1;
+}
+
+// How many payment records refer to a service provider. Used by
+// lift-identity-service before an admin deletes a driver: any count above
+// zero blocks the delete.
+message CountServiceProviderRecordsResponse {
+  // sp_settlements rows with this service_provider_id.
+  int64 settlements = 1;
+  // sp_settlement_events rows with this user_id.
+  int64 settlement_events = 2;
+  // sp_payment_records rows with this service_provider_id.
+  int64 payment_records = 3;
+}
+
 service SPSettlementService {
   // Returns settlement events for the provided service_request_ids, sorted by created_time DESC.
   rpc ListSettlementEventsByServiceRequestIDs(ListSettlementEventsByServiceRequestIDsRequest) returns (ListSettlementEventsByServiceRequestIDsResponse);
   // Creates a new settlement event owned by lift-payment-service.
   rpc CreateSettlementEvent(CreateSettlementEventRequest) returns (CreateSettlementEventResponse);
+  // Counts the payment records that refer to a service provider.
+  rpc CountServiceProviderRecords(CountServiceProviderRecordsRequest) returns (CountServiceProviderRecordsResponse);
 }
 

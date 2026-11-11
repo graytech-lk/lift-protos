@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ServiceRequestService_ListServiceRequests_FullMethodName = "/lift.operations.v1.ServiceRequestService/ListServiceRequests"
+	ServiceRequestService_ListServiceRequests_FullMethodName         = "/lift.operations.v1.ServiceRequestService/ListServiceRequests"
+	ServiceRequestService_CountServiceProviderRecords_FullMethodName = "/lift.operations.v1.ServiceRequestService/CountServiceProviderRecords"
 )
 
 // ServiceRequestServiceClient is the client API for ServiceRequestService service.
@@ -27,6 +28,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServiceRequestServiceClient interface {
 	ListServiceRequests(ctx context.Context, in *ListServiceRequestsRequest, opts ...grpc.CallOption) (*ListServiceRequestsResponse, error)
+	// Counts the records that refer to a service provider (see the response).
+	CountServiceProviderRecords(ctx context.Context, in *CountServiceProviderRecordsRequest, opts ...grpc.CallOption) (*CountServiceProviderRecordsResponse, error)
 }
 
 type serviceRequestServiceClient struct {
@@ -47,11 +50,23 @@ func (c *serviceRequestServiceClient) ListServiceRequests(ctx context.Context, i
 	return out, nil
 }
 
+func (c *serviceRequestServiceClient) CountServiceProviderRecords(ctx context.Context, in *CountServiceProviderRecordsRequest, opts ...grpc.CallOption) (*CountServiceProviderRecordsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CountServiceProviderRecordsResponse)
+	err := c.cc.Invoke(ctx, ServiceRequestService_CountServiceProviderRecords_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceRequestServiceServer is the server API for ServiceRequestService service.
 // All implementations must embed UnimplementedServiceRequestServiceServer
 // for forward compatibility.
 type ServiceRequestServiceServer interface {
 	ListServiceRequests(context.Context, *ListServiceRequestsRequest) (*ListServiceRequestsResponse, error)
+	// Counts the records that refer to a service provider (see the response).
+	CountServiceProviderRecords(context.Context, *CountServiceProviderRecordsRequest) (*CountServiceProviderRecordsResponse, error)
 	mustEmbedUnimplementedServiceRequestServiceServer()
 }
 
@@ -64,6 +79,9 @@ type UnimplementedServiceRequestServiceServer struct{}
 
 func (UnimplementedServiceRequestServiceServer) ListServiceRequests(context.Context, *ListServiceRequestsRequest) (*ListServiceRequestsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListServiceRequests not implemented")
+}
+func (UnimplementedServiceRequestServiceServer) CountServiceProviderRecords(context.Context, *CountServiceProviderRecordsRequest) (*CountServiceProviderRecordsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CountServiceProviderRecords not implemented")
 }
 func (UnimplementedServiceRequestServiceServer) mustEmbedUnimplementedServiceRequestServiceServer() {}
 func (UnimplementedServiceRequestServiceServer) testEmbeddedByValue()                               {}
@@ -104,6 +122,24 @@ func _ServiceRequestService_ListServiceRequests_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ServiceRequestService_CountServiceProviderRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountServiceProviderRecordsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceRequestServiceServer).CountServiceProviderRecords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ServiceRequestService_CountServiceProviderRecords_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceRequestServiceServer).CountServiceProviderRecords(ctx, req.(*CountServiceProviderRecordsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ServiceRequestService_ServiceDesc is the grpc.ServiceDesc for ServiceRequestService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +150,10 @@ var ServiceRequestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListServiceRequests",
 			Handler:    _ServiceRequestService_ListServiceRequests_Handler,
+		},
+		{
+			MethodName: "CountServiceProviderRecords",
+			Handler:    _ServiceRequestService_CountServiceProviderRecords_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
