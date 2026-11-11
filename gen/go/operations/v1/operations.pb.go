@@ -149,6 +149,110 @@ func (x *ListServiceRequestsResponse) GetServiceRequestsJson() []string {
 	return nil
 }
 
+type CountServiceProviderRecordsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Identity user_id of the service provider (driver or fleet owner).
+	UserId        string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CountServiceProviderRecordsRequest) Reset() {
+	*x = CountServiceProviderRecordsRequest{}
+	mi := &file_operations_v1_operations_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CountServiceProviderRecordsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CountServiceProviderRecordsRequest) ProtoMessage() {}
+
+func (x *CountServiceProviderRecordsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_operations_v1_operations_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CountServiceProviderRecordsRequest.ProtoReflect.Descriptor instead.
+func (*CountServiceProviderRecordsRequest) Descriptor() ([]byte, []int) {
+	return file_operations_v1_operations_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CountServiceProviderRecordsRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+// How many operations records refer to a service provider. Used by
+// lift-identity-service before an admin deletes a driver: any count above
+// zero blocks the delete.
+type CountServiceProviderRecordsResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// service_requests in any status that name the service provider as the
+	// driver, the requested or excluded driver, the canceller, the fleet owner,
+	// the commission payer or the held-settlement credit payer.
+	ServiceRequests int64 `protobuf:"varint,1,opt,name=service_requests,json=serviceRequests,proto3" json:"service_requests,omitempty"`
+	// sos_incidents the service provider reported or was the trip driver of.
+	SosIncidents  int64 `protobuf:"varint,2,opt,name=sos_incidents,json=sosIncidents,proto3" json:"sos_incidents,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CountServiceProviderRecordsResponse) Reset() {
+	*x = CountServiceProviderRecordsResponse{}
+	mi := &file_operations_v1_operations_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CountServiceProviderRecordsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CountServiceProviderRecordsResponse) ProtoMessage() {}
+
+func (x *CountServiceProviderRecordsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_operations_v1_operations_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CountServiceProviderRecordsResponse.ProtoReflect.Descriptor instead.
+func (*CountServiceProviderRecordsResponse) Descriptor() ([]byte, []int) {
+	return file_operations_v1_operations_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CountServiceProviderRecordsResponse) GetServiceRequests() int64 {
+	if x != nil {
+		return x.ServiceRequests
+	}
+	return 0
+}
+
+func (x *CountServiceProviderRecordsResponse) GetSosIncidents() int64 {
+	if x != nil {
+		return x.SosIncidents
+	}
+	return 0
+}
+
 type RevokeServiceProviderSessionRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Identity user_id of the service provider whose currently-connected device
@@ -160,7 +264,7 @@ type RevokeServiceProviderSessionRequest struct {
 
 func (x *RevokeServiceProviderSessionRequest) Reset() {
 	*x = RevokeServiceProviderSessionRequest{}
-	mi := &file_operations_v1_operations_proto_msgTypes[2]
+	mi := &file_operations_v1_operations_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -172,7 +276,7 @@ func (x *RevokeServiceProviderSessionRequest) String() string {
 func (*RevokeServiceProviderSessionRequest) ProtoMessage() {}
 
 func (x *RevokeServiceProviderSessionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_operations_v1_operations_proto_msgTypes[2]
+	mi := &file_operations_v1_operations_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -185,7 +289,7 @@ func (x *RevokeServiceProviderSessionRequest) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use RevokeServiceProviderSessionRequest.ProtoReflect.Descriptor instead.
 func (*RevokeServiceProviderSessionRequest) Descriptor() ([]byte, []int) {
-	return file_operations_v1_operations_proto_rawDescGZIP(), []int{2}
+	return file_operations_v1_operations_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RevokeServiceProviderSessionRequest) GetDriverId() string {
@@ -207,7 +311,7 @@ type RevokeServiceProviderSessionResponse struct {
 
 func (x *RevokeServiceProviderSessionResponse) Reset() {
 	*x = RevokeServiceProviderSessionResponse{}
-	mi := &file_operations_v1_operations_proto_msgTypes[3]
+	mi := &file_operations_v1_operations_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -219,7 +323,7 @@ func (x *RevokeServiceProviderSessionResponse) String() string {
 func (*RevokeServiceProviderSessionResponse) ProtoMessage() {}
 
 func (x *RevokeServiceProviderSessionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_operations_v1_operations_proto_msgTypes[3]
+	mi := &file_operations_v1_operations_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -232,7 +336,7 @@ func (x *RevokeServiceProviderSessionResponse) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use RevokeServiceProviderSessionResponse.ProtoReflect.Descriptor instead.
 func (*RevokeServiceProviderSessionResponse) Descriptor() ([]byte, []int) {
-	return file_operations_v1_operations_proto_rawDescGZIP(), []int{3}
+	return file_operations_v1_operations_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *RevokeServiceProviderSessionResponse) GetDelivered() bool {
@@ -255,13 +359,19 @@ const file_operations_v1_operations_proto_rawDesc = "" +
 	"\x04skip\x18\x04 \x01(\x05R\x04skip\x12\x1b\n" +
 	"\tsort_json\x18\x05 \x01(\tR\bsortJson\"Q\n" +
 	"\x1bListServiceRequestsResponse\x122\n" +
-	"\x15service_requests_json\x18\x01 \x03(\tR\x13serviceRequestsJson\"B\n" +
+	"\x15service_requests_json\x18\x01 \x03(\tR\x13serviceRequestsJson\"=\n" +
+	"\"CountServiceProviderRecordsRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"u\n" +
+	"#CountServiceProviderRecordsResponse\x12)\n" +
+	"\x10service_requests\x18\x01 \x01(\x03R\x0fserviceRequests\x12#\n" +
+	"\rsos_incidents\x18\x02 \x01(\x03R\fsosIncidents\"B\n" +
 	"#RevokeServiceProviderSessionRequest\x12\x1b\n" +
 	"\tdriver_id\x18\x01 \x01(\tR\bdriverId\"D\n" +
 	"$RevokeServiceProviderSessionResponse\x12\x1c\n" +
-	"\tdelivered\x18\x01 \x01(\bR\tdelivered2\x8f\x01\n" +
+	"\tdelivered\x18\x01 \x01(\bR\tdelivered2\xa0\x02\n" +
 	"\x15ServiceRequestService\x12v\n" +
-	"\x13ListServiceRequests\x12..lift.operations.v1.ListServiceRequestsRequest\x1a/.lift.operations.v1.ListServiceRequestsResponse2\xa4\x01\n" +
+	"\x13ListServiceRequests\x12..lift.operations.v1.ListServiceRequestsRequest\x1a/.lift.operations.v1.ListServiceRequestsResponse\x12\x8e\x01\n" +
+	"\x1bCountServiceProviderRecords\x126.lift.operations.v1.CountServiceProviderRecordsRequest\x1a7.lift.operations.v1.CountServiceProviderRecordsResponse2\xa4\x01\n" +
 	"\x0eSessionService\x12\x91\x01\n" +
 	"\x1cRevokeServiceProviderSession\x127.lift.operations.v1.RevokeServiceProviderSessionRequest\x1a8.lift.operations.v1.RevokeServiceProviderSessionResponseBFZDgithub.com/graytech-lk/lift-protos/gen/go/operations/v1;operationsv1b\x06proto3"
 
@@ -277,20 +387,24 @@ func file_operations_v1_operations_proto_rawDescGZIP() []byte {
 	return file_operations_v1_operations_proto_rawDescData
 }
 
-var file_operations_v1_operations_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_operations_v1_operations_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_operations_v1_operations_proto_goTypes = []any{
 	(*ListServiceRequestsRequest)(nil),           // 0: lift.operations.v1.ListServiceRequestsRequest
 	(*ListServiceRequestsResponse)(nil),          // 1: lift.operations.v1.ListServiceRequestsResponse
-	(*RevokeServiceProviderSessionRequest)(nil),  // 2: lift.operations.v1.RevokeServiceProviderSessionRequest
-	(*RevokeServiceProviderSessionResponse)(nil), // 3: lift.operations.v1.RevokeServiceProviderSessionResponse
+	(*CountServiceProviderRecordsRequest)(nil),   // 2: lift.operations.v1.CountServiceProviderRecordsRequest
+	(*CountServiceProviderRecordsResponse)(nil),  // 3: lift.operations.v1.CountServiceProviderRecordsResponse
+	(*RevokeServiceProviderSessionRequest)(nil),  // 4: lift.operations.v1.RevokeServiceProviderSessionRequest
+	(*RevokeServiceProviderSessionResponse)(nil), // 5: lift.operations.v1.RevokeServiceProviderSessionResponse
 }
 var file_operations_v1_operations_proto_depIdxs = []int32{
 	0, // 0: lift.operations.v1.ServiceRequestService.ListServiceRequests:input_type -> lift.operations.v1.ListServiceRequestsRequest
-	2, // 1: lift.operations.v1.SessionService.RevokeServiceProviderSession:input_type -> lift.operations.v1.RevokeServiceProviderSessionRequest
-	1, // 2: lift.operations.v1.ServiceRequestService.ListServiceRequests:output_type -> lift.operations.v1.ListServiceRequestsResponse
-	3, // 3: lift.operations.v1.SessionService.RevokeServiceProviderSession:output_type -> lift.operations.v1.RevokeServiceProviderSessionResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 1: lift.operations.v1.ServiceRequestService.CountServiceProviderRecords:input_type -> lift.operations.v1.CountServiceProviderRecordsRequest
+	4, // 2: lift.operations.v1.SessionService.RevokeServiceProviderSession:input_type -> lift.operations.v1.RevokeServiceProviderSessionRequest
+	1, // 3: lift.operations.v1.ServiceRequestService.ListServiceRequests:output_type -> lift.operations.v1.ListServiceRequestsResponse
+	3, // 4: lift.operations.v1.ServiceRequestService.CountServiceProviderRecords:output_type -> lift.operations.v1.CountServiceProviderRecordsResponse
+	5, // 5: lift.operations.v1.SessionService.RevokeServiceProviderSession:output_type -> lift.operations.v1.RevokeServiceProviderSessionResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -307,7 +421,7 @@ func file_operations_v1_operations_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_operations_v1_operations_proto_rawDesc), len(file_operations_v1_operations_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

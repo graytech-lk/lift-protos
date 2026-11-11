@@ -101,6 +101,24 @@ message ListFleetVehiclesResponse {
   repeated Vehicle vehicles = 1;
 }
 
+// DeleteDriverVehiclesRequest names a personal driver whose own vehicles are
+// deleted with them: vehicles with fleet_id = the driver's phone number, or
+// driver_id = the driver's user id.
+message DeleteDriverVehiclesRequest {
+  // Identity user_id of the driver.
+  string driver_id = 1;
+  // The driver's phone number (a personal driver's vehicles carry it as
+  // fleet_id).
+  string fleet_id = 2;
+  // When true, nothing is deleted: the response lists what would be.
+  bool dry_run = 3;
+}
+
+message DeleteDriverVehiclesResponse {
+  // The vehicles deleted (or, on a dry run, that would be).
+  repeated Vehicle vehicles = 1;
+}
+
 // VehicleService provides vehicle-related operations
 service VehicleService {
   // GetVehicle retrieves a single vehicle by its ID
@@ -111,5 +129,9 @@ service VehicleService {
   rpc GetAllVehicles(GetAllVehiclesRequest) returns (GetAllVehiclesResponse);
   // ListFleetVehicles retrieves vehicles for a fleet owner or fleet driver view.
   rpc ListFleetVehicles(ListFleetVehiclesRequest) returns (ListFleetVehiclesResponse);
+  // DeleteDriverVehicles deletes a personal driver's own vehicles in one
+  // transaction. FailedPrecondition when one of them is assigned to another
+  // driver; nothing is deleted then.
+  rpc DeleteDriverVehicles(DeleteDriverVehiclesRequest) returns (DeleteDriverVehiclesResponse);
 }
 

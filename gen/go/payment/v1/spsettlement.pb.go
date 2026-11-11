@@ -323,6 +323,117 @@ func (x *CreateSettlementEventResponse) GetEvent() *SPSettlementEvent {
 	return nil
 }
 
+type CountServiceProviderRecordsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Identity user_id of the service provider.
+	UserId        string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CountServiceProviderRecordsRequest) Reset() {
+	*x = CountServiceProviderRecordsRequest{}
+	mi := &file_payment_v1_spsettlement_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CountServiceProviderRecordsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CountServiceProviderRecordsRequest) ProtoMessage() {}
+
+func (x *CountServiceProviderRecordsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_v1_spsettlement_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CountServiceProviderRecordsRequest.ProtoReflect.Descriptor instead.
+func (*CountServiceProviderRecordsRequest) Descriptor() ([]byte, []int) {
+	return file_payment_v1_spsettlement_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CountServiceProviderRecordsRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+// How many payment records refer to a service provider. Used by
+// lift-identity-service before an admin deletes a driver: any count above
+// zero blocks the delete.
+type CountServiceProviderRecordsResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// sp_settlements rows with this service_provider_id.
+	Settlements int64 `protobuf:"varint,1,opt,name=settlements,proto3" json:"settlements,omitempty"`
+	// sp_settlement_events rows with this user_id.
+	SettlementEvents int64 `protobuf:"varint,2,opt,name=settlement_events,json=settlementEvents,proto3" json:"settlement_events,omitempty"`
+	// sp_payment_records rows with this service_provider_id.
+	PaymentRecords int64 `protobuf:"varint,3,opt,name=payment_records,json=paymentRecords,proto3" json:"payment_records,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CountServiceProviderRecordsResponse) Reset() {
+	*x = CountServiceProviderRecordsResponse{}
+	mi := &file_payment_v1_spsettlement_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CountServiceProviderRecordsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CountServiceProviderRecordsResponse) ProtoMessage() {}
+
+func (x *CountServiceProviderRecordsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_v1_spsettlement_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CountServiceProviderRecordsResponse.ProtoReflect.Descriptor instead.
+func (*CountServiceProviderRecordsResponse) Descriptor() ([]byte, []int) {
+	return file_payment_v1_spsettlement_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CountServiceProviderRecordsResponse) GetSettlements() int64 {
+	if x != nil {
+		return x.Settlements
+	}
+	return 0
+}
+
+func (x *CountServiceProviderRecordsResponse) GetSettlementEvents() int64 {
+	if x != nil {
+		return x.SettlementEvents
+	}
+	return 0
+}
+
+func (x *CountServiceProviderRecordsResponse) GetPaymentRecords() int64 {
+	if x != nil {
+		return x.PaymentRecords
+	}
+	return 0
+}
+
 var File_payment_v1_spsettlement_proto protoreflect.FileDescriptor
 
 const file_payment_v1_spsettlement_proto_rawDesc = "" +
@@ -348,10 +459,17 @@ const file_payment_v1_spsettlement_proto_rawDesc = "" +
 	"\x1cCreateSettlementEventRequest\x128\n" +
 	"\x05event\x18\x01 \x01(\v2\".lift.payment.v1.SPSettlementEventR\x05event\"Y\n" +
 	"\x1dCreateSettlementEventResponse\x128\n" +
-	"\x05event\x18\x01 \x01(\v2\".lift.payment.v1.SPSettlementEventR\x05event2\xbc\x02\n" +
+	"\x05event\x18\x01 \x01(\v2\".lift.payment.v1.SPSettlementEventR\x05event\"=\n" +
+	"\"CountServiceProviderRecordsRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x9d\x01\n" +
+	"#CountServiceProviderRecordsResponse\x12 \n" +
+	"\vsettlements\x18\x01 \x01(\x03R\vsettlements\x12+\n" +
+	"\x11settlement_events\x18\x02 \x01(\x03R\x10settlementEvents\x12'\n" +
+	"\x0fpayment_records\x18\x03 \x01(\x03R\x0epaymentRecords2\xc7\x03\n" +
 	"\x13SPSettlementService\x12\xac\x01\n" +
 	"'ListSettlementEventsByServiceRequestIDs\x12?.lift.payment.v1.ListSettlementEventsByServiceRequestIDsRequest\x1a@.lift.payment.v1.ListSettlementEventsByServiceRequestIDsResponse\x12v\n" +
-	"\x15CreateSettlementEvent\x12-.lift.payment.v1.CreateSettlementEventRequest\x1a..lift.payment.v1.CreateSettlementEventResponseB@Z>github.com/graytech-lk/lift-protos/gen/go/payment/v1;paymentv1b\x06proto3"
+	"\x15CreateSettlementEvent\x12-.lift.payment.v1.CreateSettlementEventRequest\x1a..lift.payment.v1.CreateSettlementEventResponse\x12\x88\x01\n" +
+	"\x1bCountServiceProviderRecords\x123.lift.payment.v1.CountServiceProviderRecordsRequest\x1a4.lift.payment.v1.CountServiceProviderRecordsResponseB@Z>github.com/graytech-lk/lift-protos/gen/go/payment/v1;paymentv1b\x06proto3"
 
 var (
 	file_payment_v1_spsettlement_proto_rawDescOnce sync.Once
@@ -365,27 +483,31 @@ func file_payment_v1_spsettlement_proto_rawDescGZIP() []byte {
 	return file_payment_v1_spsettlement_proto_rawDescData
 }
 
-var file_payment_v1_spsettlement_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_payment_v1_spsettlement_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_payment_v1_spsettlement_proto_goTypes = []any{
 	(*SPSettlementEvent)(nil),                               // 0: lift.payment.v1.SPSettlementEvent
 	(*ListSettlementEventsByServiceRequestIDsRequest)(nil),  // 1: lift.payment.v1.ListSettlementEventsByServiceRequestIDsRequest
 	(*ListSettlementEventsByServiceRequestIDsResponse)(nil), // 2: lift.payment.v1.ListSettlementEventsByServiceRequestIDsResponse
 	(*CreateSettlementEventRequest)(nil),                    // 3: lift.payment.v1.CreateSettlementEventRequest
 	(*CreateSettlementEventResponse)(nil),                   // 4: lift.payment.v1.CreateSettlementEventResponse
-	(*timestamppb.Timestamp)(nil),                           // 5: google.protobuf.Timestamp
+	(*CountServiceProviderRecordsRequest)(nil),              // 5: lift.payment.v1.CountServiceProviderRecordsRequest
+	(*CountServiceProviderRecordsResponse)(nil),             // 6: lift.payment.v1.CountServiceProviderRecordsResponse
+	(*timestamppb.Timestamp)(nil),                           // 7: google.protobuf.Timestamp
 }
 var file_payment_v1_spsettlement_proto_depIdxs = []int32{
-	5, // 0: lift.payment.v1.SPSettlementEvent.created_time:type_name -> google.protobuf.Timestamp
-	5, // 1: lift.payment.v1.SPSettlementEvent.updated_time:type_name -> google.protobuf.Timestamp
+	7, // 0: lift.payment.v1.SPSettlementEvent.created_time:type_name -> google.protobuf.Timestamp
+	7, // 1: lift.payment.v1.SPSettlementEvent.updated_time:type_name -> google.protobuf.Timestamp
 	0, // 2: lift.payment.v1.ListSettlementEventsByServiceRequestIDsResponse.events:type_name -> lift.payment.v1.SPSettlementEvent
 	0, // 3: lift.payment.v1.CreateSettlementEventRequest.event:type_name -> lift.payment.v1.SPSettlementEvent
 	0, // 4: lift.payment.v1.CreateSettlementEventResponse.event:type_name -> lift.payment.v1.SPSettlementEvent
 	1, // 5: lift.payment.v1.SPSettlementService.ListSettlementEventsByServiceRequestIDs:input_type -> lift.payment.v1.ListSettlementEventsByServiceRequestIDsRequest
 	3, // 6: lift.payment.v1.SPSettlementService.CreateSettlementEvent:input_type -> lift.payment.v1.CreateSettlementEventRequest
-	2, // 7: lift.payment.v1.SPSettlementService.ListSettlementEventsByServiceRequestIDs:output_type -> lift.payment.v1.ListSettlementEventsByServiceRequestIDsResponse
-	4, // 8: lift.payment.v1.SPSettlementService.CreateSettlementEvent:output_type -> lift.payment.v1.CreateSettlementEventResponse
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
+	5, // 7: lift.payment.v1.SPSettlementService.CountServiceProviderRecords:input_type -> lift.payment.v1.CountServiceProviderRecordsRequest
+	2, // 8: lift.payment.v1.SPSettlementService.ListSettlementEventsByServiceRequestIDs:output_type -> lift.payment.v1.ListSettlementEventsByServiceRequestIDsResponse
+	4, // 9: lift.payment.v1.SPSettlementService.CreateSettlementEvent:output_type -> lift.payment.v1.CreateSettlementEventResponse
+	6, // 10: lift.payment.v1.SPSettlementService.CountServiceProviderRecords:output_type -> lift.payment.v1.CountServiceProviderRecordsResponse
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
 	5, // [5:5] is the sub-list for extension type_name
 	5, // [5:5] is the sub-list for extension extendee
 	0, // [0:5] is the sub-list for field type_name
@@ -402,7 +524,7 @@ func file_payment_v1_spsettlement_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_payment_v1_spsettlement_proto_rawDesc), len(file_payment_v1_spsettlement_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

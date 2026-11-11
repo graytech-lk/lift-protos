@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	SPSettlementService_ListSettlementEventsByServiceRequestIDs_FullMethodName = "/lift.payment.v1.SPSettlementService/ListSettlementEventsByServiceRequestIDs"
 	SPSettlementService_CreateSettlementEvent_FullMethodName                   = "/lift.payment.v1.SPSettlementService/CreateSettlementEvent"
+	SPSettlementService_CountServiceProviderRecords_FullMethodName             = "/lift.payment.v1.SPSettlementService/CountServiceProviderRecords"
 )
 
 // SPSettlementServiceClient is the client API for SPSettlementService service.
@@ -31,6 +32,8 @@ type SPSettlementServiceClient interface {
 	ListSettlementEventsByServiceRequestIDs(ctx context.Context, in *ListSettlementEventsByServiceRequestIDsRequest, opts ...grpc.CallOption) (*ListSettlementEventsByServiceRequestIDsResponse, error)
 	// Creates a new settlement event owned by lift-payment-service.
 	CreateSettlementEvent(ctx context.Context, in *CreateSettlementEventRequest, opts ...grpc.CallOption) (*CreateSettlementEventResponse, error)
+	// Counts the payment records that refer to a service provider.
+	CountServiceProviderRecords(ctx context.Context, in *CountServiceProviderRecordsRequest, opts ...grpc.CallOption) (*CountServiceProviderRecordsResponse, error)
 }
 
 type sPSettlementServiceClient struct {
@@ -61,6 +64,16 @@ func (c *sPSettlementServiceClient) CreateSettlementEvent(ctx context.Context, i
 	return out, nil
 }
 
+func (c *sPSettlementServiceClient) CountServiceProviderRecords(ctx context.Context, in *CountServiceProviderRecordsRequest, opts ...grpc.CallOption) (*CountServiceProviderRecordsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CountServiceProviderRecordsResponse)
+	err := c.cc.Invoke(ctx, SPSettlementService_CountServiceProviderRecords_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SPSettlementServiceServer is the server API for SPSettlementService service.
 // All implementations must embed UnimplementedSPSettlementServiceServer
 // for forward compatibility.
@@ -69,6 +82,8 @@ type SPSettlementServiceServer interface {
 	ListSettlementEventsByServiceRequestIDs(context.Context, *ListSettlementEventsByServiceRequestIDsRequest) (*ListSettlementEventsByServiceRequestIDsResponse, error)
 	// Creates a new settlement event owned by lift-payment-service.
 	CreateSettlementEvent(context.Context, *CreateSettlementEventRequest) (*CreateSettlementEventResponse, error)
+	// Counts the payment records that refer to a service provider.
+	CountServiceProviderRecords(context.Context, *CountServiceProviderRecordsRequest) (*CountServiceProviderRecordsResponse, error)
 	mustEmbedUnimplementedSPSettlementServiceServer()
 }
 
@@ -84,6 +99,9 @@ func (UnimplementedSPSettlementServiceServer) ListSettlementEventsByServiceReque
 }
 func (UnimplementedSPSettlementServiceServer) CreateSettlementEvent(context.Context, *CreateSettlementEventRequest) (*CreateSettlementEventResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateSettlementEvent not implemented")
+}
+func (UnimplementedSPSettlementServiceServer) CountServiceProviderRecords(context.Context, *CountServiceProviderRecordsRequest) (*CountServiceProviderRecordsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CountServiceProviderRecords not implemented")
 }
 func (UnimplementedSPSettlementServiceServer) mustEmbedUnimplementedSPSettlementServiceServer() {}
 func (UnimplementedSPSettlementServiceServer) testEmbeddedByValue()                             {}
@@ -142,6 +160,24 @@ func _SPSettlementService_CreateSettlementEvent_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SPSettlementService_CountServiceProviderRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountServiceProviderRecordsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SPSettlementServiceServer).CountServiceProviderRecords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SPSettlementService_CountServiceProviderRecords_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SPSettlementServiceServer).CountServiceProviderRecords(ctx, req.(*CountServiceProviderRecordsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SPSettlementService_ServiceDesc is the grpc.ServiceDesc for SPSettlementService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -156,6 +192,10 @@ var SPSettlementService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateSettlementEvent",
 			Handler:    _SPSettlementService_CreateSettlementEvent_Handler,
+		},
+		{
+			MethodName: "CountServiceProviderRecords",
+			Handler:    _SPSettlementService_CountServiceProviderRecords_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
