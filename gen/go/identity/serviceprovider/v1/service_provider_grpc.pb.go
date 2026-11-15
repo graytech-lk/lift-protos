@@ -25,6 +25,7 @@ const (
 	ServiceProviderService_UpdateServiceProvider_FullMethodName           = "/lift.identity.serviceprovider.v1.ServiceProviderService/UpdateServiceProvider"
 	ServiceProviderService_UpdateCreditDeposit_FullMethodName             = "/lift.identity.serviceprovider.v1.ServiceProviderService/UpdateCreditDeposit"
 	ServiceProviderService_UpdateCreditAmount_FullMethodName              = "/lift.identity.serviceprovider.v1.ServiceProviderService/UpdateCreditAmount"
+	ServiceProviderService_ApplyFleetPayment_FullMethodName               = "/lift.identity.serviceprovider.v1.ServiceProviderService/ApplyFleetPayment"
 )
 
 // ServiceProviderServiceClient is the client API for ServiceProviderService service.
@@ -39,6 +40,10 @@ type ServiceProviderServiceClient interface {
 	// Moves credit_amount atomically, for the fleet owner who several drivers'
 	// trips can charge at once.
 	UpdateCreditAmount(ctx context.Context, in *UpdateCreditAmountRequest, opts ...grpc.CallOption) (*UpdateCreditAmountResponse, error)
+	// Applies a fleet owner's payment owner-first, then to the drivers, in one
+	// transaction. NotFound for an unknown owner, FailedPrecondition when the
+	// user isn't a fleet owner.
+	ApplyFleetPayment(ctx context.Context, in *ApplyFleetPaymentRequest, opts ...grpc.CallOption) (*ApplyFleetPaymentResponse, error)
 }
 
 type serviceProviderServiceClient struct {
@@ -109,6 +114,16 @@ func (c *serviceProviderServiceClient) UpdateCreditAmount(ctx context.Context, i
 	return out, nil
 }
 
+func (c *serviceProviderServiceClient) ApplyFleetPayment(ctx context.Context, in *ApplyFleetPaymentRequest, opts ...grpc.CallOption) (*ApplyFleetPaymentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ApplyFleetPaymentResponse)
+	err := c.cc.Invoke(ctx, ServiceProviderService_ApplyFleetPayment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceProviderServiceServer is the server API for ServiceProviderService service.
 // All implementations must embed UnimplementedServiceProviderServiceServer
 // for forward compatibility.
@@ -121,6 +136,10 @@ type ServiceProviderServiceServer interface {
 	// Moves credit_amount atomically, for the fleet owner who several drivers'
 	// trips can charge at once.
 	UpdateCreditAmount(context.Context, *UpdateCreditAmountRequest) (*UpdateCreditAmountResponse, error)
+	// Applies a fleet owner's payment owner-first, then to the drivers, in one
+	// transaction. NotFound for an unknown owner, FailedPrecondition when the
+	// user isn't a fleet owner.
+	ApplyFleetPayment(context.Context, *ApplyFleetPaymentRequest) (*ApplyFleetPaymentResponse, error)
 	mustEmbedUnimplementedServiceProviderServiceServer()
 }
 
@@ -148,6 +167,9 @@ func (UnimplementedServiceProviderServiceServer) UpdateCreditDeposit(context.Con
 }
 func (UnimplementedServiceProviderServiceServer) UpdateCreditAmount(context.Context, *UpdateCreditAmountRequest) (*UpdateCreditAmountResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateCreditAmount not implemented")
+}
+func (UnimplementedServiceProviderServiceServer) ApplyFleetPayment(context.Context, *ApplyFleetPaymentRequest) (*ApplyFleetPaymentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ApplyFleetPayment not implemented")
 }
 func (UnimplementedServiceProviderServiceServer) mustEmbedUnimplementedServiceProviderServiceServer() {
 }
@@ -279,6 +301,24 @@ func _ServiceProviderService_UpdateCreditAmount_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ServiceProviderService_ApplyFleetPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyFleetPaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceProviderServiceServer).ApplyFleetPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ServiceProviderService_ApplyFleetPayment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceProviderServiceServer).ApplyFleetPayment(ctx, req.(*ApplyFleetPaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ServiceProviderService_ServiceDesc is the grpc.ServiceDesc for ServiceProviderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -309,6 +349,10 @@ var ServiceProviderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateCreditAmount",
 			Handler:    _ServiceProviderService_UpdateCreditAmount_Handler,
+		},
+		{
+			MethodName: "ApplyFleetPayment",
+			Handler:    _ServiceProviderService_ApplyFleetPayment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

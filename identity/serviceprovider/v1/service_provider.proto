@@ -149,6 +149,31 @@ message UpdateCreditAmountResponse {
   double credit_amount = 1;  // resulting balance after the update
 }
 
+// ApplyFleetPaymentRequest spreads one manual payment recorded for a fleet
+// owner over the fleet: the owner's settlement balance is cleared first, then
+// the fleet drivers' (biggest balance first); anything left stays on the owner.
+message ApplyFleetPaymentRequest {
+  string owner_user_id = 1;
+  double amount = 2;     // > 0
+  string direction = 3;  // "payable" (LIFT paid the owner) or "receivable" (the owner paid LIFT)
+  bool dry_run = 4;      // work out the split without changing any balance
+}
+
+// FleetPaymentAllocation is one member's share of a fleet payment.
+message FleetPaymentAllocation {
+  string user_id = 1;
+  string sp_type = 2;         // fleet_owner or fleet_driver
+  double amount = 3;          // >= 0; the owner's share includes any overflow
+  double balance_after = 4;   // credit_amount - credit_deposit_amount after the share
+}
+
+message ApplyFleetPaymentResponse {
+  // Always the owner first (their amount may be 0 when the drivers took it
+  // all), then drivers in the order they were settled. Drivers with no share
+  // are left out.
+  repeated FleetPaymentAllocation allocations = 1;
+}
+
 service ServiceProviderService {
   rpc GetServiceProviderById(GetServiceProviderByIdRequest) returns (GetServiceProviderByIdResponse);
   rpc GetServiceProviderByPhoneNumber(GetServiceProviderByPhoneNumberRequest) returns (GetServiceProviderByPhoneNumberResponse);
@@ -158,6 +183,10 @@ service ServiceProviderService {
   // Moves credit_amount atomically, for the fleet owner who several drivers'
   // trips can charge at once.
   rpc UpdateCreditAmount(UpdateCreditAmountRequest) returns (UpdateCreditAmountResponse);
+  // Applies a fleet owner's payment owner-first, then to the drivers, in one
+  // transaction. NotFound for an unknown owner, FailedPrecondition when the
+  // user isn't a fleet owner.
+  rpc ApplyFleetPayment(ApplyFleetPaymentRequest) returns (ApplyFleetPaymentResponse);
 }
 
 
