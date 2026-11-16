@@ -54,6 +54,10 @@ message CorporateAccount {
   string notification_types = 15;
   string logo_url = 16;
   CorporateTheme color_theme = 17;
+  // personal_payments_enabled lets the company's corporate panel book a hire
+  // on the employee's cash payment method (the employee pays the driver; the
+  // company isn't charged). Set only from the admin panel; default false.
+  bool personal_payments_enabled = 18;
 }
 
 message GetCorporateAccountByIdResponse {

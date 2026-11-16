@@ -329,8 +329,12 @@ type CorporateAccount struct {
 	NotificationTypes        string                   `protobuf:"bytes,15,opt,name=notification_types,json=notificationTypes,proto3" json:"notification_types,omitempty"`
 	LogoUrl                  string                   `protobuf:"bytes,16,opt,name=logo_url,json=logoUrl,proto3" json:"logo_url,omitempty"`
 	ColorTheme               *CorporateTheme          `protobuf:"bytes,17,opt,name=color_theme,json=colorTheme,proto3" json:"color_theme,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
+	// personal_payments_enabled lets the company's corporate panel book a hire
+	// on the employee's cash payment method (the employee pays the driver; the
+	// company isn't charged). Set only from the admin panel; default false.
+	PersonalPaymentsEnabled bool `protobuf:"varint,18,opt,name=personal_payments_enabled,json=personalPaymentsEnabled,proto3" json:"personal_payments_enabled,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *CorporateAccount) Reset() {
@@ -480,6 +484,13 @@ func (x *CorporateAccount) GetColorTheme() *CorporateTheme {
 		return x.ColorTheme
 	}
 	return nil
+}
+
+func (x *CorporateAccount) GetPersonalPaymentsEnabled() bool {
+	if x != nil {
+		return x.PersonalPaymentsEnabled
+	}
+	return false
 }
 
 type GetCorporateAccountByIdResponse struct {
@@ -1387,7 +1398,7 @@ const file_corporate_account_v1_account_proto_rawDesc = "" +
 	"\x10background_color\x18\x03 \x01(\tR\x0fbackgroundColor\x12!\n" +
 	"\fheader_color\x18\x04 \x01(\tR\vheaderColor\x12\x1d\n" +
 	"\n" +
-	"text_color\x18\x05 \x01(\tR\ttextColor\"\xd7\x06\n" +
+	"text_color\x18\x05 \x01(\tR\ttextColor\"\x93\a\n" +
 	"\x10CorporateAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12=\n" +
 	"\fcreated_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
@@ -1408,7 +1419,8 @@ const file_corporate_account_v1_account_proto_rawDesc = "" +
 	"\x12notification_types\x18\x0f \x01(\tR\x11notificationTypes\x12\x19\n" +
 	"\blogo_url\x18\x10 \x01(\tR\alogoUrl\x12J\n" +
 	"\vcolor_theme\x18\x11 \x01(\v2).lift.corporate.account.v1.CorporateThemeR\n" +
-	"colorTheme\"h\n" +
+	"colorTheme\x12:\n" +
+	"\x19personal_payments_enabled\x18\x12 \x01(\bR\x17personalPaymentsEnabled\"h\n" +
 	"\x1fGetCorporateAccountByIdResponse\x12E\n" +
 	"\aaccount\x18\x01 \x01(\v2+.lift.corporate.account.v1.CorporateAccountR\aaccount\"\x8a\x01\n" +
 	"\x1bApplyCorporateChargeRequest\x12\x0e\n" +
