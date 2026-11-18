@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package lift.corporate.integration.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/corporate/integration/v1;corporateintegrationv1";
+
+import "google/protobuf/timestamp.proto";
+
+// Partner API-key integrations (CR-001). Consumed by operations-service.
+service IntegrationService {
+  // Resolves a partner by the SHA-256 hex hash of its API key.
+  rpc ResolvePartnerApiKey(ResolvePartnerApiKeyRequest) returns (ResolvePartnerApiKeyResponse);
+  // Updates the partner's last_call_at.
+  rpc RecordPartnerCall(RecordPartnerCallRequest) returns (RecordPartnerCallResponse);
+}
+
+message ResolvePartnerApiKeyRequest {
+  string key_hash = 1;
+}
+
+message ResolvePartnerApiKeyResponse {
+  Partner partner = 1;
+}
+
+message Partner {
+  string partner_id = 1;
+  string name = 2;
+  // "active" or "revoked".
+  string status = 3;
+  repeated string allowed_ips = 4;
+  repeated Flow flows = 5;
+  // True when the key matched was the previous (rotated, still valid) key.
+  bool previous_key = 6;
+}
+
+message Flow {
+  string flow_id = 1;
+  string corporate_id = 2;
+  string default_vehicle_category = 3;
+  int32 ticket_expiry_min = 4;
+}
+
+message RecordPartnerCallRequest {
+  string partner_id = 1;
+  google.protobuf.Timestamp at = 2;
+}
+
+message RecordPartnerCallResponse {}
