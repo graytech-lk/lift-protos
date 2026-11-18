@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package lift.operations.corporatequeue.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/operations/corporatequeue/v1;corporatequeuev1";
+
+// Corporate driver queues (CR-001), implemented by operations-service.
+service CorporateQueueService {
+  // Closes a queue and removes its waiting drivers.
+  rpc CloseCorporateQueue(CloseCorporateQueueRequest) returns (CloseCorporateQueueResponse);
+}
+
+message CloseCorporateQueueRequest {
+  string queue_id = 1;
+  string reason = 2;
+}
+
+message CloseCorporateQueueResponse {
+  int32 removed_drivers = 1;
+}

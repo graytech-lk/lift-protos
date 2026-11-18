@@ -333,8 +333,16 @@ type CorporateAccount struct {
 	// on the employee's cash payment method (the employee pays the driver; the
 	// company isn't charged). Set only from the admin panel; default false.
 	PersonalPaymentsEnabled bool `protobuf:"varint,18,opt,name=personal_payments_enabled,json=personalPaymentsEnabled,proto3" json:"personal_payments_enabled,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// Driver queuing (CR-001). queue_id is the shared group id when the company
+	// is in a queue group, otherwise the corporate id. queue_boundary and
+	// queue_rules are the EFFECTIVE ones (the group's when in a group).
+	QueuingEnabled bool        `protobuf:"varint,19,opt,name=queuing_enabled,json=queuingEnabled,proto3" json:"queuing_enabled,omitempty"`
+	QueueId        string      `protobuf:"bytes,20,opt,name=queue_id,json=queueId,proto3" json:"queue_id,omitempty"`
+	QueueGroupName string      `protobuf:"bytes,21,opt,name=queue_group_name,json=queueGroupName,proto3" json:"queue_group_name,omitempty"`
+	QueueBoundary  []*LatLng   `protobuf:"bytes,22,rep,name=queue_boundary,json=queueBoundary,proto3" json:"queue_boundary,omitempty"`
+	QueueRules     *QueueRules `protobuf:"bytes,23,opt,name=queue_rules,json=queueRules,proto3" json:"queue_rules,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CorporateAccount) Reset() {
@@ -493,6 +501,154 @@ func (x *CorporateAccount) GetPersonalPaymentsEnabled() bool {
 	return false
 }
 
+func (x *CorporateAccount) GetQueuingEnabled() bool {
+	if x != nil {
+		return x.QueuingEnabled
+	}
+	return false
+}
+
+func (x *CorporateAccount) GetQueueId() string {
+	if x != nil {
+		return x.QueueId
+	}
+	return ""
+}
+
+func (x *CorporateAccount) GetQueueGroupName() string {
+	if x != nil {
+		return x.QueueGroupName
+	}
+	return ""
+}
+
+func (x *CorporateAccount) GetQueueBoundary() []*LatLng {
+	if x != nil {
+		return x.QueueBoundary
+	}
+	return nil
+}
+
+func (x *CorporateAccount) GetQueueRules() *QueueRules {
+	if x != nil {
+		return x.QueueRules
+	}
+	return nil
+}
+
+type LatLng struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Lat           float64                `protobuf:"fixed64,1,opt,name=lat,proto3" json:"lat,omitempty"`
+	Lng           float64                `protobuf:"fixed64,2,opt,name=lng,proto3" json:"lng,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LatLng) Reset() {
+	*x = LatLng{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LatLng) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LatLng) ProtoMessage() {}
+
+func (x *LatLng) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LatLng.ProtoReflect.Descriptor instead.
+func (*LatLng) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *LatLng) GetLat() float64 {
+	if x != nil {
+		return x.Lat
+	}
+	return 0
+}
+
+func (x *LatLng) GetLng() float64 {
+	if x != nil {
+		return x.Lng
+	}
+	return 0
+}
+
+// QueueRules; 0 means "use the platform default".
+type QueueRules struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	FallbackRadiusKm float64                `protobuf:"fixed64,1,opt,name=fallback_radius_km,json=fallbackRadiusKm,proto3" json:"fallback_radius_km,omitempty"`
+	LeaveTimeMin     int32                  `protobuf:"varint,2,opt,name=leave_time_min,json=leaveTimeMin,proto3" json:"leave_time_min,omitempty"`
+	LeaveDistanceKm  float64                `protobuf:"fixed64,3,opt,name=leave_distance_km,json=leaveDistanceKm,proto3" json:"leave_distance_km,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *QueueRules) Reset() {
+	*x = QueueRules{}
+	mi := &file_corporate_account_v1_account_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *QueueRules) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueueRules) ProtoMessage() {}
+
+func (x *QueueRules) ProtoReflect() protoreflect.Message {
+	mi := &file_corporate_account_v1_account_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueueRules.ProtoReflect.Descriptor instead.
+func (*QueueRules) Descriptor() ([]byte, []int) {
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *QueueRules) GetFallbackRadiusKm() float64 {
+	if x != nil {
+		return x.FallbackRadiusKm
+	}
+	return 0
+}
+
+func (x *QueueRules) GetLeaveTimeMin() int32 {
+	if x != nil {
+		return x.LeaveTimeMin
+	}
+	return 0
+}
+
+func (x *QueueRules) GetLeaveDistanceKm() float64 {
+	if x != nil {
+		return x.LeaveDistanceKm
+	}
+	return 0
+}
+
 type GetCorporateAccountByIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Account       *CorporateAccount      `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
@@ -502,7 +658,7 @@ type GetCorporateAccountByIdResponse struct {
 
 func (x *GetCorporateAccountByIdResponse) Reset() {
 	*x = GetCorporateAccountByIdResponse{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[5]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -514,7 +670,7 @@ func (x *GetCorporateAccountByIdResponse) String() string {
 func (*GetCorporateAccountByIdResponse) ProtoMessage() {}
 
 func (x *GetCorporateAccountByIdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[5]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -527,7 +683,7 @@ func (x *GetCorporateAccountByIdResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCorporateAccountByIdResponse.ProtoReflect.Descriptor instead.
 func (*GetCorporateAccountByIdResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{5}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetCorporateAccountByIdResponse) GetAccount() *CorporateAccount {
@@ -553,7 +709,7 @@ type ApplyCorporateChargeRequest struct {
 
 func (x *ApplyCorporateChargeRequest) Reset() {
 	*x = ApplyCorporateChargeRequest{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[6]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -565,7 +721,7 @@ func (x *ApplyCorporateChargeRequest) String() string {
 func (*ApplyCorporateChargeRequest) ProtoMessage() {}
 
 func (x *ApplyCorporateChargeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[6]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -578,7 +734,7 @@ func (x *ApplyCorporateChargeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApplyCorporateChargeRequest.ProtoReflect.Descriptor instead.
 func (*ApplyCorporateChargeRequest) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{6}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ApplyCorporateChargeRequest) GetId() string {
@@ -618,7 +774,7 @@ type ApplyCorporateChargeResponse struct {
 
 func (x *ApplyCorporateChargeResponse) Reset() {
 	*x = ApplyCorporateChargeResponse{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[7]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -630,7 +786,7 @@ func (x *ApplyCorporateChargeResponse) String() string {
 func (*ApplyCorporateChargeResponse) ProtoMessage() {}
 
 func (x *ApplyCorporateChargeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[7]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -643,7 +799,7 @@ func (x *ApplyCorporateChargeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApplyCorporateChargeResponse.ProtoReflect.Descriptor instead.
 func (*ApplyCorporateChargeResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{7}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ApplyCorporateChargeResponse) GetAccount() *CorporateAccount {
@@ -673,7 +829,7 @@ type CorporateCreditPosition struct {
 
 func (x *CorporateCreditPosition) Reset() {
 	*x = CorporateCreditPosition{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[8]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -685,7 +841,7 @@ func (x *CorporateCreditPosition) String() string {
 func (*CorporateCreditPosition) ProtoMessage() {}
 
 func (x *CorporateCreditPosition) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[8]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -698,7 +854,7 @@ func (x *CorporateCreditPosition) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CorporateCreditPosition.ProtoReflect.Descriptor instead.
 func (*CorporateCreditPosition) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{8}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CorporateCreditPosition) GetCreditLimit() float64 {
@@ -757,7 +913,7 @@ type HoldCorporateCreditRequest struct {
 
 func (x *HoldCorporateCreditRequest) Reset() {
 	*x = HoldCorporateCreditRequest{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[9]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -769,7 +925,7 @@ func (x *HoldCorporateCreditRequest) String() string {
 func (*HoldCorporateCreditRequest) ProtoMessage() {}
 
 func (x *HoldCorporateCreditRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[9]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -782,7 +938,7 @@ func (x *HoldCorporateCreditRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HoldCorporateCreditRequest.ProtoReflect.Descriptor instead.
 func (*HoldCorporateCreditRequest) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{9}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *HoldCorporateCreditRequest) GetCorporateId() string {
@@ -828,7 +984,7 @@ type HoldCorporateCreditResponse struct {
 
 func (x *HoldCorporateCreditResponse) Reset() {
 	*x = HoldCorporateCreditResponse{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[10]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -840,7 +996,7 @@ func (x *HoldCorporateCreditResponse) String() string {
 func (*HoldCorporateCreditResponse) ProtoMessage() {}
 
 func (x *HoldCorporateCreditResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[10]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -853,7 +1009,7 @@ func (x *HoldCorporateCreditResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HoldCorporateCreditResponse.ProtoReflect.Descriptor instead.
 func (*HoldCorporateCreditResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{10}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *HoldCorporateCreditResponse) GetAllowed() bool {
@@ -909,7 +1065,7 @@ type ReleaseCorporateCreditHoldRequest struct {
 
 func (x *ReleaseCorporateCreditHoldRequest) Reset() {
 	*x = ReleaseCorporateCreditHoldRequest{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[11]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -921,7 +1077,7 @@ func (x *ReleaseCorporateCreditHoldRequest) String() string {
 func (*ReleaseCorporateCreditHoldRequest) ProtoMessage() {}
 
 func (x *ReleaseCorporateCreditHoldRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[11]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -934,7 +1090,7 @@ func (x *ReleaseCorporateCreditHoldRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use ReleaseCorporateCreditHoldRequest.ProtoReflect.Descriptor instead.
 func (*ReleaseCorporateCreditHoldRequest) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{11}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ReleaseCorporateCreditHoldRequest) GetServiceRequestId() string {
@@ -963,7 +1119,7 @@ type ReleaseCorporateCreditHoldResponse struct {
 
 func (x *ReleaseCorporateCreditHoldResponse) Reset() {
 	*x = ReleaseCorporateCreditHoldResponse{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[12]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -975,7 +1131,7 @@ func (x *ReleaseCorporateCreditHoldResponse) String() string {
 func (*ReleaseCorporateCreditHoldResponse) ProtoMessage() {}
 
 func (x *ReleaseCorporateCreditHoldResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[12]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -988,7 +1144,7 @@ func (x *ReleaseCorporateCreditHoldResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use ReleaseCorporateCreditHoldResponse.ProtoReflect.Descriptor instead.
 func (*ReleaseCorporateCreditHoldResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{12}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ReleaseCorporateCreditHoldResponse) GetReleased() bool {
@@ -1019,7 +1175,7 @@ type ChargeCorporateTripRequest struct {
 
 func (x *ChargeCorporateTripRequest) Reset() {
 	*x = ChargeCorporateTripRequest{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[13]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1031,7 +1187,7 @@ func (x *ChargeCorporateTripRequest) String() string {
 func (*ChargeCorporateTripRequest) ProtoMessage() {}
 
 func (x *ChargeCorporateTripRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[13]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1044,7 +1200,7 @@ func (x *ChargeCorporateTripRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChargeCorporateTripRequest.ProtoReflect.Descriptor instead.
 func (*ChargeCorporateTripRequest) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{13}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ChargeCorporateTripRequest) GetCorporateId() string {
@@ -1087,7 +1243,7 @@ type ChargeCorporateTripResponse struct {
 
 func (x *ChargeCorporateTripResponse) Reset() {
 	*x = ChargeCorporateTripResponse{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[14]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1099,7 +1255,7 @@ func (x *ChargeCorporateTripResponse) String() string {
 func (*ChargeCorporateTripResponse) ProtoMessage() {}
 
 func (x *ChargeCorporateTripResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[14]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1112,7 +1268,7 @@ func (x *ChargeCorporateTripResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChargeCorporateTripResponse.ProtoReflect.Descriptor instead.
 func (*ChargeCorporateTripResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{14}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ChargeCorporateTripResponse) GetAlreadyCharged() bool {
@@ -1154,7 +1310,7 @@ type ListCorporateInvoiceTotalsRequest struct {
 
 func (x *ListCorporateInvoiceTotalsRequest) Reset() {
 	*x = ListCorporateInvoiceTotalsRequest{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[15]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1166,7 +1322,7 @@ func (x *ListCorporateInvoiceTotalsRequest) String() string {
 func (*ListCorporateInvoiceTotalsRequest) ProtoMessage() {}
 
 func (x *ListCorporateInvoiceTotalsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[15]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1179,7 +1335,7 @@ func (x *ListCorporateInvoiceTotalsRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use ListCorporateInvoiceTotalsRequest.ProtoReflect.Descriptor instead.
 func (*ListCorporateInvoiceTotalsRequest) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{15}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ListCorporateInvoiceTotalsRequest) GetCorporateIds() []string {
@@ -1232,7 +1388,7 @@ type CorporateInvoiceTotals struct {
 
 func (x *CorporateInvoiceTotals) Reset() {
 	*x = CorporateInvoiceTotals{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[16]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1244,7 +1400,7 @@ func (x *CorporateInvoiceTotals) String() string {
 func (*CorporateInvoiceTotals) ProtoMessage() {}
 
 func (x *CorporateInvoiceTotals) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[16]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1257,7 +1413,7 @@ func (x *CorporateInvoiceTotals) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CorporateInvoiceTotals.ProtoReflect.Descriptor instead.
 func (*CorporateInvoiceTotals) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{16}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *CorporateInvoiceTotals) GetCorporateId() string {
@@ -1332,7 +1488,7 @@ type ListCorporateInvoiceTotalsResponse struct {
 
 func (x *ListCorporateInvoiceTotalsResponse) Reset() {
 	*x = ListCorporateInvoiceTotalsResponse{}
-	mi := &file_corporate_account_v1_account_proto_msgTypes[17]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1344,7 +1500,7 @@ func (x *ListCorporateInvoiceTotalsResponse) String() string {
 func (*ListCorporateInvoiceTotalsResponse) ProtoMessage() {}
 
 func (x *ListCorporateInvoiceTotalsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_corporate_account_v1_account_proto_msgTypes[17]
+	mi := &file_corporate_account_v1_account_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1357,7 +1513,7 @@ func (x *ListCorporateInvoiceTotalsResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use ListCorporateInvoiceTotalsResponse.ProtoReflect.Descriptor instead.
 func (*ListCorporateInvoiceTotalsResponse) Descriptor() ([]byte, []int) {
-	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{17}
+	return file_corporate_account_v1_account_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ListCorporateInvoiceTotalsResponse) GetTotals() []*CorporateInvoiceTotals {
@@ -1398,7 +1554,7 @@ const file_corporate_account_v1_account_proto_rawDesc = "" +
 	"\x10background_color\x18\x03 \x01(\tR\x0fbackgroundColor\x12!\n" +
 	"\fheader_color\x18\x04 \x01(\tR\vheaderColor\x12\x1d\n" +
 	"\n" +
-	"text_color\x18\x05 \x01(\tR\ttextColor\"\x93\a\n" +
+	"text_color\x18\x05 \x01(\tR\ttextColor\"\x93\t\n" +
 	"\x10CorporateAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12=\n" +
 	"\fcreated_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12=\n" +
@@ -1420,7 +1576,21 @@ const file_corporate_account_v1_account_proto_rawDesc = "" +
 	"\blogo_url\x18\x10 \x01(\tR\alogoUrl\x12J\n" +
 	"\vcolor_theme\x18\x11 \x01(\v2).lift.corporate.account.v1.CorporateThemeR\n" +
 	"colorTheme\x12:\n" +
-	"\x19personal_payments_enabled\x18\x12 \x01(\bR\x17personalPaymentsEnabled\"h\n" +
+	"\x19personal_payments_enabled\x18\x12 \x01(\bR\x17personalPaymentsEnabled\x12'\n" +
+	"\x0fqueuing_enabled\x18\x13 \x01(\bR\x0equeuingEnabled\x12\x19\n" +
+	"\bqueue_id\x18\x14 \x01(\tR\aqueueId\x12(\n" +
+	"\x10queue_group_name\x18\x15 \x01(\tR\x0equeueGroupName\x12H\n" +
+	"\x0equeue_boundary\x18\x16 \x03(\v2!.lift.corporate.account.v1.LatLngR\rqueueBoundary\x12F\n" +
+	"\vqueue_rules\x18\x17 \x01(\v2%.lift.corporate.account.v1.QueueRulesR\n" +
+	"queueRules\",\n" +
+	"\x06LatLng\x12\x10\n" +
+	"\x03lat\x18\x01 \x01(\x01R\x03lat\x12\x10\n" +
+	"\x03lng\x18\x02 \x01(\x01R\x03lng\"\x8c\x01\n" +
+	"\n" +
+	"QueueRules\x12,\n" +
+	"\x12fallback_radius_km\x18\x01 \x01(\x01R\x10fallbackRadiusKm\x12$\n" +
+	"\x0eleave_time_min\x18\x02 \x01(\x05R\fleaveTimeMin\x12*\n" +
+	"\x11leave_distance_km\x18\x03 \x01(\x01R\x0fleaveDistanceKm\"h\n" +
 	"\x1fGetCorporateAccountByIdResponse\x12E\n" +
 	"\aaccount\x18\x01 \x01(\v2+.lift.corporate.account.v1.CorporateAccountR\aaccount\"\x8a\x01\n" +
 	"\x1bApplyCorporateChargeRequest\x12\x0e\n" +
@@ -1503,60 +1673,64 @@ func file_corporate_account_v1_account_proto_rawDescGZIP() []byte {
 	return file_corporate_account_v1_account_proto_rawDescData
 }
 
-var file_corporate_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_corporate_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_corporate_account_v1_account_proto_goTypes = []any{
 	(*GetCorporateAccountByIdRequest)(nil),     // 0: lift.corporate.account.v1.GetCorporateAccountByIdRequest
 	(*CorporateAccountDetails)(nil),            // 1: lift.corporate.account.v1.CorporateAccountDetails
 	(*CorporateBankDetails)(nil),               // 2: lift.corporate.account.v1.CorporateBankDetails
 	(*CorporateTheme)(nil),                     // 3: lift.corporate.account.v1.CorporateTheme
 	(*CorporateAccount)(nil),                   // 4: lift.corporate.account.v1.CorporateAccount
-	(*GetCorporateAccountByIdResponse)(nil),    // 5: lift.corporate.account.v1.GetCorporateAccountByIdResponse
-	(*ApplyCorporateChargeRequest)(nil),        // 6: lift.corporate.account.v1.ApplyCorporateChargeRequest
-	(*ApplyCorporateChargeResponse)(nil),       // 7: lift.corporate.account.v1.ApplyCorporateChargeResponse
-	(*CorporateCreditPosition)(nil),            // 8: lift.corporate.account.v1.CorporateCreditPosition
-	(*HoldCorporateCreditRequest)(nil),         // 9: lift.corporate.account.v1.HoldCorporateCreditRequest
-	(*HoldCorporateCreditResponse)(nil),        // 10: lift.corporate.account.v1.HoldCorporateCreditResponse
-	(*ReleaseCorporateCreditHoldRequest)(nil),  // 11: lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
-	(*ReleaseCorporateCreditHoldResponse)(nil), // 12: lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
-	(*ChargeCorporateTripRequest)(nil),         // 13: lift.corporate.account.v1.ChargeCorporateTripRequest
-	(*ChargeCorporateTripResponse)(nil),        // 14: lift.corporate.account.v1.ChargeCorporateTripResponse
-	(*ListCorporateInvoiceTotalsRequest)(nil),  // 15: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest
-	(*CorporateInvoiceTotals)(nil),             // 16: lift.corporate.account.v1.CorporateInvoiceTotals
-	(*ListCorporateInvoiceTotalsResponse)(nil), // 17: lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse
-	(*timestamppb.Timestamp)(nil),              // 18: google.protobuf.Timestamp
+	(*LatLng)(nil),                             // 5: lift.corporate.account.v1.LatLng
+	(*QueueRules)(nil),                         // 6: lift.corporate.account.v1.QueueRules
+	(*GetCorporateAccountByIdResponse)(nil),    // 7: lift.corporate.account.v1.GetCorporateAccountByIdResponse
+	(*ApplyCorporateChargeRequest)(nil),        // 8: lift.corporate.account.v1.ApplyCorporateChargeRequest
+	(*ApplyCorporateChargeResponse)(nil),       // 9: lift.corporate.account.v1.ApplyCorporateChargeResponse
+	(*CorporateCreditPosition)(nil),            // 10: lift.corporate.account.v1.CorporateCreditPosition
+	(*HoldCorporateCreditRequest)(nil),         // 11: lift.corporate.account.v1.HoldCorporateCreditRequest
+	(*HoldCorporateCreditResponse)(nil),        // 12: lift.corporate.account.v1.HoldCorporateCreditResponse
+	(*ReleaseCorporateCreditHoldRequest)(nil),  // 13: lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
+	(*ReleaseCorporateCreditHoldResponse)(nil), // 14: lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
+	(*ChargeCorporateTripRequest)(nil),         // 15: lift.corporate.account.v1.ChargeCorporateTripRequest
+	(*ChargeCorporateTripResponse)(nil),        // 16: lift.corporate.account.v1.ChargeCorporateTripResponse
+	(*ListCorporateInvoiceTotalsRequest)(nil),  // 17: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest
+	(*CorporateInvoiceTotals)(nil),             // 18: lift.corporate.account.v1.CorporateInvoiceTotals
+	(*ListCorporateInvoiceTotalsResponse)(nil), // 19: lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse
+	(*timestamppb.Timestamp)(nil),              // 20: google.protobuf.Timestamp
 }
 var file_corporate_account_v1_account_proto_depIdxs = []int32{
-	18, // 0: lift.corporate.account.v1.CorporateAccount.created_time:type_name -> google.protobuf.Timestamp
-	18, // 1: lift.corporate.account.v1.CorporateAccount.updated_time:type_name -> google.protobuf.Timestamp
+	20, // 0: lift.corporate.account.v1.CorporateAccount.created_time:type_name -> google.protobuf.Timestamp
+	20, // 1: lift.corporate.account.v1.CorporateAccount.updated_time:type_name -> google.protobuf.Timestamp
 	1,  // 2: lift.corporate.account.v1.CorporateAccount.details:type_name -> lift.corporate.account.v1.CorporateAccountDetails
 	2,  // 3: lift.corporate.account.v1.CorporateAccount.bank_details:type_name -> lift.corporate.account.v1.CorporateBankDetails
 	3,  // 4: lift.corporate.account.v1.CorporateAccount.color_theme:type_name -> lift.corporate.account.v1.CorporateTheme
-	4,  // 5: lift.corporate.account.v1.GetCorporateAccountByIdResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
-	4,  // 6: lift.corporate.account.v1.ApplyCorporateChargeResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
-	8,  // 7: lift.corporate.account.v1.HoldCorporateCreditResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
-	8,  // 8: lift.corporate.account.v1.ChargeCorporateTripResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
-	18, // 9: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.period_start:type_name -> google.protobuf.Timestamp
-	18, // 10: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.period_end:type_name -> google.protobuf.Timestamp
-	18, // 11: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.as_of:type_name -> google.protobuf.Timestamp
-	18, // 12: lift.corporate.account.v1.CorporateInvoiceTotals.oldest_due_date:type_name -> google.protobuf.Timestamp
-	16, // 13: lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse.totals:type_name -> lift.corporate.account.v1.CorporateInvoiceTotals
-	0,  // 14: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:input_type -> lift.corporate.account.v1.GetCorporateAccountByIdRequest
-	6,  // 15: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:input_type -> lift.corporate.account.v1.ApplyCorporateChargeRequest
-	9,  // 16: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:input_type -> lift.corporate.account.v1.HoldCorporateCreditRequest
-	11, // 17: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:input_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
-	13, // 18: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:input_type -> lift.corporate.account.v1.ChargeCorporateTripRequest
-	15, // 19: lift.corporate.account.v1.CorporateAccountService.ListCorporateInvoiceTotals:input_type -> lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest
-	5,  // 20: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:output_type -> lift.corporate.account.v1.GetCorporateAccountByIdResponse
-	7,  // 21: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:output_type -> lift.corporate.account.v1.ApplyCorporateChargeResponse
-	10, // 22: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:output_type -> lift.corporate.account.v1.HoldCorporateCreditResponse
-	12, // 23: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:output_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
-	14, // 24: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:output_type -> lift.corporate.account.v1.ChargeCorporateTripResponse
-	17, // 25: lift.corporate.account.v1.CorporateAccountService.ListCorporateInvoiceTotals:output_type -> lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse
-	20, // [20:26] is the sub-list for method output_type
-	14, // [14:20] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	5,  // 5: lift.corporate.account.v1.CorporateAccount.queue_boundary:type_name -> lift.corporate.account.v1.LatLng
+	6,  // 6: lift.corporate.account.v1.CorporateAccount.queue_rules:type_name -> lift.corporate.account.v1.QueueRules
+	4,  // 7: lift.corporate.account.v1.GetCorporateAccountByIdResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
+	4,  // 8: lift.corporate.account.v1.ApplyCorporateChargeResponse.account:type_name -> lift.corporate.account.v1.CorporateAccount
+	10, // 9: lift.corporate.account.v1.HoldCorporateCreditResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
+	10, // 10: lift.corporate.account.v1.ChargeCorporateTripResponse.position:type_name -> lift.corporate.account.v1.CorporateCreditPosition
+	20, // 11: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.period_start:type_name -> google.protobuf.Timestamp
+	20, // 12: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.period_end:type_name -> google.protobuf.Timestamp
+	20, // 13: lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest.as_of:type_name -> google.protobuf.Timestamp
+	20, // 14: lift.corporate.account.v1.CorporateInvoiceTotals.oldest_due_date:type_name -> google.protobuf.Timestamp
+	18, // 15: lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse.totals:type_name -> lift.corporate.account.v1.CorporateInvoiceTotals
+	0,  // 16: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:input_type -> lift.corporate.account.v1.GetCorporateAccountByIdRequest
+	8,  // 17: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:input_type -> lift.corporate.account.v1.ApplyCorporateChargeRequest
+	11, // 18: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:input_type -> lift.corporate.account.v1.HoldCorporateCreditRequest
+	13, // 19: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:input_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldRequest
+	15, // 20: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:input_type -> lift.corporate.account.v1.ChargeCorporateTripRequest
+	17, // 21: lift.corporate.account.v1.CorporateAccountService.ListCorporateInvoiceTotals:input_type -> lift.corporate.account.v1.ListCorporateInvoiceTotalsRequest
+	7,  // 22: lift.corporate.account.v1.CorporateAccountService.GetCorporateAccountById:output_type -> lift.corporate.account.v1.GetCorporateAccountByIdResponse
+	9,  // 23: lift.corporate.account.v1.CorporateAccountService.ApplyCorporateCharge:output_type -> lift.corporate.account.v1.ApplyCorporateChargeResponse
+	12, // 24: lift.corporate.account.v1.CorporateAccountService.HoldCorporateCredit:output_type -> lift.corporate.account.v1.HoldCorporateCreditResponse
+	14, // 25: lift.corporate.account.v1.CorporateAccountService.ReleaseCorporateCreditHold:output_type -> lift.corporate.account.v1.ReleaseCorporateCreditHoldResponse
+	16, // 26: lift.corporate.account.v1.CorporateAccountService.ChargeCorporateTrip:output_type -> lift.corporate.account.v1.ChargeCorporateTripResponse
+	19, // 27: lift.corporate.account.v1.CorporateAccountService.ListCorporateInvoiceTotals:output_type -> lift.corporate.account.v1.ListCorporateInvoiceTotalsResponse
+	22, // [22:28] is the sub-list for method output_type
+	16, // [16:22] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_corporate_account_v1_account_proto_init() }
@@ -1570,7 +1744,7 @@ func file_corporate_account_v1_account_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_corporate_account_v1_account_proto_rawDesc), len(file_corporate_account_v1_account_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

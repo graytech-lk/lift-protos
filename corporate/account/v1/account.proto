@@ -58,6 +58,26 @@ message CorporateAccount {
   // on the employee's cash payment method (the employee pays the driver; the
   // company isn't charged). Set only from the admin panel; default false.
   bool personal_payments_enabled = 18;
+  // Driver queuing (CR-001). queue_id is the shared group id when the company
+  // is in a queue group, otherwise the corporate id. queue_boundary and
+  // queue_rules are the EFFECTIVE ones (the group's when in a group).
+  bool queuing_enabled = 19;
+  string queue_id = 20;
+  string queue_group_name = 21;
+  repeated LatLng queue_boundary = 22;
+  QueueRules queue_rules = 23;
+}
+
+message LatLng {
+  double lat = 1;
+  double lng = 2;
+}
+
+// QueueRules; 0 means "use the platform default".
+message QueueRules {
+  double fallback_radius_km = 1;
+  int32 leave_time_min = 2;
+  double leave_distance_km = 3;
 }
 
 message GetCorporateAccountByIdResponse {
