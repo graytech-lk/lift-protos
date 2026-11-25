@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+package lift.payment.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/payment/v1;paymentv1";
+
+import "google/protobuf/timestamp.proto";
+
+// LIFT-2455 Promotions (Phase 1). One promotion engine, owned by
+// lift-payments-service, priced the same for the customer app and the hotline.
+// Called by lift-operations-service only.
+//
+// Lifecycle per booking: Quote (any number, holds nothing) -> Hold (in the
+// step that confirms the booking) -> Finalize (trip end) or Release
+// (cancellation, no-show, amendment that no longer qualifies). Hold, Finalize
+// and Release are idempotent per service_request_id, so retries are safe.
+// Amounts are LKR; discounts are whole LKR.
+
+message PromotionLatLng {
+  double lat = 1;
+  double lng = 2;
+}
+
+message PromotionBooking {
+  // Empty when a hotline caller matched no customer record.
+  string customer_id = 1;
+  string channel = 2;          // app | hotline
+  string booking_type = 3;     // asap | scheduled
+  string vehicle_category = 4;
+  string payment_method = 5;   // cash | card
+  bool company_paid = 6;       // corporate bookings are always refused
+  PromotionLatLng pickup = 7;  // unset when unknown
+  PromotionLatLng dropoff = 8;
+  google.protobuf.Timestamp confirmation_time = 9;    // defaults to now
+  google.protobuf.Timestamp planned_pickup_time = 10; // scheduled rides
+  // ride_fare is the eligible part of the fare (the discount basis).
+  // excluded_charges are tolls, parking, tips, waiting and cancellation
+  // charges, which are never discounted.
+  double ride_fare = 11;
+  double excluded_charges = 12;
+  int32 completed_rides = 13;  // for first-ride offers
+}
+
+message PromotionReason {
+  string code = 1;    // stable, e.g. already_used, payment_method
+  string message = 2; // English text for the customer and the dispatcher
+}
+
+message AppliedPromotion {
+  string campaign_id = 1;
+  int32 version = 2;
+  string code = 3;            // empty for automatic offers
+  string customer_label = 4;
+  string promo_type = 5;      // code | automatic | first_ride
+  string discount_type = 6;   // percentage | fixed
+  double discount_value = 7;  // rate (%) or fixed LKR
+  int32 cap_per_booking = 8;  // 0 = no cap
+  double discount = 9;        // this booking's saving
+  double max_discount = 10;   // the most it could save if the fare rises
+}
+
+message PromotionRedemption {
+  string redemption_id = 1;
+  string campaign_id = 2;
+  int32 version = 3;
+  string service_request_id = 4;
+  string status = 5;          // held | used | released | refunded
+  double held_amount = 6;
+  double quoted_discount = 7;
+  double final_discount = 8;
+  bool has_final_discount = 9;
+  string release_reason = 10;
+}
+
+message PromotionPrice {
+  // Nil when no promotion applies.
+  AppliedPromotion applied = 1;
+  // Why an entered code was not applied; the best automatic offer, if any,
+  // stays applied.
+  PromotionReason code_refusal = 2;
+  double original_fare = 3;   // ride_fare + excluded_charges
+  double ride_fare = 4;
+  double excluded_charges = 5;
+  double discount = 6;
+  double payable = 7;
+  // Set by Hold (and returned by Finalize, Release and Recheck).
+  PromotionRedemption redemption = 8;
+}
+
+message QuotePromotionRequest {
+  PromotionBooking booking = 1;
+  string promo_code = 2;
+}
+
+message HoldPromotionRequest {
+  string service_request_id = 1;
+  PromotionBooking booking = 2;
+  string promo_code = 3;
+}
+
+message FinalizePromotionRequest {
+  string service_request_id = 1;
+  double ride_fare = 2;        // final eligible fare
+  double excluded_charges = 3;
+}
+
+message ReleasePromotionRequest {
+  string service_request_id = 1;
+  string reason = 2;           // cancelled | no_show | amended | ...
+}
+
+message RecheckPromotionRequest {
+  string service_request_id = 1;
+  PromotionBooking booking = 2;
+  // True once the customer or dispatcher accepted the new price: a booking
+  // that no longer qualifies then gives its held use back.
+  bool release_if_not_eligible = 3;
+}
+
+message RefundPromotionRequest {
+  string service_request_id = 1;
+}
+
+message GetPromotionRedemptionRequest {
+  string service_request_id = 1;
+}
+
+message GetPromotionRedemptionResponse {
+  PromotionRedemption redemption = 1;
+  AppliedPromotion terms = 2;
+}
+
+message QuotePromotionResponse {
+  PromotionPrice price = 1;
+}
+
+message HoldPromotionResponse {
+  PromotionPrice price = 1;
+}
+
+message FinalizePromotionResponse {
+  PromotionPrice price = 1;
+}
+
+message ReleasePromotionResponse {
+  PromotionPrice price = 1;
+}
+
+message RecheckPromotionResponse {
+  PromotionPrice price = 1;
+}
+
+message RefundPromotionResponse {
+  PromotionPrice price = 1;
+}
+
+service PromotionService {
+  // Price a booking; holds nothing.
+  rpc QuotePromotion(QuotePromotionRequest) returns (QuotePromotionResponse);
+  // Claim one use and the budget hold at confirmation. A retry returns the
+  // existing claim.
+  rpc HoldPromotion(HoldPromotionRequest) returns (HoldPromotionResponse);
+  // Record the final discount at trip end. A retry returns the same result.
+  rpc FinalizePromotion(FinalizePromotionRequest) returns (FinalizePromotionResponse);
+  // Give a held use back. FAILED_PRECONDITION after Finalize; NOT_FOUND when
+  // the booking holds no promotion.
+  rpc ReleasePromotion(ReleasePromotionRequest) returns (ReleasePromotionResponse);
+  // Re-check a confirmed booking after an amendment against the version it
+  // confirmed under.
+  rpc RecheckPromotion(RecheckPromotionRequest) returns (RecheckPromotionResponse);
+  // Mark a completed trip's promotion refunded (the use is not returned).
+  rpc RefundPromotion(RefundPromotionRequest) returns (RefundPromotionResponse);
+  // A booking's promotion (support view, receipts). NOT_FOUND when none.
+  rpc GetPromotionRedemption(GetPromotionRedemptionRequest) returns (GetPromotionRedemptionResponse);
+}
