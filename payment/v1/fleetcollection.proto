@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package lift.payment.v1;
+
+option go_package = "github.com/graytech-lk/lift-protos/gen/go/payment/v1;paymentv1";
+
+import "google/protobuf/timestamp.proto";
+
+// Cash a fleet owner collected from one of their fleet drivers (LIFT-2493).
+// The driver keeps the fare on cash trips; the owner records here how much of
+// it was handed over. A record only: it never changes any balance.
+message FleetCashCollection {
+  string id = 1;
+  // Identity user_id of the fleet owner.
+  string fleet_owner_id = 2;
+  // The fleet id (the owner's phone number).
+  string fleet_id = 3;
+  // Identity user_id of the fleet driver.
+  string driver_id = 4;
+  // Driver name when the collection was recorded.
+  string driver_name = 5;
+  double amount = 6;
+  google.protobuf.Timestamp collected_at = 7;
+  // Client key; a repeat with the same key returns the first record.
+  string request_id = 8;
+}
+
+message RecordFleetCashCollectionRequest {
+  string fleet_owner_id = 1;
+  string fleet_id = 2;
+  string driver_id = 3;
+  string driver_name = 4;
+  // Amount collected now. Must be above zero.
+  double amount = 5;
+  // The driver's cash fares counted so far, worked out by the caller. The
+  // record is refused when everything collected plus amount would go over it
+  // (status FAILED_PRECONDITION, message AMOUNT_EXCEEDS_TO_COLLECT).
+  double cash_total = 6;
+  string request_id = 7;
+}
+
+message RecordFleetCashCollectionResponse {
+  FleetCashCollection collection = 1;
+  // Everything collected from this driver by this owner, after this record.
+  double collected_total = 2;
+}
+
+message SumFleetCashCollectionsRequest {
+  string fleet_owner_id = 1;
+  // Drivers to sum. Empty means every driver with a collection.
+  repeated string driver_ids = 2;
+}
+
+message FleetCashCollectionTotal {
+  string driver_id = 1;
+  double collected_total = 2;
+  double last_amount = 3;
+  google.protobuf.Timestamp last_collected_at = 4;
+}
+
+message SumFleetCashCollectionsResponse {
+  // Only drivers with at least one collection.
+  repeated FleetCashCollectionTotal totals = 1;
+}
+
+service FleetCashCollectionService {
+  // Records a cash collection from a fleet driver. Does not touch balances.
+  rpc RecordFleetCashCollection(RecordFleetCashCollectionRequest) returns (RecordFleetCashCollectionResponse);
+  // Per-driver totals of what a fleet owner has collected.
+  rpc SumFleetCashCollections(SumFleetCashCollectionsRequest) returns (SumFleetCashCollectionsResponse);
+}
