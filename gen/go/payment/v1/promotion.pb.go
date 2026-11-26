@@ -93,8 +93,16 @@ type PromotionBooking struct {
 	RideFare        float64 `protobuf:"fixed64,11,opt,name=ride_fare,json=rideFare,proto3" json:"ride_fare,omitempty"`
 	ExcludedCharges float64 `protobuf:"fixed64,12,opt,name=excluded_charges,json=excludedCharges,proto3" json:"excluded_charges,omitempty"`
 	CompletedRides  int32   `protobuf:"varint,13,opt,name=completed_rides,json=completedRides,proto3" json:"completed_rides,omitempty"` // for first-ride offers
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// route_distance_km is the planned full journey: every leg from the pickup
+	// through each stop to the final drop-off (A → B → A counts both legs).
+	// 0 when unknown; route-limited offers then do not apply.
+	RouteDistanceKm float64 `protobuf:"fixed64,14,opt,name=route_distance_km,json=routeDistanceKm,proto3" json:"route_distance_km,omitempty"`
+	// destination_count is the number of stops including the final drop-off;
+	// payments decides from it and the pickup/drop-off whether it is a round
+	// trip.
+	DestinationCount int32 `protobuf:"varint,15,opt,name=destination_count,json=destinationCount,proto3" json:"destination_count,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *PromotionBooking) Reset() {
@@ -214,6 +222,20 @@ func (x *PromotionBooking) GetExcludedCharges() float64 {
 func (x *PromotionBooking) GetCompletedRides() int32 {
 	if x != nil {
 		return x.CompletedRides
+	}
+	return 0
+}
+
+func (x *PromotionBooking) GetRouteDistanceKm() float64 {
+	if x != nil {
+		return x.RouteDistanceKm
+	}
+	return 0
+}
+
+func (x *PromotionBooking) GetDestinationCount() int32 {
+	if x != nil {
+		return x.DestinationCount
 	}
 	return 0
 }
@@ -1303,7 +1325,7 @@ const file_payment_v1_promotion_proto_rawDesc = "" +
 	"\x1apayment/v1/promotion.proto\x12\x0flift.payment.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"5\n" +
 	"\x0fPromotionLatLng\x12\x10\n" +
 	"\x03lat\x18\x01 \x01(\x01R\x03lat\x12\x10\n" +
-	"\x03lng\x18\x02 \x01(\x01R\x03lng\"\xe1\x04\n" +
+	"\x03lng\x18\x02 \x01(\x01R\x03lng\"\xba\x05\n" +
 	"\x10PromotionBooking\x12\x1f\n" +
 	"\vcustomer_id\x18\x01 \x01(\tR\n" +
 	"customerId\x12\x18\n" +
@@ -1319,7 +1341,9 @@ const file_payment_v1_promotion_proto_rawDesc = "" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\x11plannedPickupTime\x12\x1b\n" +
 	"\tride_fare\x18\v \x01(\x01R\brideFare\x12)\n" +
 	"\x10excluded_charges\x18\f \x01(\x01R\x0fexcludedCharges\x12'\n" +
-	"\x0fcompleted_rides\x18\r \x01(\x05R\x0ecompletedRides\"?\n" +
+	"\x0fcompleted_rides\x18\r \x01(\x05R\x0ecompletedRides\x12*\n" +
+	"\x11route_distance_km\x18\x0e \x01(\x01R\x0frouteDistanceKm\x12+\n" +
+	"\x11destination_count\x18\x0f \x01(\x05R\x10destinationCount\"?\n" +
 	"\x0fPromotionReason\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"\xda\x02\n" +
