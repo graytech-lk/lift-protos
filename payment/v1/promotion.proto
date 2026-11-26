@@ -39,6 +39,14 @@ message PromotionBooking {
   double ride_fare = 11;
   double excluded_charges = 12;
   int32 completed_rides = 13;  // for first-ride offers
+  // route_distance_km is the planned full journey: every leg from the pickup
+  // through each stop to the final drop-off (A → B → A counts both legs).
+  // 0 when unknown; route-limited offers then do not apply.
+  double route_distance_km = 14;
+  // destination_count is the number of stops including the final drop-off;
+  // payments decides from it and the pickup/drop-off whether it is a round
+  // trip.
+  int32 destination_count = 15;
 }
 
 message PromotionReason {
